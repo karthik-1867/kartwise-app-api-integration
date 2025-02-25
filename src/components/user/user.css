@@ -1,0 +1,74 @@
+.UserContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 20px;
+    border: 0.1px solid white;
+    border-radius: 10px;
+    height: fit-content;
+    padding: 10px 10px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #6264A7;
+    color: white;
+
+
+
+}
+
+.UserContainerLogo{
+    width: 80px;
+    height: 80px;
+}
+
+.UserContainerLogProfile{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid white;
+}
+
+.UserDetails{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.UserDetailsUserName{
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.UserDetailsName{
+   font-size: 14px;
+   font-weight: 300;
+   color: gainsboro;
+}
+
+
+
+.UserAddToFavButton{
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    font-weight: 300;
+    color: #464775
+}
+
+.UserDetailsWrapper{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.UserAddToFavButton:hover{
+    background-color: #8B8CC7;
+    color: white;
+    font-weight: 300;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+}
+

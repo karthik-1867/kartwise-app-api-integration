@@ -1,0 +1,76 @@
+.CreateExpenseAddUserContainer{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 20px;
+    border: 0.1px solid white;
+    border-radius: 10px;
+    height: fit-content;
+    padding: 10px 10px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #6264A7;
+    color: white;
+    margin-bottom: 5px;
+    justify-content: space-between;
+}
+
+.CreateExpenseAddUserLogo{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid white;
+}
+
+.CreateExpenseAddUserDetails{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.CreateExpenseAddUserUserName{
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.CreateExpenseAddUserName{
+   font-size: 14px;
+   font-weight: 400;
+}
+
+
+
+.CreateExpenseAddUserButton{
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    font-weight: 300;
+    color: #464775
+}
+
+.CreateExpenseAddUserButton:hover{
+    background-color: #8B8CC7;
+    color: white;
+    font-weight: 300;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+}
+
+.CreateExpenseUserContainer{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+}
+
+.CreateExpenseProfile{
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid white;
+}

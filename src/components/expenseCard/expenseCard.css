@@ -1,0 +1,83 @@
+.expenseCardContainer{
+    width: 100%;
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    color: #6264A7;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px;
+    margin-bottom: 5px;
+}
+
+
+.expenseCardUserInfo{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.OwnerCaptilize{
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.expenseCardButtons{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+}
+
+.expenseCardButton{
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: #6264A7;
+    color: white;
+}
+
+.expenseCardExpenditure{
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    flex-wrap: wrap
+}
+
+
+
+.expenseCardExpenditurespent,.expenseCardExpenditurereceived{
+    background-color: #8B8CC7;
+    border-radius: 4px;
+    padding: 5px;
+    font-size: 14px;
+    width: fit-content;
+    color: white;
+}
+
+.red{
+    background-color: rgb(218, 6, 6);
+    color: white;
+}
+
+.green{
+    background-color: green;
+    color: white;
+}
+
+.expenseCardUserLogo{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #6264A7;
+}
+
+.expenseCardUserDetails{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

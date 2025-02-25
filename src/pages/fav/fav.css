@@ -1,0 +1,181 @@
+.favContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    padding: 10px;
+    position: sticky;
+    min-height: calc(100vh - 70px);
+    top: 100px;
+}
+
+.favWrapper{
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px;
+    flex: 2;
+    border-radius: 10px;
+    background-color: #464775;
+}
+
+.favList{
+    width: 350px;
+    background-color: #8B8CC7;
+    padding: 20px;
+    height: 70vh;
+    border-radius: 10px;
+    -webkit-box-shadow: 3px 1px 14px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 3px 1px 14px 0px rgba(0,0,0,0.75);
+    box-shadow: 3px 1px 6px 0px rgba(0, 0, 0, 0.75);
+}
+
+
+.favListTitle{
+    text-align: center;
+    font-size: 22px;
+    font-weight: 500;
+    color: gainsboro;
+    margin-bottom: 30px;
+}
+
+.favListUl {
+    height: 60vh; /* Adjust height as needed */
+    overflow-y: auto;
+    display: flex;
+    width: fit-content;
+    align-items: top;
+    background-color: #464775;
+    border-radius: 10px;
+    flex-direction: column;
+    overflow-x: hidden;
+    padding: 10px;
+  }
+
+.favListDialogueContainer{
+    width: 100%;
+    height: 60vh;
+    background-color: #464775;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 500;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid white;
+}
+
+.favListDialogueButton{
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    color: #464775;
+    border: none;
+}
+
+.favListDialogueButton:hover{
+  color: white;
+  background-color: #8B8CC7;
+  border: none;
+}
+
+.favLists{
+    display: flex;
+    flex: 2;
+    padding: 10px;
+    padding-right: 20px;
+   
+}
+
+.favDetails{
+    flex: 1;
+     /* Makes the inside transparent */
+    
+    padding: 20px;
+    display: flex;
+    font-weight: 500;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #464775;
+    border-radius: 10px;
+    -webkit-box-shadow: 3px 1px 6px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 3px 1px 6px 0px rgba(0,0,0,0.75);
+box-shadow: 3px 1px 6px 0px rgba(0, 0, 0, 0.75);
+}
+
+.favDetailsWrapper{
+    background-color: gainsboro;
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.favListWrapper{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.favDetailsTitle{
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.TotalSpent{
+    display: flex;
+    flex-direction: column;
+    background-color: #8B8CC7;
+    color: white;
+    width: 70%;
+    padding: 10px 10px;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+
+.spentTitle{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.totalSpent{
+    color: red;
+    background-color: white;
+    padding: 3px;
+
+    width: fit-content;
+    border-radius: 5px;
+}
+
+.totalReceived{
+    color: green;
+    background-color: white;
+    padding: 3px;
+    width: fit-content;
+    border-radius: 5px;
+}
+
+.totalGroup{
+    color: black;
+    background-color: white;
+    padding: 3px;
+    width: fit-content;
+    border-radius: 5px;
+    min-width: 40%;
+    display: flex;
+    justify-content: center;
+}

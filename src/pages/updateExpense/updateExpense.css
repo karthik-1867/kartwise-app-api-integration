@@ -1,0 +1,156 @@
+.UpdateExpenseContainer{
+    width: 100%;
+    height: 100vh;
+    background-color: #464775;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    
+}
+
+.UpdateExpenseWrapper{
+    width: 70%;
+    background-color: #8B8CC7;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 10px;
+    color: white;
+}
+
+.UpdateExpenseWrapper h1{
+    color: gainsboro;
+    font-size: 20px;
+}
+
+.UpdateExpenseList{
+    list-style: none;
+    width: 100%;
+    background-color: #464775;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.UpdateContainer{
+    width: 100%;
+    background-color: #6264A7;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start ;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: 1px solid white;
+}
+
+.UpdateContainerPaid,.UpdateContainerExpense,.UpdateContainerRemaining{
+   padding: 3px;
+   border-radius: 10px;
+   color: white;
+   border: 1px solid white;
+   font-size: 14px;
+   font-weight: 500;
+   text-transform: capitalize;
+}
+
+.UpdateContainerPaid{
+    background-color: green;
+}
+
+.UpdateContainerExpense{
+    background-color: #8B8CC7;
+}
+
+.UpdateContainerRemaining{
+    background-color: rgb(230, 17, 17);
+}
+
+.UpdateContainerInput{
+    padding: 10px;
+    border-radius: 10px;
+    width: 30%;
+    border: none;
+}
+
+.UpdateContainerInput:focus{
+    outline: none;
+}
+
+.UpdateContainerTop{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 18px;
+    font-weight: 800;
+    text-transform: capitalize;
+}
+
+.UpdateContainerBottom{
+    display: flex;
+    gap: 10px;
+    background-color: #464775;
+    padding: 5px;
+    color: white;
+    align-items: center;
+    font-size: 12px;
+    border-radius: 10px;
+    border: 1px solid white;
+    font-weight: 600;
+}
+
+.UpdateExpenseList{
+    height: 80vh;
+    overflow-y: scroll;
+}
+
+
+.UpdateTitleAndSaveButton{
+    display: flex;
+    justify-content: space-between;
+}
+
+.UpdateTitleAndSaveButton button{
+    padding: 10px;
+    background-color: white;
+    color: #464775;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.UpdateTitleAndSaveButton button:hover{
+   background-color: #464775;
+   color: white;
+}
+
+.UpdateTitleAndSaveButton button:active{
+    background-color: #464775;
+    color: white;
+    -webkit-box-shadow: 3px 4px 8px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 3px 4px 8px 0px rgba(0,0,0,0.75);
+box-shadow: 3px 4px 8px 0px rgba(0,0,0,0.75);
+ }
+
+
+
+.UpdateContainerUserDetails{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+
+
+
+
+

@@ -1,0 +1,50 @@
+import { useState } from "react";
+
+const App = () => {
+    // Initialize state with default users
+    const [users, setUsers] = useState([
+        { id: 1, profilePicture: "assets/person/1.jpeg", username: "Safak Kocaoglu" },
+        { id: 2, profilePicture: "assets/person/2.jpeg", username: "Janell Shrum" },
+        { id: 3, profilePicture: "assets/person/3.jpeg", username: "Alex Durden" },
+        { id: 4, profilePicture: "assets/person/4.jpeg", username: "Dora Hawks" },
+    ]);
+
+    // 🆕 Add a new user
+    const addUser = () => {
+        const newUser = {
+            id: users.length + 1,
+            profilePicture: "assets/person/new.jpeg",
+            username: `User ${users.length + 1}`,
+        };
+        setUsers([...users, newUser]); // Add new user to state
+    };
+
+    // ✏ Update a user by ID
+    const updateUser = (id, newUsername) => {
+        setUsers(users.map(user => user.id === id ? { ...user, username: newUsername } : user));
+    };
+
+    // ❌ Delete a user by ID
+    const deleteUser = (id) => {
+        setUsers(users.filter(user => user.id !== id));
+    };
+
+    return (
+        <div>
+            <h1>Users List</h1>
+            <ul>
+                {users.map(user => (
+                    <li key={user.id}>
+                        <img src={user.profilePicture} alt={user.username} width="40" />
+                        <span>{user.username}</span>
+                        <button onClick={() => updateUser(user.id, "Updated Name")}>Edit</button>
+                        <button onClick={() => deleteUser(user.id)}>Delete</button>
+                    </li>
+                ))}
+            </ul>
+            <button onClick={addUser}>Add User</button>
+        </div>
+    );
+};
+
+export default App;

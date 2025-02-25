@@ -1,0 +1,156 @@
+.EditExpenseGroup{
+    background-color: #464775;
+    width: 100%;
+    height: 100vh;
+    margin: 10px;
+    display: flex;
+    padding: 20px;
+    align-items: flex-start;
+    justify-content:space-around ;
+
+
+}
+
+.EditExpenseChooseGroup{
+    width: 40%;
+    height: 90%;
+    background-color: #8B8CC7;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 10px;
+}
+
+.EditExpenseChooseGroup2{
+    width: 40%;
+    height: 90%;
+    background-color: #8B8CC7;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 10px;
+}
+
+.EditExpenseChooseGroup h1,.EditExpenseChooseGroup2 h1{
+    color: gainsboro;
+}
+
+.EditExpenseGroupOwner{
+    background-color: #464775;
+    color: white;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 5px 5px;
+    display: flex;
+    font-size: 12px;
+    width: fit-content;
+    align-items: center;
+}
+
+.EditExpenseGroupList{
+    list-style: none;
+    padding: 10px;
+    height: 90%;
+    overflow-y: scroll;
+    background-color: #464775;
+    border-radius: 10px;
+
+}
+
+.ExpenseInfoAvatar{
+    width: 120px !important;
+    height: 121px !important;
+    align-self: center;
+}
+
+.EditExpenseGroupName{
+    color: white;
+    font-size: 14px;
+}
+
+.EditAvatar{
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50%;
+}
+
+.EditExpenseItem{
+    padding: 10px;
+    background-color: #6264A7;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.EditExpenseGroupButton{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.EditExpenseButton{
+    background-color: #464775;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.EditExpenseInfo{
+    padding: 10px;
+    background-color: #6264A7;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    color: white;
+}
+
+.EditExpenseOwnerDetails{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+
+.EditExpenseUserDetails{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+}
+
+.ClickedMember{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #6264A7;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid white;
+    padding: 10px;
+}
+
+.ClickedMember span{
+  color: white;
+  font-weight: 500;
+}
+
+.EditWarpper,.EditListWrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #464775;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid white;
+}
+
+.EditListWrapper{
+    overflow-y: hidden;
+}

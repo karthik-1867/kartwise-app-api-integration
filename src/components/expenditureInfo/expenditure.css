@@ -1,0 +1,73 @@
+.expenseGroupExpenditureSummaryUser{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid white;
+    background-color: #6264A7;
+    box-sizing: border-box;
+
+}
+
+.PaidOwnerAndUserInfo{
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 16px;
+    flex-direction: column;
+
+}
+
+.expenseGroupExpenditureSummaryUserDetailsLogo{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid white;
+}
+
+.pendingStatus,.status{
+    background-color: rgb(218, 6, 6);
+    color: white;
+    padding: 3px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid white;
+}
+
+.paid{
+    background-color: green;
+}
+
+.status{
+    background-color: #464775;
+}
+
+.paymentInfo{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    flex-wrap: wrap;
+}
+
+.expenseGroupExpenditureSummaryUserDetails{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: gainsboro;
+}
+
+.expenseGroupExpenditureSummaryUserExpense{
+    color: gainsboro;
+    background-color: #464775;
+    border-radius: 10px;
+    border: 1px solid white;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

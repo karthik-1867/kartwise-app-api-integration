@@ -1,0 +1,184 @@
+.MessageContainer{
+    display: flex;
+    padding: 30px;
+    width: 100%;
+    margin: 20px;
+    height: 90vh;
+    position: sticky;
+    border-radius: 10px;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #8B8CC7;
+}
+
+.MessageWrapperAndHeader{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+
+
+.InviteList{
+    flex: 1;
+    background-color: #3B3C5C;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 10px;
+}
+
+.MessageWrapperAndFilters{
+    display: flex;
+    width: 70%;
+    background-color: #6264A7;
+    height: 90%;
+    padding: 10px;
+    gap: 10px;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1px solid white;
+}
+
+.MessageWrapper{
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    
+    box-sizing: border-box;
+    gap: 10px;
+    flex: 1;
+    border-radius: 10px;
+    background-color: #3B3C5C ;
+    padding: 10px;
+    border: 1px solid white;
+    overflow-y: scroll;
+}
+
+.InviteList h1,.MessageWrapperAndHeader h1,.MessageFilter h1{
+   color: gainsboro;
+}
+
+.MessageFilter{
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+
+}
+
+.MessageHighPriorty,.MessageLowPriority{
+   padding: 10px;
+   background-color: #8B8CC7;
+   color: white;
+   border-radius: 10px;
+   border: 1px solid white;
+   font-weight: 800;
+}
+
+.MessageFilter h1{
+    background-color: #3B3C5C;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.Message{
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    padding: 10px;
+    border-radius: 10px;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #8B8CC7;
+}
+
+.recived{
+    align-self: flex-start;
+    color: gainsboro;
+}
+
+.sender{
+    align-self: flex-end;
+    color: #6264A7;
+    background-color: gainsboro;
+}
+
+.recived .MessageUserName, .sender .MessageUserName{
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.MessageAvatar{
+    width: 32px;
+    height: 32px;
+}
+
+.MessageDetails{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.MessageUserName{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.Message hr{
+    width: 95;
+    border: 1px solid white;
+}
+
+
+.sender hr{
+    width: 95;
+    border: 1px solid #6264A7 
+}
+
+.inputs{
+    padding: 10px;
+    align-items: center;
+    display: flex;
+   justify-content:space-between ;
+    width: 70%;
+    border-radius: 10px;
+    background-color: white;
+    color: #6264A7;
+}
+
+.inputsButton{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+
+
+
+.inputs input{
+    width: 300px;
+    border: none;
+}
+
+.inputs input:focus{
+    outline: none;
+}
+
+.inputs input::-webkit-input-placeholder{
+    color: #6264A7;
+}
+
+.sendMessage{
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    background-color: #6264A7;
+}

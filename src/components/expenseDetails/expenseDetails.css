@@ -1,0 +1,81 @@
+
+.favUserContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 600px;
+   background-color: #6264A7;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    border: 0.1px solid white;
+}
+
+.favUserContainerLogo{
+    width: 40px;
+    height: 40px;
+    border: 1px solid white;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.favUserContainerDetails{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.UserAddToFavButton1{
+    padding: 10px 10px;
+    border-radius: 20px;
+    border: none;
+    font-weight: 300;
+    color: #464775;
+    height: fit-content;
+}
+
+.UserAddToFavButton1:hover{
+    background-color: #8B8CC7;
+    padding: 10px 10px;
+    color: white;
+    font-weight: 300;
+    border-radius: 20px;
+    border: none;
+    height: fit-content;
+}
+
+
+.ExpenseUserAndDetails{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-left: 10px;
+}
+
+.ExpenseSpendAndPaid{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.spent{
+    background-color: rgb(230, 17, 17);
+    color: white;
+    padding: 3px;
+    border-radius: 5px;
+    font-size: 12px;
+    border: 0.5px solid white;
+    font-weight: bold;
+}
+
+.recived1{
+    background-color: green;
+    color: white !important;
+    padding: 3px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    border: 0.5px solid white;
+}

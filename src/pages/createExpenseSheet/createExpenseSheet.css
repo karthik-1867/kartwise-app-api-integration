@@ -1,0 +1,227 @@
+.CreateExpenseSheetContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 80vh;
+    background-color: #464775;
+    margin: 10px; 
+    padding: 10px;   
+    border-radius: 10px;
+    
+}
+
+.select{
+    width: 100%;
+}
+
+.CreateExpenseSheetWrapper{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.CreateExpenseSheetList{
+    width: fit-content;
+    background-color: #8B8CC7;
+    padding: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 3px 1px 14px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 3px 1px 14px 0px rgba(0,0,0,0.75);
+    box-shadow: 3px 1px 6px 0px rgba(0, 0, 0, 0.75);
+}
+
+.addition{
+    width: 600px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: top;
+    justify-content: space-between;
+}
+
+.addition1{
+    width: 40%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: fit-content;
+    justify-content: top;
+    justify-content: space-between;
+}
+
+
+.CreateExpenseSheetTitle{
+    text-align: center;
+    font-size: 22px;
+    font-weight: 500;
+    color: gainsboro;
+    margin-bottom: 30px;
+}
+
+.CreateExpenseSheetListInput{
+    padding: 15px;
+    background-color: white;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
+.CreateExpenseSheetListInput:focus{
+    outline: none;
+}
+
+.dialogueContainer1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #464775;
+    color: white;
+    border-radius: 10px;
+    height: 20vh;
+    font-weight: 500;
+    border: 1px solid white;
+}
+
+.CreateExpenseSheetListUl,CreateExpenseSheetListUl1{
+    overflow-y: scroll;
+    max-height: 40vh;
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.ad1{
+    max-height: 70vh;
+}
+
+
+
+
+
+.CreateExpenseSheetListUl li {
+
+
+    
+
+  }
+
+.CreateExpenseSheet{
+    width: 70% !important;
+}
+
+.CreateExpenseSheetLists{
+    display: flex;
+    flex: 2;
+    padding: 10px;
+    padding-right: 20px;
+}
+
+
+.favDetails{
+    flex: 0.7;
+    color: #8B8CC7;
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #464775;
+    height: calc(100vh - 50px);
+    border-radius: 10px;
+    -webkit-box-shadow: 3px 1px 6px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 3px 1px 6px 0px rgba(0,0,0,0.75);
+box-shadow: 3px 1px 6px 0px rgba(0, 0, 0, 0.75);
+}
+
+.favDetailsWrapper{
+    background-color: gainsboro;
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ExpenseListWrapper{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 20px;
+    
+}
+
+.favDetailsTitle{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.CreateExpenseSheetList h4{
+    font-weight: 500;
+    color: gainsboro;
+    font-size: 20px;
+    text-align: left;
+}
+
+.CreateExpenseSheetInputWrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+}
+
+
+.CreateExpenseSheetSubmit{
+   background-color: white;
+   color: #464775;
+   padding: 10px;
+   width: 95%;
+   border: none;
+   border-radius: 10px;
+   margin-top: 10px;
+   margin-bottom: 10px;
+   font-weight: bold;
+   font-size: 18px;
+}
+
+.CreateExpenseSheetNameUserItem{
+    background-color: #464775;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;  
+}
+
+.CreateExpenseSheetNameUserItem input{
+   width: 40%;
+}
+
+.createExpenseDialogueButton{
+    padding: 10px;
+    background-color: white;
+    color: #464775;
+    border: none;
+    border-radius: 10px;
+}
+
+.createExpenseDialogueButton:hover{
+    padding: 10px;
+    background-color: #8B8CC7;
+    color: white;
+    border: none;
+    border-radius: 10px;
+}
+
+
+

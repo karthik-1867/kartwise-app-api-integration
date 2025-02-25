@@ -1,0 +1,65 @@
+.NavbarContainer{
+  background-color: #6264A7;
+  height: 70px;
+  position: sticky;
+  top: 0px;
+  z-index: 100;
+  
+}
+
+.NavbarWrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 10px;
+}
+
+.NavbarLogo{
+    color: white;
+    font-size: 40px;
+    font-weight: 900;
+    color: transparent;
+    letter-spacing: 3px;
+    -webkit-text-stroke: 0.6px white;
+}
+
+.NavbarSearchIcon{
+    color: white
+}
+
+.NavbarSearch{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #8B8CC7;
+    border-radius: 50px;
+    width: 50%;
+    padding: 10px;
+    border: 1px solid white;
+
+}
+
+.NavbarSearchInput{
+    background-color: transparent;
+    color: white;
+    outline: none;
+    border: none;
+}
+
+.NavbarSearchInput::placeholder{
+    font-size: 16px;
+    color: white;
+    font-weight: 500;
+}
+
+.NavbarLogin{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  font-weight: 500;
+}
+
+.NavbarLoginLogo{
+
+}

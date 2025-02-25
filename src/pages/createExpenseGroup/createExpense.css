@@ -1,0 +1,256 @@
+.createExpenseGroupContainer{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;    
+    min-height: 100vh;
+    background-color: #464775;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.CreateExpenseSheetUserAndExpenseContainer{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    height: 30vh;
+    width: 100%;
+    gap: 10px;
+}
+
+.ExpenseGroupWrapper{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.dialogueContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 95%;
+    background-color: #464775;
+    color: white;
+    border-radius: 10px;
+    height: 20vh;
+    font-weight: 500;
+    border: 1px solid white;
+}
+
+.ExpenseContainerDialogue{
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    background-color: #464775;
+    color: white;
+    text-align: center;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid white
+}
+
+.CreateExpenseDialogueContainer{
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    gap: 10px;
+    color: white;
+    background-color: #464775;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+
+.ExpenseContainerDialogueButton{
+   padding: 10px;
+   border-radius: 10px;
+   color: #464775;
+   background-color: white;
+   border: none;
+}
+
+
+.ExpenseContainerDialogueButton:hover{
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #8B8CC7;
+    color: white;
+    border: none;
+}
+
+
+
+
+.ExpenseGroupList{
+    width: fit-content;
+    background-color: #8B8CC7;
+    padding: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 3px 1px 14px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 3px 1px 14px 0px rgba(0,0,0,0.75);
+    box-shadow: 3px 1px 6px 0px rgba(0, 0, 0, 0.75);
+}
+
+.addition{
+    width: 40%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    height: fit-content;
+    justify-content: top;
+}
+
+.ExpenseGroupListContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    width: 95%;
+}
+
+.ExpenseGroupTitle{
+    text-align: center;
+    font-size: 22px;
+    font-weight: 500;
+    color: gainsboro;
+    margin-bottom: 30px;
+}
+
+.ExpenseGroupListInput{
+    padding: 15px;
+    background-color: white;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
+.ExpenseGroupListUl,ExpenseGroupListUl1{
+    overflow-y: scroll;
+    max-height: 70vh;
+    margin-top: 10px;
+    width: 95%;
+    background-color: #464775;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.ad1{
+    height: 70vh;
+    background-color: #464775;
+    padding: 10px;
+    width: 95%;
+}
+
+.ad1 li{
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+
+
+.ExpenseGroupListUl li {
+
+
+    
+
+  }
+
+.ExpenseGroup{
+    width: 70% !important;
+}
+
+.ExpenseGroupLists{
+    display: flex;
+    flex: 2;
+    padding: 10px;
+    padding-right: 20px;
+    
+}
+
+.ExpenseGroupTitle h4{
+    font-weight: 500;
+    font-size: 24px;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.favDetails{
+    flex: 0.7;
+    color: #8B8CC7;
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #464775;
+    height: calc(100vh - 50px);
+    border-radius: 10px;
+    -webkit-box-shadow: 3px 1px 6px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 3px 1px 6px 0px rgba(0,0,0,0.75);
+box-shadow: 3px 1px 6px 0px rgba(0, 0, 0, 0.75);
+}
+
+.favDetailsWrapper{
+    background-color: gainsboro;
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ExpenseListWrapper{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 20px;
+    
+}
+
+.favDetailsTitle{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.ExpenseGroupList h4{
+    font-weight: 500;
+    color: gainsboro;
+    margin-bottom: 10px;
+    font-size: 20px;
+    text-align: left;
+}
+
+.ExpenseGroupSubmit{
+   background-color: white;
+   color: #464775;
+   padding: 10px;
+   width: 95%;
+   border: none;
+   border-radius: 10px;
+   margin-top: 10px;
+   margin-bottom: 10px;
+   font-weight: bold;
+   font-size: 18px;
+}
+
