@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "../home/home.css";
 import User from '../../components/user/User';
 import "../../scrollbar.css";
@@ -9,6 +9,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import { CurrencyRupee, Group, Groups2, Money, PersonAdd } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { Select } from '@mui/material';
+import axios from 'axios';
 
 export default function Home() {
 
@@ -58,6 +59,22 @@ export default function Home() {
 
     // setUsers([...users, newUser]); // Add new user to state
 };
+
+
+useEffect(()=>{
+  const fetchUser =async()=>{
+    console.log(process.env.REACT_APP_URL);
+    try{
+
+      const user = await axios.post(`${process.env.REACT_APP_URL}/user/signin`,{"name":"karthik","password":"kartson"},{withCredentials:true})
+      console.log("user ",user)
+    }catch(e){
+      console.log("error"+e.message)
+    }
+  }
+
+  fetchUser();
+})
 
 
 const deleteUser = (id) => {
