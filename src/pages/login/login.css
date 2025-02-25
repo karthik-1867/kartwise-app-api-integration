@@ -5,6 +5,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    gap: 10px;
 
 }
 
@@ -119,5 +121,14 @@ label{
 .loginFormContainerRight span{
     align-self: center;
     color: #464775
+}
+
+.ErrorContainer{
+    width: 59%;
+    padding: 10px;
+    border: 1px solid white;
+    background-color: red;
+    border-radius: 10px;
+    color: white;
 }
 
