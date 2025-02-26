@@ -1,7 +1,7 @@
 import React from 'react'
 import '../fav/fav.css'
 import User from '../../components/user/User'
-import FavUser from '../../components/favUser/FavUser'
+import FavUser from '../../components/inviteAcceptedUser/FavUser'
 import ExpenseDetails from '../../components/expenseDetails/ExpenseDetails'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'

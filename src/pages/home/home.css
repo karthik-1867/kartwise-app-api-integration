@@ -242,7 +242,6 @@ box-shadow: 3px 4px 8px 0px rgba(0,0,0,0.75);
     gap: 10px;
     padding: 10px;
     height: 60vh;
-    overflow-y: scroll;
     box-sizing: border-box
 }
 
@@ -269,7 +268,9 @@ box-shadow: 3px 4px 8px 0px rgba(0,0,0,0.75);
     width: 100%;
     align-items: flex-start;
     margin: 10px;
+    gap: 10px;
     margin-top: 0px;
+    flex-direction: column;
 }
 
 .HomeList{
@@ -346,7 +347,7 @@ box-shadow: 3px 4px 8px 0px rgba(0,0,0,0.75);
     border:1px solid white;
 }
 
-.HomeAllUserDialogueContainer{
+.HomeAllUserDialogueContainer,.HomeAllUserDialogueContainerForPendingRequest{
     width: 43%;
     padding: 10px;
     background-color: gray;
@@ -360,15 +361,21 @@ box-shadow: 3px 4px 8px 0px rgba(0,0,0,0.75);
     
 }
 
+.HomeAllUserDialogueContainerForPendingRequest{
+  width: 100%;
+  box-sizing: border-box;
+  
+}
+
 .added{
     background-color: #8B8CC7;
 }
 
-.HomeAllUserDialogueContainerText{
+.HomeAllUserDialogueContainerText,.HomeAllUserDialogueContainerForPendingRequestText{
     width: 95%;
     background-color: #464775;
     padding: 10px;
-    height: 65vh;
+    height: 63vh;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -377,6 +384,10 @@ box-shadow: 3px 4px 8px 0px rgba(0,0,0,0.75);
     justify-content: center;
     text-align: center;
     border: 1px solid white;
+}
+
+.HomeAllUserDialogueContainerForPendingRequestText{
+    height: 35vh;
 }
 
 .HomeAllUserDialogueContainerTextButton{
@@ -427,3 +438,17 @@ box-shadow: 3px 4px 8px 0px rgba(0,0,0,0.75);
     border-radius: 10px;
 }
 
+.NormalContainer{
+    display: flex;
+    width: 100%;
+}
+
+.errorContainer{
+    color: white;
+    background-color: red;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: 1px solid #464775;
+    width: 100%;
+    padding: 10px;
+}

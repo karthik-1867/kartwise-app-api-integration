@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import '../createExpenseSheet/createExpenseSheet.css'
-import FavUser from '../../components/favUser/FavUser'
+import FavUser from '../../components/inviteAcceptedUser/FavUser'
 import ExpenseDetails from '../../components/expenseDetails/ExpenseDetails'
 import CreateExpenseAddUser from '../../components/createExpenseAddUser/CreateExpenseAddUser'
 import { useDispatch, useSelector } from 'react-redux'

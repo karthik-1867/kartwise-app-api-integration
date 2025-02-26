@@ -10,71 +10,115 @@ import { CurrencyRupee, Group, Groups2, Money, PersonAdd } from '@mui/icons-mate
 import { Link } from 'react-router-dom';
 import { Select } from '@mui/material';
 import axios from 'axios';
+import PendingInviteRequest from '../../components/pemdingInvite/PendingInviteRequest';
+import IncomingInviteRequest from '../../components/incomingInvite/IncomingInviteRequest';
+import InvitedUsers from '../../components/invitedUsers/InvitedUsers';
 
 export default function Home() {
-
-  console.log("dummy")
   const dispatch = useDispatch();
   const [requestType,selectRequestType] = useState("pending");
   const favUser = useSelector((state)=>state.user.user);
   const [dialogue,setDialogue] = useState(false);
+  const loggedInUser = useSelector((state)=>state.user.user)
 
-  const [users,setUsers] = useState(Users)
+  //to be removed
+  const [users,setUsers] = useState(Users);
+  
+  const [allUser,setAllUsers] = useState([]);
+  const [inviteRequest,setInviteRequest] = useState([]);
+  const [inviteAcceptedUser,setInviteAcceptedUser] = useState([]);
+  const [incomingRequest,setIncomingRequest] = useState([]);
+  const [errorContainer,setErrorContainer] = useState("");
+  console.log("allUser",JSON.stringify(allUser))
+
+  
+  
   const [addFavUser,setAddFavUser] = useState([])
   // console.log(users)
-  console.log("add fav user")
-  console.log(addFavUser)
 
-  const addUser = (user) => {
+  console.log("inviteRequest user",inviteRequest)
+  console.log("incoming request",incomingRequest)
+  console.log("invited accepy",inviteAcceptedUser)
+
+  const inviteUser = async(user) => {
     console.log("addUser called");
-    console.log(user?.id);
-    //includes doesnt work in arrays use some
-    // console.log(addFavUser.includes(user?.id) )
-    if(addFavUser?.some((item)=>user?.id==item.id) !== true && favUser?.some((item)=>user?.id==item.id) !== true)
-    { 
-      setAddFavUser([...addFavUser,user]);
-      setDialogue(false)
+    console.log(user);
+    setErrorContainer("")
+    try{
+
+      await axios.get(`${process.env.REACT_APP_URL}/user/getAllUser`,{withCredentials:true})
+      await axios.post(`${process.env.REACT_APP_URL}/user/inviteRequest/${user._id}`,{},{withCredentials:true})
+      if(!inviteRequest.includes(user._id)) setInviteRequest((i)=>[...i, user._id]);
+      setAllUsers((alluser)=>alluser.filter((i)=>i._id != user._id))
+    }catch(e){
+      console.log(e.response)
+      setErrorContainer(e.response.data.message)
     }
-    else{
-      setDialogue(true)
-    }
-    // console.log("addUser")
-    // console.log(users.length)
-    // const newUser = {
-    //     id: users.length + 1,
-    //     profilePicture: "assets/person/new.jpeg",
-    //     username: `User ${users.length + 1}`,
-    // };
-
-    // // const arr = [... users, newUser]
-    // // console.log(typeof(arr))
-    // // console.log(arr);
-
-    // const arr = [... users, newUser]
-    // console.log(typeof(arr))
-    // console.log(arr);
-
-    // // const arr = users?.concat(newUser);
-    // // console.log(arr)
-
-    // setUsers([...users, newUser]); // Add new user to state
 };
+
+const removePendingUser = async(user) =>{
+  const currentUserData = await axios.post(`${process.env.REACT_APP_URL}/user/rejectPendingInvite/${user}`,{},{withCredentials:true})
+  dispatch(loginStart());
+  const removedendingUser = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${user}`,{withCredentials:true})
+  dispatch(loginSuccess(currentUserData.data));
+  setInviteRequest((i)=>i.filter((id)=>id!=user));
+  setAllUsers((i)=>[...i,removedendingUser.data])
+}
+
+const acceptIncomingRequest = async(user)=>{
+  const currentUserData = await axios.post(`${process.env.REACT_APP_URL}/user/acceptInvite/${user}`,{},{withCredentials:true});
+  setIncomingRequest((i)=>i.filter((id)=>id!=user));
+  setInviteAcceptedUser((i)=>[...inviteAcceptedUser,user]);
+  dispatch(loginStart());
+  dispatch(loginSuccess(currentUserData.data));
+}
+
+const rejectIncomingRequest = async(user)=>{
+  const currentUserData = await axios.post(`${process.env.REACT_APP_URL}/user/removeInviteRequest/${user}`,{},{withCredentials:true});
+  const rejectePendingUser = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${user}`,{withCredentials:true})
+  setIncomingRequest((i)=>i.filter((id)=>id!=user));
+  setAllUsers((i)=>[...i,rejectePendingUser.data])
+}
+
+const rejectInvitedUser = async(user) => {
+  const currentUserData = await axios.post(`${process.env.REACT_APP_URL}/user/removeInvitedUser/${user}`,{},{withCredentials:true});
+  setInviteAcceptedUser((i)=>i.filter((id)=>id!=user))
+  const rejectInvitedUser = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${user}`,{withCredentials:true})
+  setAllUsers((i)=>[...i,rejectInvitedUser.data])
+  dispatch(loginStart())
+  dispatch(loginSuccess(currentUserData.data))
+}
 
 
 useEffect(()=>{
   const fetchUser =async()=>{
     console.log(process.env.REACT_APP_URL);
     try{
+      setInviteRequest([]);
+      setIncomingRequest([]);
+      setInviteAcceptedUser([]);
+      setInviteRequest([]);
+      const users = await axios.get(`${process.env.REACT_APP_URL}/user/getAllUser`,{withCredentials:true})
+      const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${loggedInUser._id}`,{withCredentials:true})
+      console.log("global ",users.data)
+      dispatch(loginStart)
+      dispatch(loginSuccess(getCurrentLoggedInUpdate.data))
 
-      const user = await axios.post(`${process.env.REACT_APP_URL}/user/signin`,{"name":"karthik","password":"kartson"},{withCredentials:true})
-      console.log("user ",user)
+
+      setAllUsers(users.data)
+      setInviteRequest([...inviteRequest, ... getCurrentLoggedInUpdate.data.PendingInviteRequest])
+      setIncomingRequest([...incomingRequest,...getCurrentLoggedInUpdate.data.inviteRequest])
+      setInviteAcceptedUser([...inviteAcceptedUser, ...getCurrentLoggedInUpdate.data.inviteAcceptedUsers])
+      // setInviteRequest(user.data.PendingInviteRequest)
     }catch(e){
       console.log("error"+e.message)
     }
   }
 
   fetchUser();
-})
+},[])
+
+
 
 
 const deleteUser = (id) => {
@@ -123,13 +167,13 @@ const saveFavUser = () =>{
             </div>
             <div className="HomeSummaryBoxDetailsGroup">
                 <span>
-                  groups : 4
+                  groups : {loggedInUser?.createExpenseGroup?.length}
                 </span>
                 <span>
-                  Expense : 4
+                  Expense : {loggedInUser?.createExpenseInfo?.length}
                 </span>
                 <span>
-                fav users : 109
+                invited users : {loggedInUser?.inviteAcceptedUsers?.length}
                 </span>
             </div>
           </div>
@@ -144,52 +188,47 @@ const saveFavUser = () =>{
             </div>
             <div className="HomeSummaryBoxDetailsGroup">
                 <span>
-                  pending request : 4
+                  pending request : {inviteRequest.length}
                 </span>
                 <span>
-                  incoming requests : 4
+                  incoming requests : {incomingRequest.length}
                 </span>
             </div>
           </div>
         </div>
       </div>
       <div className="HomeWrapperContainer">
+      {errorContainer !="" && <div className="errorContainer">
+        {errorContainer}
+      </div>}
+      <div className="NormalContainer">
       <div className="HomeWrapper">      
          <div className="HomeAllUsers">
           <h1>Global users</h1>
           {dialogue && <span className='HomeListPopUp'>Already exist</span>}
           <ul className='HomeList'>
-            {users?.map((user)=>(
+            {allUser?.map((user)=>(
               <li>
-              <User user={'karthik'} userData={user} key={user.id} addUser={addUser} profile='true' className='HomeListValue'/>
+              <User userData={user} key={user.id} addUser={inviteUser} profile='true' className='HomeListValue'/>
               </li>
             ))
             }
           </ul>
         
          </div>
-         {addFavUser?.length == 0  ?
+         {inviteAcceptedUser?.length == 0  ?
          
-         <div className={favUser?.length == 0 ? 'HomeAllUserDialogueContainer' : 'HomeAllUserDialogueContainer added'}>
+         <div className={inviteAcceptedUser?.length == 0 ? 'HomeAllUserDialogueContainer' : 'HomeAllUserDialogueContainer added'}>
             <span className='HomeAllUserDialogueContainerText'>
-              {favUser?.length == 0 || !favUser ? 'start adding users from Global users' : 'U have added fav user u can start creating groups. if you want to add few more you can continue the choosing users from Global users'}
-              {favUser?.length > 0 &&  
-              <>
-              <span>or</span>
-              <span>click link below for creating group</span>
-              <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
-              <button className='HomeAllUserDialogueContainerTextButton'>Create group</button>
-              </Link>
-              </>
-              }
-              </span>
+              {inviteAcceptedUser?.length == 0 || !inviteAcceptedUser ? 'Waiting for your friend approval request' : 'U have added fav user u can start creating groups. if you want to add few more you can continue the choosing users from Global users'}
+            </span>
          </div>
          : <div className="HomeAllUsers preview">
           <h1>Invited User</h1>
           <ul className='HomeList'>
-            {addFavUser?.map((user)=>(
+            {inviteAcceptedUser?.map((user)=>(
             <li>
-            <User user={'karthik'} className='HomeListValue' profile='false' addFavUser={user} key={addFavUser.id} deleteUser={deleteUser}/>
+            <InvitedUsers user={user} className='HomeListValue'  key={addFavUser.id} rejectInvitedUser={rejectInvitedUser}/>
             </li>
             ))
             }
@@ -203,36 +242,55 @@ const saveFavUser = () =>{
           <div className="chooseInviteViewWrapper">
             <div className="ChooseInviteViewDetails">
               <button onClick={()=>selectRequestType("pending")}>Pending request</button>
-              <span>count : 3</span>
+              <span>count : {inviteRequest.length}</span>
             </div>
             <div className="ChooseInviteViewDetails">
               <button onClick={()=>selectRequestType("incoming")}>Incoming request</button>
-              <span>count : 0</span>
+              <span>count : {incomingRequest.length}</span>
             </div>
           </div>
         </div>
         {requestType == "pending" ?
           <div className="InviteDetails">
           <h1>Pending request</h1>
+          
+          {
+          inviteRequest.length!=0 ?
           <ul className='InvitependingList'>
-          {users?.map((user)=>(
+          {inviteRequest?.map((user)=>( 
           <li>
-            <User user={'karthik'} userData={user} key={user.id} addUser={addUser} profile='true' className='HomeListValue'/>
-            </li>
-          ))}
-          </ul>
+            <PendingInviteRequest userData={user} key={user} removePendingUser={removePendingUser} className='HomeListValue'/>
+            </li> 
+            ))}
+            </ul>
+            :
+            <div className='HomeAllUserDialogueContainerForPendingRequest'>
+            <span className='HomeAllUserDialogueContainerForPendingRequestText'>
+              'start sending invites.' 
+            </span>
+            </div>
+         }
         </div> : <div className="InviteDetails">
           <h1>Incoming request</h1>
-          <ul className='InvitependingList'>
-          {users?.map((user)=>(
+          { incomingRequest.length!=0 ?
+            <ul className='InvitependingList'>
+          {incomingRequest?.map((user)=>(
           <li>
-            <User user={'karthik'} userData={user} key={user.id} addUser={addUser} profile='true' className='HomeListValue'/>
+            <IncomingInviteRequest userData={user} key={user.id} accept={acceptIncomingRequest} reject={rejectIncomingRequest} className='HomeListValue'/>
             </li>
           ))}
           </ul>
+          :
+          <div className='HomeAllUserDialogueContainerForPendingRequest'>
+          <span className='HomeAllUserDialogueContainerForPendingRequestText'>
+            'No incoming request' 
+          </span>
+          </div>
+          }
         </div>
 
         }
+      </div>
       </div>
       </div>
     </div>

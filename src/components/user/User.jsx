@@ -26,8 +26,8 @@ export default function User({user,userData,addUser,addFavUser,profile,deleteUse
         <Avatar className='UserContainerLogo'/>
       }
       <div className="UserDetails">
-         <span className='UserDetailsUserName'>{userDataD?.username}</span>
-         <span className='UserDetailsName'>{userDataD?.username}</span>
+         <span className='UserDetailsUserName'>{userDataD?.name}</span>
+         <span className='UserDetailsName'>{userDataD?.name}</span>
       </div>
       </div>
       
