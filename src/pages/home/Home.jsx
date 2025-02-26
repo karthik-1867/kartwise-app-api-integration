@@ -13,6 +13,7 @@ import axios from 'axios';
 import PendingInviteRequest from '../../components/pemdingInvite/PendingInviteRequest';
 import IncomingInviteRequest from '../../components/incomingInvite/IncomingInviteRequest';
 import InvitedUsers from '../../components/invitedUsers/InvitedUsers';
+import { usersFetchStart, usersFetchSuccess, usersUpdateRemovedUser } from '../../redux/allUsersSlice';
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -45,8 +46,6 @@ export default function Home() {
     console.log(user);
     setErrorContainer("")
     try{
-
-      await axios.get(`${process.env.REACT_APP_URL}/user/getAllUser`,{withCredentials:true})
       await axios.post(`${process.env.REACT_APP_URL}/user/inviteRequest/${user._id}`,{},{withCredentials:true})
       if(!inviteRequest.includes(user._id)) setInviteRequest((i)=>[...i, user._id]);
       setAllUsers((alluser)=>alluser.filter((i)=>i._id != user._id))
@@ -68,9 +67,11 @@ const removePendingUser = async(user) =>{
 const acceptIncomingRequest = async(user)=>{
   const currentUserData = await axios.post(`${process.env.REACT_APP_URL}/user/acceptInvite/${user}`,{},{withCredentials:true});
   setIncomingRequest((i)=>i.filter((id)=>id!=user));
-  setInviteAcceptedUser((i)=>[...inviteAcceptedUser,user]);
+  setInviteAcceptedUser((i)=>[...i,user]);
   dispatch(loginStart());
   dispatch(loginSuccess(currentUserData.data));
+  console.log("here is updated user",inviteAcceptedUser)
+
 }
 
 const rejectIncomingRequest = async(user)=>{
@@ -87,6 +88,7 @@ const rejectInvitedUser = async(user) => {
   setAllUsers((i)=>[...i,rejectInvitedUser.data])
   dispatch(loginStart())
   dispatch(loginSuccess(currentUserData.data))
+
 }
 
 
@@ -104,7 +106,8 @@ useEffect(()=>{
       dispatch(loginStart)
       dispatch(loginSuccess(getCurrentLoggedInUpdate.data))
 
-
+      dispatch(usersFetchStart());
+      dispatch(usersFetchSuccess(getCurrentLoggedInUpdate.data.inviteAcceptedUsers))
       setAllUsers(users.data)
       setInviteRequest([...inviteRequest, ... getCurrentLoggedInUpdate.data.PendingInviteRequest])
       setIncomingRequest([...incomingRequest,...getCurrentLoggedInUpdate.data.inviteRequest])

@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import userReducer from '../redux/userSlice';
 import createExpenseReducer from "../redux/createExpenseUser";
 import expenseUserReducer from "../redux/createdExpenseGroup"
+import allUserSlice from '../redux/allUsersSlice';
 import {
     persistStore,
     persistReducer,
@@ -22,7 +23,7 @@ const persistConfig = {
     storage,
 }
 
-const rootReducer = combineReducers({user:userReducer,createExpenseGroup:createExpenseReducer,expenseGroupInfo:expenseUserReducer});
+const rootReducer = combineReducers({user:userReducer,createExpenseGroup:createExpenseReducer,expenseGroupInfo:expenseUserReducer,allUsers:allUserSlice});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 

@@ -6,30 +6,34 @@ import CreateExpenseAddUser from '../../components/createExpenseAddUser/CreateEx
 import { useDispatch, useSelector } from 'react-redux'
 import { expenseGroupStart, expenseGroupSuccess } from '../../redux/createExpenseUser'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 
 export default function CreateExpense() {
  
-  const favUser = useSelector((state)=>state.user.user);
+  const inviteAcceptedUsers = useSelector((state)=>state.user.user.inviteAcceptedUsers);
   const [selectUser,setSelectedUser] = useState([]);
   const [inputs,setInputs] = useState({})
   const dispatch = useDispatch();
   const createGroup = useSelector((state)=>state?.createExpenseGroup.createExpenseGroup)
 
   console.log("inputs",JSON.stringify(inputs));
+  console.log("invite acceasadsad",JSON.stringify(inviteAcceptedUsers))
+  console.log("selectedUserdg",selectUser)
 
   const addCreateExpenseUser = (user) => {
+    console.log("grsr",user)
     // const paymentInfos = {...user,paymentToBeDone:0,lentByOwner:0,paymentTobeReceived:0,isPayer:false,amountSpent:0,amountReceived:0} 
-    if(!selectUser.some((item)=>item.id==user.id)){
-     setSelectedUser([...selectUser,user]);
+    if(!selectUser.includes(user)){
+     setSelectedUser((i)=>[...i,user]);
     }
     setInputs((prev)=>{
       return {...prev, members:[...selectUser,user]}
   })
   }
 
-  const removeExpenseUser = (id) => {
-    const selectedUsers = selectUser.filter((item)=>item.id != id)
+  const removeExpenseUser = (user) => {
+    const selectedUsers = selectUser.filter((item)=>item != user)
     setSelectedUser(selectedUsers)
     setInputs((prev)=>{
       return {...prev, members:selectedUsers}
@@ -42,16 +46,17 @@ export default function CreateExpense() {
      })
   }
 
-  const submitInputs = () =>{
+  const submitInputs = async() =>{
 
-    dispatch(expenseGroupStart())
-    // dispatch(expenseGroupSuccess({... inputs, spent:0,recived:0}));
-    dispatch(expenseGroupSuccess({... inputs, spent:0,recived:0,id:createGroup.length+1}));
-
-    setInputs((prev)=>{
-      return {...prev, title:"",uploadImage:""}
-    })
-    setSelectedUser([]);
+    try{
+      await axios.post(`${process.env.REACT_APP_URL}/ExpenseGroup/createGroup`,{title:inputs.title,uploadImage:inputs.uploadImage,members:inputs.members},{withCredentials:true})   
+      setInputs((prev)=>{
+        return {...prev, title:"",uploadImage:"",members:[]}
+      })
+      setSelectedUser([]);
+    }catch(e){
+      console.log(e.response.data)
+    }
   }
 
 
@@ -63,7 +68,7 @@ export default function CreateExpense() {
           <div className="ExpenseListWrapper">
             <div className="ExpenseGroupList addition">
               <h1 className='ExpenseGroupTitle'>Bookmarked users view</h1>
-              {!favUser || favUser?.length == 0 ? 
+              {!inviteAcceptedUsers || inviteAcceptedUsers?.length == 0 ? 
               <div className="ExpenseContainerDialogue">
                 start adding fav user to create expense group and expense 
                 <Link to="/" style={{textDecoration:'none',color:'inherit'}}>
@@ -72,7 +77,7 @@ export default function CreateExpense() {
               </div>
               :
               <ul className='ExpenseGroupListUl ad1'>
-                {favUser?.map((item)=>(
+                {inviteAcceptedUsers?.map((item)=>(
                 <li >
                 <CreateExpenseAddUser user={item} addUser={addCreateExpenseUser} key={item.id} isSelectedUser='false'/>
                 </li>
@@ -101,7 +106,7 @@ export default function CreateExpense() {
 
                       {selectUser?.map((item)=>(
                         <li className='extra'>
-                        <CreateExpenseAddUser selectedUser={item} key={item.id} isSelectedUser='true' removeUser={removeExpenseUser}/>
+                        <CreateExpenseAddUser user={item} key={item.id} isSelectedUser='true' removeUser={removeExpenseUser}/>
                         </li>
                       ))}
                     </ul>)

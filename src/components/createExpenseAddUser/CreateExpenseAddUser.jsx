@@ -1,28 +1,40 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../createExpenseAddUser/createExpenseAddUser.css'
 import { Avatar } from '@mui/material'
+import axios from 'axios';
 
 export default function CreateExpenseAddUser({user,addUser,removeUser,selectedUser,isSelectedUser}) {
  
   const [hovered,setHovered] = useState(false);
+  const [invitedUser,setInvitedUser] = useState("");
 
   const addExpenseUser = () => {
     addUser(user);
   }
 
   const removeExpenseUser = () => {
-    removeUser(selectedUser?.id);
+    removeUser(user);
   }
 
-  const userData = isSelectedUser=='true' ?  selectedUser : user;
+
+  useEffect(()=>{
+    const invitedGuy =async()=> {
+      const invited = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${user}`,{withCredentials:true})
+      console.log("adwdad",invited.data);
+      setInvitedUser(invited.data);
+    }
+
+    invitedGuy();
+  },[])
+
 
   return (
     <div className='CreateExpenseAddUserContainer' onMouseEnter={()=>setHovered(true)} onMouseLeave={()=>setHovered(false)}>
       <div className="CreateExpenseUserContainer">
-          {userData?.profilePicture ? <img className='CreateExpenseProfile' src={userData.profilePicture} alt="" />:<Avatar className='CreateExpenseAddUserLogo'/>}
+          {invitedUser?.profilePicture ? <img className='CreateExpenseProfile' src={invitedUser.profilePicture} alt="" />:<Avatar className='CreateExpenseAddUserLogo'/>}
           <div className="CreateExpenseAddUserDetails">
-            <span className='CreateExpenseAddUserUserName'>{userData?.username}</span>
-            <span className='CreateExpenseAddUserName'>{userData?.username}</span>
+            <span className='CreateExpenseAddUserUserName'>{invitedUser?.name}</span>
+            <span className='CreateExpenseAddUserName'>{invitedUser?.name}</span>
           </div>
       </div>
     
