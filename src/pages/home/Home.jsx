@@ -119,27 +119,6 @@ useEffect(()=>{
 },[])
 
 
-
-
-const deleteUser = (id) => {
-  console.log("delete user")
-  console.log(id)
-  
-  setAddFavUser(addFavUser.filter(user => user.id !== id));
-};
-
-
-const saveFavUser = () =>{
-
-  const favSubmitUser = favUser ? [...favUser,...addFavUser] : [...addFavUser]
-   setAddFavUser([]);
-  setDialogue(false)
-   dispatch(loginStart())
-   dispatch(loginSuccess(favSubmitUser));
-}
-
-
-
   return (
     <div className='HomeContainer'>
       <div className="HomeBar">
@@ -225,15 +204,18 @@ const saveFavUser = () =>{
          </div>
          : <div className="HomeAllUsers preview">
           <h1>Invited User</h1>
+          <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
+          <button  className='HomeButton'>Create group</button>
+          </Link>
           <ul className='HomeList'>
             {inviteAcceptedUser?.map((user)=>(
             <li>
-            <InvitedUsers user={user} className='HomeListValue'  key={addFavUser.id} rejectInvitedUser={rejectInvitedUser}/>
+            <InvitedUsers user={user} className='HomeListValue'  key={user} rejectInvitedUser={rejectInvitedUser}/>
             </li>
             ))
             }
           </ul>
-          <button onClick={saveFavUser} className='HomeButton'>Submit</button>
+          
          </div>}
       </div>
       <div className="InviteWrapper">
