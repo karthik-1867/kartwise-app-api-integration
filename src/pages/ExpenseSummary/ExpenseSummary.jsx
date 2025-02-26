@@ -8,15 +8,17 @@ import { Link } from 'react-router-dom'
 
 export default function ExpenseSummary() {
 
-    const expenseGroupSummary = useSelector((state)=>state.expenseGroupInfo.expenseGroupInfo)
+    // const expenseGroupSummary = useSelector((state)=>state.expenseGroupInfo.expenseGroupInfo)
     const [selectedGroup,setSelectedGroup] = useState([]);
-
+    const currentUser = useSelector((state)=>state.user.user)
+    const expenseGroupSummary = currentUser.createExpenseInfo
+    console.log(expenseGroupSummary);
 
     console.log("expenseGropsumary",JSON.stringify(expenseGroupSummary))
 
     const handleSelectedUser = (user) =>{
-        console.log("indo",JSON.stringify(user));
-        setSelectedGroup(user)
+        // console.log("indo",JSON.stringify(user));
+        // setSelectedGroup(user)
     }
 
   return (

@@ -7,11 +7,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { expenseGroupStart, expenseGroupSuccess } from '../../redux/createExpenseUser'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { loginStart, loginSuccess } from '../../redux/userSlice'
+import { dialogActionsClasses } from '@mui/material'
 
 
 export default function CreateExpense() {
  
-  const inviteAcceptedUsers = useSelector((state)=>state.user.user.inviteAcceptedUsers);
+  const currentUser = useSelector((state)=>state.user.user);
+  const inviteAcceptedUsers = currentUser.inviteAcceptedUsers
   const [selectUser,setSelectedUser] = useState([]);
   const [inputs,setInputs] = useState({})
   const dispatch = useDispatch();
@@ -27,6 +30,7 @@ export default function CreateExpense() {
     if(!selectUser.includes(user)){
      setSelectedUser((i)=>[...i,user]);
     }
+
     setInputs((prev)=>{
       return {...prev, members:[...selectUser,user]}
   })
@@ -34,6 +38,7 @@ export default function CreateExpense() {
 
   const removeExpenseUser = (user) => {
     const selectedUsers = selectUser.filter((item)=>item != user)
+    
     setSelectedUser(selectedUsers)
     setInputs((prev)=>{
       return {...prev, members:selectedUsers}
@@ -50,12 +55,17 @@ export default function CreateExpense() {
 
     try{
       await axios.post(`${process.env.REACT_APP_URL}/ExpenseGroup/createGroup`,{title:inputs.title,uploadImage:inputs.uploadImage,members:inputs.members},{withCredentials:true})   
+
+      const userData = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
+      console.log("creiouw",JSON.stringify(userData))
+      dispatch(loginStart())
+      dispatch(loginSuccess(userData.data))
+      setSelectedUser([]);
       setInputs((prev)=>{
         return {...prev, title:"",uploadImage:"",members:[]}
       })
-      setSelectedUser([]);
     }catch(e){
-      console.log(e.response.data)
+      console.log(e)
     }
   }
 

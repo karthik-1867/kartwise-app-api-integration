@@ -8,48 +8,66 @@ import ExpenseGroups from '../../components/expenseGroups/ExpenseGroups'
 import CreateExpenseInputs from '../../components/createExpenseInputs/CreateExpenseInputs'
 import { expenseStart, expenseSuccess } from '../../redux/createdExpenseGroup'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { loginStart, loginSuccess } from '../../redux/userSlice'
 export default function CreateExpense() {
 
-  const group = useSelector((state)=>state.createExpenseGroup.createExpenseGroup)
+  // const group = useSelector((state)=>state.createExpenseGroup.createExpenseGroup)
+  const currentUser = useSelector((state)=>state.user.user)
+  const group = currentUser.createExpenseGroup
+  console.log("greop",group)
   const dispatch = useDispatch()
 
   const [selectedPerson,setSelectedPerson] = useState([]);
-  const [inputs,setInputs] = useState({ owner: "",users:[],groupName:"",uploadImage:""});
+  const [inputs,setInputs] = useState({ owner: "",users:[],groupName:"",uploadImage:"",expenseGroupId:""});
 
   console.log("create inputs",JSON.stringify(inputs))
 
-  const selectedUser = (group) =>{
-     console.log("group",JSON.stringify(group.members))
-     setSelectedPerson([... group.members])
+  const selectedUser = async(group,id) =>{
+    //  console.log("group",JSON.stringify(group.members))
+    //  setSelectedPerson([... group.members])
+    setInputs({owner: "",users:[],groupName:"",uploadImage:""})
+    setSelectedPerson([])
+    console.log(group);
+  
+    const userData = await axios.post(`${process.env.REACT_APP_URL}/expense/memberDetails`,{members:[...group]},{withCredentials:true})
+    console.log(userData.data)
+    setSelectedPerson([...userData.data])
+    setInputs((prev)=>{
+      return {... prev, owner:userData.data[0].name,expenseGroupId:id}
+    })
   }
 
   const handlerInputs = (e) =>{
+     console.log(e)
      setInputs((prev)=>{
        return {...prev, [e.target.name]:e.target.value}
      })
   }
 
   const handleUserInputs = (user) => {
+    console.log("ur yser",user)
      setInputs((prev)=>{
       //problem is its creating new user every time we want too update it
        //return {...prev, users:[...prev?.users, user]}
-       return {...prev, users: prev.users.some((u)=>u.id==user.id) ? prev.users.map((item)=>item.id==user.id ? {...item,spent:user.spent} : item) : [...prev.users,user]}
+       return {...prev, users: prev.users.some((u)=>u.id==user.id) ? prev.users.map((item)=>item.id==user.id ? {...item,expense:user.expense} : item) : [...prev.users,user]}
      })
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
 
-    console.log(typeof inputs.users)
-    console.log("output",JSON.stringify(inputs?.users.filter((item)=>item.username!=inputs.owner)))
-     const totalTobePaid = inputs?.users.filter((item)=>item.username!=inputs.owner).reduce((acc,curr)=>(acc+Number(curr?.spent)), 0);
-     console.log("totalTobePaid",totalTobePaid)
-
-     const finalInputs = {...inputs,paid:totalTobePaid,ownerReceived:0,amountReturnedUser:[]};
-     console.log("finalInputs",JSON.stringify(finalInputs))
-    dispatch(expenseStart())
-    dispatch(expenseSuccess(finalInputs))
-    setInputs({owner: "",users:[],groupName:"",uploadImage:""})
-    setSelectedPerson([])
+    const {owner,groupName,expenseGroupId,users,uploadImage} = inputs;
+    try{
+      await axios.post(`${process.env.REACT_APP_URL}/expense/createExpenseDetails`,{groupName,expenseGroupId,users,uploadImage,owner},{withCredentials:true})
+      const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
+       dispatch(loginStart());
+       dispatch(loginSuccess(getCurrentLoggedInUpdate.data));
+     
+      setInputs({owner: "",users:[],groupName:"",uploadImage:""})
+      setSelectedPerson([])
+    }catch(e){
+      console.log(e)
+    }
     }
 
   return (
@@ -88,7 +106,7 @@ export default function CreateExpense() {
                   <h4>Paid by</h4>
                   <select name='owner' className='CreateExpenseSheetListInput select' value={inputs.owner} onChange={(e)=>handlerInputs(e)}>
                     { selectedPerson?.map((item)=>(
-                      <option value={item?.username}>{item?.username}</option>
+                      <option value={item?.name}>{item?.name}</option>
                     ))
                     }
                   </select>
