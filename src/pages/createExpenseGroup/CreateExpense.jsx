@@ -4,11 +4,10 @@ import FavUser from '../../components/inviteAcceptedUser/FavUser'
 import ExpenseDetails from '../../components/expenseDetails/ExpenseDetails'
 import CreateExpenseAddUser from '../../components/createExpenseAddUser/CreateExpenseAddUser'
 import { useDispatch, useSelector } from 'react-redux'
-import { expenseGroupStart, expenseGroupSuccess } from '../../redux/createExpenseUser'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { loginStart, loginSuccess } from '../../redux/userSlice'
-import { dialogActionsClasses } from '@mui/material'
+
 
 
 export default function CreateExpense() {
@@ -17,6 +16,7 @@ export default function CreateExpense() {
   const inviteAcceptedUsers = currentUser.inviteAcceptedUsers
   const [selectUser,setSelectedUser] = useState([]);
   const [inputs,setInputs] = useState({})
+  const [errorContainer,setErrorContainer] = useState("")
   const dispatch = useDispatch();
   const createGroup = useSelector((state)=>state?.createExpenseGroup.createExpenseGroup)
 
@@ -46,6 +46,7 @@ export default function CreateExpense() {
   }
 
   const inputSet = (e) => {
+    setErrorContainer("")
      setInputs((prev)=>{
       return {...prev, [e.target.name]:e.target.value}
      })
@@ -54,6 +55,13 @@ export default function CreateExpense() {
   const submitInputs = async() =>{
 
     try{
+
+      console.log(inputs)
+
+      if(!inputs.title || inputs.title=="") return setErrorContainer("Title required")
+      if(!inputs.members || inputs.members?.length==0) return setErrorContainer("add member")
+
+  
       await axios.post(`${process.env.REACT_APP_URL}/ExpenseGroup/createGroup`,{title:inputs.title,uploadImage:inputs.uploadImage,members:inputs.members},{withCredentials:true})   
 
       const userData = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
@@ -64,8 +72,12 @@ export default function CreateExpense() {
       setInputs((prev)=>{
         return {...prev, title:"",uploadImage:"",members:[]}
       })
+      setErrorContainer("")
     }catch(e){
       console.log(e)
+      const errorMessage = e.response?.data.message
+      if(errorMessage.includes('duplicate key error')) return setErrorContainer('This group already exist')
+      console.log("ur emr",errorMessage)
     }
   }
 
@@ -98,8 +110,11 @@ export default function CreateExpense() {
 
             <div className="ExpenseGroupList addition">
               <div className="ExpenseGroupListContainer">
-
+                 
                 <h1 className='ExpenseGroupTitle'>Create expense Group</h1>
+                {errorContainer!="" && <div className="ErrorContainer expenseSummary">
+                   {errorContainer}
+                  </div>}
                 <h4 className='ExpenseGroupName'>Title</h4>
                 <input type="text" placeholder='Enter group name' value={inputs?.title} name='title' onChange={(e)=>inputSet(e)} className='ExpenseGroupListInput'/>
                 <h4>Upload image</h4>

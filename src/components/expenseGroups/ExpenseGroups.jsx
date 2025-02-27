@@ -28,7 +28,7 @@ export default function ExpenseGroups({group,selectedUser}) {
   return (
     <div className='ExpenseGroupContainer' onMouseEnter={()=>setHovered(true)} onMouseLeave={()=>setHovered(false)} onClick={handleSelectedUser}>
       <div className="ExpenseGroupUserContainer">
-          {groupDetail?.uploadImage ? <img className='ExpenseGroupProfile' src={groupDetail.uploadImage} alt="" />:<Avatar className='ExpenseGroupLogo'/>}
+          {groupDetail?.uploadImage ? <img className='ExpenseGroupProfile' src={groupDetail.uploadImage} alt="" />:<Avatar className='ExpenseGroupProfile'/>}
           <div className="ExpenseGroupDetails">
             <span className='ExpenseGroupUserName'>{groupDetail?.title}</span>
           </div>

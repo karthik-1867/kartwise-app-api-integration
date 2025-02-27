@@ -10,6 +10,7 @@ import { expenseStart, expenseSuccess } from '../../redux/createdExpenseGroup'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { loginStart, loginSuccess } from '../../redux/userSlice'
+import { retry } from '@reduxjs/toolkit/query'
 export default function CreateExpense() {
 
   // const group = useSelector((state)=>state.createExpenseGroup.createExpenseGroup)
@@ -19,6 +20,7 @@ export default function CreateExpense() {
   const dispatch = useDispatch()
 
   const [selectedPerson,setSelectedPerson] = useState([]);
+  const [errorContainer,setErrorContainer] = useState("")
   const [inputs,setInputs] = useState({ owner: "",users:[],groupName:"",uploadImage:"",expenseGroupId:""});
 
   console.log("create inputs",JSON.stringify(inputs))
@@ -58,7 +60,13 @@ export default function CreateExpense() {
 
     const {owner,groupName,expenseGroupId,users,uploadImage} = inputs;
     try{
-      await axios.post(`${process.env.REACT_APP_URL}/expense/createExpenseDetails`,{groupName,expenseGroupId,users,uploadImage,owner},{withCredentials:true})
+
+      console.log("udwdw",users)
+      if(groupName=="" || groupName==undefined) return setErrorContainer("title required")
+      
+        const negativeCheck = users.filter((i)=>i.expense<0);
+        if(negativeCheck.length>0) return setErrorContainer("Cannot enter number in negative")
+        await axios.post(`${process.env.REACT_APP_URL}/expense/createExpenseDetails`,{groupName,expenseGroupId,users,uploadImage,owner},{withCredentials:true})
       const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
        dispatch(loginStart());
        dispatch(loginSuccess(getCurrentLoggedInUpdate.data));
@@ -67,6 +75,10 @@ export default function CreateExpense() {
       setSelectedPerson([])
     }catch(e){
       console.log(e)
+      const message = e.response?.data?.message
+
+      if(message.includes('duplicate key error')) return setErrorContainer('This expense already exist')
+      setErrorContainer(message)
     }
     }
 
@@ -99,6 +111,9 @@ export default function CreateExpense() {
             <div className="CreateExpenseSheetList addition">
               <div className="CreateExpenseSheetInputWrapper">
                   <h1 className='CreateExpenseSheetTitle'>Create expenses</h1>
+                  {errorContainer!="" && <div className="ErrorContainer expenseSummary">
+                   {errorContainer}
+                  </div>}
                   <h4 className='CreateExpenseSheetName'>Title</h4>
                   <input name='groupName' type="text" placeholder='Enter group name' value={inputs?.groupName} className='CreateExpenseSheetListInput' onChange={(e)=>handlerInputs(e)}/>
                   <h4>Upload image</h4>

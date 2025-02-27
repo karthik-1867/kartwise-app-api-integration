@@ -1,40 +1,77 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../expenseCard/expenseCard.css'
 import { Avatar } from '@mui/material'
 import { Delete, Edit } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { useSelector } from 'react-redux'
 
-export default function ExpenseCard({user,handleSelectedUser}) {
+export default function ExpenseCard({user,handleSelectedUser,handleExpenseDelete,handleError}) {
     const [hovered,setHovered] = useState(false)
+    const [userDetails,setUserDetails] = useState();
+    const currentUser = useSelector((state)=>state.user.user);
+    const [error,setError] = useState(false);
+    console.log("currentUser",JSON.stringify(error))
 
-
-    const selectedUser = () => {
-        handleSelectedUser(user)
+    const selectedUser = async() => {
+        handleSelectedUser(userDetails._id)
     }
+
+    const handlerError = (e,type) => {
+        e.stopPropagation()
+        const message = `ownly owner can ${type} this that is ${userDetails.owner}`
+        handleError(message)
+
+    }
+
+    const handleDelete = () => {
+        handleExpenseDelete(user)
+    }
+
+    useEffect(()=>{
+        const fetchExpense = async()=>{
+
+            const userData = await axios.get(`${process.env.REACT_APP_URL}/expense/getExpenseDetails/${user}`,{withCredentials:true})
+            console.log("expense details "+JSON.stringify(userData.data))
+            setUserDetails(userData.data);
+        }
+
+        fetchExpense()
+    },[])
 
     return (
     <div className='expenseCardContainer' onMouseEnter={()=>setHovered(true)} onMouseLeave={()=>setHovered(false)} onClick={selectedUser}>
         <div className="expenseCardUserInfo">
-            {user?.uploadImage ? <img src={user.uploadImage} className='expenseCardUserLogo' alt="" />:<Avatar className="expenseCardUserLogo"/>}
+            {userDetails?.uploadImage ? <img src={userDetails.uploadImage} className='expenseCardUserLogo' alt="" />:<Avatar className="expenseCardUserLogo"/>}
             <div className="expenseCardUserDetails">
                 <span className='OwnerCaptilize'>
                     
-                    {user?.groupName}
+                    {userDetails?.groupName}
                     </span>
-                <span className='expenseCardExpenditurespent'> paid by : {user?.owner}</span>
+                    <div className="ExpenseOwnerAndSettlementInfo">
+                        <span className='expenseCardExpenditurespent'> paid by : {userDetails?.owner}</span>
+                        {userDetails?.allSettled == "allSettled" && <span className="expenseCardExpenditurespent green">settled</span>}
+                    </div>
                 <div className="expenseCardExpenditure">
-                    <span className='expenseCardExpenditurespent red'> spent : {user?.paid} rs</span>
-                    <span className='expenseCardExpenditurereceived green'>received : {user?.ownerReceived} rs</span>
+                    <span className='expenseCardExpenditurespent red'> spent : {userDetails?.paid} rs</span>
+                    <span className='expenseCardExpenditurereceived green'>received : {userDetails?.ownerReceived} rs</span>
                 </div>
             </div>
         </div>
-        {hovered && <div className="expenseCardButtons">
-            <Link to="/expenseSummary/test" style={{textDecoration:'none',color:'inherit'}}>
+        {hovered && 
+           ((currentUser?.name == userDetails?.owner) ? <div className="expenseCardButtons">
+            <Link to={`/expenseSummary/${user}`} style={{textDecoration:'none',color:'inherit'}}>
  
             <button className="expenseCardButton"><Edit/></button>
             </Link>
-            <button className="expenseCardButton"><Delete/></button>
-        </div>}
+            <button onClick={handleDelete} className="expenseCardButton"><Delete/></button>
+        </div>
+        :
+        <div className="expenseCardButtons"> 
+            <button onClick={(e)=>{handlerError(e,'edit')}} className="expenseCardButton red"><Edit/></button>
+            <button onClick={(e)=>{handlerError(e,'delete')}} className="expenseCardButton red"><Delete/></button>
+        </div>)
+        }
     </div>
   )
 }

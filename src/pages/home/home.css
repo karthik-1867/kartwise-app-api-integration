@@ -219,18 +219,18 @@ cursor: pointer;
 .ChooseInviteView button:hover{
     color: white;
     border: 1px solid white;
-    -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
-    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 8px 5px 19px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 8px 5px 19px 0px rgba(0,0,0,0.75);
+    box-shadow: 8px 5px 19px 0px rgba(0,0,0,0.75);
     background-color: #464775;
 }
 
 .ChooseInviteView button:active{
     background-color: #8B8CC7;
     color: white;
-    -webkit-box-shadow: 3px 4px 8px 0px rgba(0,0,0,0.75);
--moz-box-shadow: 3px 4px 8px 0px rgba(0,0,0,0.75);
-box-shadow: 3px 4px 8px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 8px 5px 8px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 8px 5px 8px 0px rgba(0,0,0,0.75);
+    box-shadow: 8px 5px 8px 0px rgba(0,0,0,0.75);
 }
 
 .InviteDetails{
@@ -409,6 +409,9 @@ box-shadow: 3px 4px 8px 0px rgba(0,0,0,0.75);
     font-size: 16px;
     border-radius: 10px;
     border: none;
+    -webkit-box-shadow: 4px 13px 17px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 4px 13px 17px 0px rgba(0,0,0,0.75);
+box-shadow: 4px 13px 17px 0px rgba(0,0,0,0.75);
 }
 
 .ChooseInviteViewDetails{

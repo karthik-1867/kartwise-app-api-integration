@@ -8,16 +8,19 @@ export default function ExpenditureInfo({individualRecord}) {
         <div className="expenseGroupExpenditureSummaryUserDetails">
             {individualRecord?.profilePicture ? <img className='expenseGroupExpenditureSummaryUserDetailsLogo' src={individualRecord.profilePicture} alt="" /> :<Avatar className='expenseGroupExpenditureSummaryUserDetailsLogo'/>}
             <div className="PaidOwnerAndUserInfo">
-            {individualRecord?.username}
-            <span className='status'>status : pending</span>
+            {individualRecord?.name}
+            <div className="paidOwnerAndStatusWrapper">
+            <span className='status'>status : {individualRecord?.status}</span>
+            {individualRecord?.owner &&<span className='status'>owner</span>}
+            </div>
             <div className="paymentInfo">
-              <span className='pendingStatus paid'>paid : 30rs</span>
-              <span className='pendingStatus'>expense : 30rs</span>
+              <span className='pendingStatus paid'>paid : {individualRecord?.paidBack}rs</span>
+              <span className='pendingStatus'>expense : {individualRecord?.expense}rs</span>
             </div>
             </div>
         </div>
         <div className="expenseGroupExpenditureSummaryUserExpense">
-            {individualRecord?.spent} rs
+            Balance : {individualRecord?.expense-individualRecord?.paidBack} RS
         </div>
     </div>
   )

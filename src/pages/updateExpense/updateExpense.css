@@ -5,10 +5,17 @@
     padding: 10px;
     margin: 10px;
     border-radius: 10px;
+    flex-direction: column;
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
     
+}
+
+.ErrorContainer{
+    width: 70%;
+    box-sizing: border-box;
 }
 
 .UpdateExpenseWrapper{
@@ -147,6 +154,13 @@ box-shadow: 3px 4px 8px 0px rgba(0,0,0,0.75);
     display: flex;
     gap: 10px;
     align-items: center;
+}
+
+.updateExpenseProfile{
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 
