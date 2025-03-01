@@ -216,7 +216,7 @@
 cursor: pointer;
 }
 
-.ChooseInviteView button:hover{
+.ChooseInviteView button:hover,.HomeButton:hover{
     color: white;
     border: 1px solid white;
     -webkit-box-shadow: 8px 5px 19px 0px rgba(0,0,0,0.75);
@@ -225,7 +225,7 @@ cursor: pointer;
     background-color: #464775;
 }
 
-.ChooseInviteView button:active{
+.ChooseInviteView button:active,HomeButton:active{
     background-color: #8B8CC7;
     color: white;
     -webkit-box-shadow: 8px 5px 8px 0px rgba(0,0,0,0.75);
@@ -335,6 +335,7 @@ cursor: pointer;
     font-weight: bold;
     margin-top: 10px;
     width: 100%;
+    cursor: pointer;
 }
 
 

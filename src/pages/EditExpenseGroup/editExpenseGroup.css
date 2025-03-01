@@ -24,7 +24,6 @@
 
 .EditExpenseChooseGroup2{
     width: 40%;
-    height: 90%;
     background-color: #8B8CC7;
     display: flex;
     padding: 10px;
@@ -63,6 +62,8 @@
     width: 120px !important;
     height: 121px !important;
     align-self: center;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .EditExpenseGroupName{
@@ -153,4 +154,12 @@
 
 .EditListWrapper{
     overflow-y: hidden;
+}
+
+.memberprofilepic{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid white;
 }
