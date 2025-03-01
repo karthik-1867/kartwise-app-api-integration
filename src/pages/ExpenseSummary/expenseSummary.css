@@ -118,4 +118,11 @@
     border-radius: 10px;
 }
 
+.loadingTest{
+    padding: 10px;
+    border-radius: 10px;
+    width: 50%;
+    border:1px solid white;
+    background-color: gray;
+}
 

@@ -1,6 +1,5 @@
 import { Info } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
-import React, { useState } from 'react'
 
 export default function UpdateExpenseCard({expenseInfo,handleInputs}) {
   let input = {id:expenseInfo?.id,expense:expenseInfo?.expense,paidBack:0};

@@ -1,0 +1,12 @@
+.ExpenseGroupNameAndOwnerInfo{
+    display: flex;
+    gap: 5px;
+}
+
+.ExpenseGroupNameAndOwnerInfo{
+    padding: 3px;
+    background-color: #8B8CC7;
+    border-radius: 10px;
+    font-size: 14px;
+    width: fit-content;
+}

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { loginStart, loginSuccess } from '../../redux/userSlice'
+import CreateExpenseAddUserLoadingLoading from '../../components/createExpenseAdduserLoadingComponent/CreateExpenseAddUserLoading'
 
 
 
@@ -101,7 +102,7 @@ export default function CreateExpense() {
               <ul className='ExpenseGroupListUl ad1'>
                 {inviteAcceptedUsers?.map((item)=>(
                 <li >
-                <CreateExpenseAddUser user={item} addUser={addCreateExpenseUser} key={item.id} isSelectedUser='false'/>
+                <CreateExpenseAddUser user={item} addUser={addCreateExpenseUser} key={item.id} isSelectedUser='false'/> 
                 </li>
                 ))
                 }

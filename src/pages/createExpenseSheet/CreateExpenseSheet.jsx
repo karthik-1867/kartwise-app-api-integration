@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { loginStart, loginSuccess } from '../../redux/userSlice'
 import { retry } from '@reduxjs/toolkit/query'
+import CreateExpenseInputLoading from '../../components/createExpenseInputLoading/CreateExpenseInputLoading'
 export default function CreateExpense() {
 
   // const group = useSelector((state)=>state.createExpenseGroup.createExpenseGroup)
@@ -22,26 +23,31 @@ export default function CreateExpense() {
   const [selectedPerson,setSelectedPerson] = useState([]);
   const [errorContainer,setErrorContainer] = useState("")
   const [inputs,setInputs] = useState({ owner: "",users:[],groupName:"",uploadImage:"",expenseGroupId:""});
-
+  const [loading,setLoading] = useState(false);
   console.log("create inputs",JSON.stringify(inputs))
 
   const selectedUser = async(group,id) =>{
     //  console.log("group",JSON.stringify(group.members))
     //  setSelectedPerson([... group.members])
+
+
     setInputs({owner: "",users:[],groupName:"",uploadImage:""})
     setSelectedPerson([])
     console.log(group);
-  
+    setLoading(true);
+    setErrorContainer("");
     const userData = await axios.post(`${process.env.REACT_APP_URL}/expense/memberDetails`,{members:[...group]},{withCredentials:true})
     console.log(userData.data)
     setSelectedPerson([...userData.data])
     setInputs((prev)=>{
       return {... prev, owner:userData.data[0].name,expenseGroupId:id}
     })
+    setLoading(false)
   }
 
   const handlerInputs = (e) =>{
      console.log(e)
+     setErrorContainer("");
      setInputs((prev)=>{
        return {...prev, [e.target.name]:e.target.value}
      })
@@ -49,6 +55,7 @@ export default function CreateExpense() {
 
   const handleUserInputs = (user) => {
     console.log("ur yser",user)
+    setErrorContainer("");
      setInputs((prev)=>{
       //problem is its creating new user every time we want too update it
        //return {...prev, users:[...prev?.users, user]}
@@ -58,12 +65,30 @@ export default function CreateExpense() {
 
   const handleSubmit = async() => {
 
-    const {owner,groupName,expenseGroupId,users,uploadImage} = inputs;
+    let {owner,groupName,expenseGroupId,users,uploadImage} = inputs;
+    const selectedMembers = selectedPerson;
     try{
-
-      console.log("udwdw",users)
+      setSelectedPerson([])
+      setLoading(true)
+   
+      console.log("udwdw",selectedMembers)
       if(groupName=="" || groupName==undefined) return setErrorContainer("title required")
-      
+        const owner2 = users.filter((i)=>owner==i.name)
+
+        if(owner2.length==0){
+
+          const result = selectedMembers.find((i)=>i.name==owner)
+          const ownerMember = {id:result._id,name:result.name,expense:0};
+          // const ownerMember = selectedMembers.map((i)=>{
+            
+            // if(i.name==owner) return {id:i._id,name:i.name,expense:0}
+          // }).filter((i)=>(i.name==owner))[0]
+
+          users = [...users, ownerMember]  
+        }
+
+        console.log("ur inputs ewwew",users)
+
         const negativeCheck = users.filter((i)=>i.expense<0);
         if(negativeCheck.length>0) return setErrorContainer("Cannot enter number in negative")
         await axios.post(`${process.env.REACT_APP_URL}/expense/createExpenseDetails`,{groupName,expenseGroupId,users,uploadImage,owner},{withCredentials:true})
@@ -72,11 +97,11 @@ export default function CreateExpense() {
        dispatch(loginSuccess(getCurrentLoggedInUpdate.data));
      
       setInputs({owner: "",users:[],groupName:"",uploadImage:""})
-      setSelectedPerson([])
+      setLoading(false)
     }catch(e){
       console.log(e)
       const message = e.response?.data?.message
-
+      setSelectedPerson([...selectedMembers]);
       if(message.includes('duplicate key error')) return setErrorContainer('This expense already exist')
       setErrorContainer(message)
     }
@@ -126,12 +151,34 @@ export default function CreateExpense() {
                     }
                   </select>
                   <div className="CreateExpenseSheetUserAndExpenseContainer">
-                    {selectedPerson.length>0 ? selectedPerson?.map((item)=>(
-                         <CreateExpenseInputs users={item} handleUserInputs={handleUserInputs}/>
-                      )) :
-                      <div className="dialogueContainer1">
+                    {/* {selectedPerson.length>0 ? 
+                      selectedPerson?.map((item)=>(
+                          <>
+                          <CreateExpenseInputs users={item} handleUserInputs={handleUserInputs}/>
+                          </>
+                        )) :
+                        <div className="dialogueContainer1">
+                            select group
+                            
+                      </div>
+                    } */}
+                    {selectedPerson.length==0 ? 
+                      loading ? 
+                      Array.from({ length: 5 }, () => 0).map(()=>(
+                                    <CreateExpenseInputLoading/>
+                      ))
+                      :
+                      <>
+                      {<div className="dialogueContainer1">
                           select group
-                    </div>
+                      </div>}
+                      </>
+                      :
+                      selectedPerson?.map((item)=>(
+                          <>
+                          <CreateExpenseInputs users={item} handleUserInputs={handleUserInputs}/>
+                          </>
+                        )) 
                     }
                   </div>
 

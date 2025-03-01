@@ -1,0 +1,62 @@
+.CreateExpenseInputLoadingNameUserItem{
+    background: linear-gradient(to left, #464775, #8B8CC7);
+    border-radius: 10px;
+    padding: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    border: 1px solid white;
+    justify-content: space-between; 
+    box-sizing: border-box;
+    width: 100%; 
+   
+}
+
+.CreateExpenseInputLoadingNameUserItem input{
+   width: 40%;
+}
+
+.CreateExpenseInputLoadingNameLogo{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 10px;
+    border-radius: 50%;
+    background-color: gray;
+    border: 1px solid white;
+}
+
+.createExpenseInputSmall,.createExpenseInputbig{
+    width: 60%;
+    border-radius: 1px solid white;
+    background-color: gray;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid white;
+}
+
+.createExpenseInputbig{
+    width: 75%;
+}
+
+.inputsLoading{
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    gap: 5px;
+}
+
+.CreateExpenseInputLoadingNameUserDetails{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 50%;
+}
+
+.CreateExpenseInputLoadingListInput{
+    padding: 15px;
+    border-radius: 10px;
+    width: 28%;
+    box-sizing: border-box;
+}

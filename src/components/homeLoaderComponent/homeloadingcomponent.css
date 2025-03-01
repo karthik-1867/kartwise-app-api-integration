@@ -1,0 +1,62 @@
+.HomeloadingContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 20px;
+    border: 0.1px solid white;
+    border-radius: 10px;
+    height: fit-content;
+    padding: 10px 10px;
+    width: 100%;
+    box-sizing: border-box;
+    background: linear-gradient(to left, #464775, #8B8CC7);
+    color: white;
+}
+
+.homeLoadingLogo{
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-color: grey;
+    border-radius: 50%;
+    border: 1px solid white;
+}
+
+.homeloadingWrapper{
+
+    border-radius: 20px;
+    border: none;
+    font-weight: 300;
+    color: #464775;
+    display: flex;
+    gap : 10px;
+    width: 100%;
+}
+
+
+
+.hometopandBottomText{
+    display: flex;
+    flex-direction: column;
+    width: 78%;
+    gap: 5px;
+}
+
+.hometoptext{
+
+    padding: 10px;
+    background-color: gray;
+    border-radius: 10px;
+    width: 100%;
+    border:1px solid white;
+    box-sizing: border-box;
+}
+
+.homebottomtext{
+    background-color: gray;
+    border-radius: 10px;
+    width: 70%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid white;
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./updateExpense.css"
 import { Avatar } from '@mui/material'
 import { Info } from '@mui/icons-material'
@@ -6,22 +6,21 @@ import { useNavigate, useParams } from 'react-router-dom'
 import useExpenseDetailsFetcher from '../../customHook/expenseDetailLogic'
 import UpdateExpenseCard from '../../components/updateExpenseCard/UpdateExpenseCard'
 import axios from 'axios'
+import UpdateComponentLoader from '../../components/updateComponentLoader/UpdateComponentLoader'
 
 export default function UpdateExpense() {
 
   const {id} = useParams();
   const navigate = useNavigate()
   const [inputs,setInputs] = useState({users:[]});
-  console.log("params",id);
-  console.log("setInputs value",JSON.stringify(inputs))
+  const [loading,setLoading] = useState(true);
   const {expensedata,status} = useExpenseDetailsFetcher(id);
   const selectGroup = expensedata;
   const updatedGroup = selectGroup?.filter((i)=>i.status!="paid")
   const [errorContainer,setErrorContainer] = useState()
 
+
   console.log("in update expense ",JSON.stringify(selectGroup),status);
-
-
 
   const handleInputs = (inputData) =>{
     console.log("inputData",JSON.stringify(inputData))
@@ -41,14 +40,21 @@ export default function UpdateExpense() {
   const submitInputs = async() => {
     
     try{
+      setLoading(true)
       const UpdateInput = inputs.users.map((i)=>{return {id:i.id,paidBack:i.paidBack,expense:i.expense}});
       await axios.post(`${process.env.REACT_APP_URL}/expense/updateExpenseDetails/${id}`,{users:[...UpdateInput]},{withCredentials:true})
       navigate(-1);
+
     }catch(e){
       const error = e.response.data.message
       setErrorContainer(error);
     }
   }
+
+  useEffect(()=>{
+    console.log("sdashdkah",expensedata)
+       if(expensedata.length>0) setLoading(false)
+  },[expensedata])
 
   return (
     <div className='UpdateExpenseContainer'>
@@ -61,11 +67,17 @@ export default function UpdateExpense() {
             <button onClick={submitInputs}>Submit</button>
         </div>
         {status != "allSettled" ? (<ul className='UpdateExpenseList'>
-              {updatedGroup.map((i)=>(
+              {!loading && updatedGroup.map((i)=>(
                 <li>
                     <UpdateExpenseCard expenseInfo={i} handleInputs={handleInputs}/>
                 </li>
-            ))}
+              ))}
+              {loading && Array.from({ length: 20 }, () => 0).map(()=>(
+                <li>
+                  <UpdateComponentLoader/>
+                </li>
+              ))
+            }
             </ul>)
            : (<div className='UpdateExpenseList flexWrap'>
              

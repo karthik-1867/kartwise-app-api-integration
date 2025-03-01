@@ -5,12 +5,14 @@ import { Delete, Edit } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
+import ExpenseCardLoading from '../expenseCardLoading/ExpenseCardLoading'
 
 export default function ExpenseCard({user,handleSelectedUser,handleExpenseDelete,handleError}) {
     const [hovered,setHovered] = useState(false)
     const [userDetails,setUserDetails] = useState();
     const currentUser = useSelector((state)=>state.user.user);
     const [error,setError] = useState(false);
+    const [loading,setLoading] = useState(false);
     console.log("currentUser",JSON.stringify(error))
 
     const selectedUser = async() => {
@@ -24,23 +26,31 @@ export default function ExpenseCard({user,handleSelectedUser,handleExpenseDelete
 
     }
 
-    const handleDelete = () => {
-        handleExpenseDelete(user)
+    const handleDelete = (e) => {
+        setLoading(true)
+        e.stopPropagation()
+        handleExpenseDelete(userDetails._id)
     }
 
     useEffect(()=>{
         const fetchExpense = async()=>{
 
+            setLoading(true)
             const userData = await axios.get(`${process.env.REACT_APP_URL}/expense/getExpenseDetails/${user}`,{withCredentials:true})
             console.log("expense details "+JSON.stringify(userData.data))
             setUserDetails(userData.data);
+            setLoading(false)
         }
 
         fetchExpense()
-    },[])
+    },[user])
 
     return (
-    <div className='expenseCardContainer' onMouseEnter={()=>setHovered(true)} onMouseLeave={()=>setHovered(false)} onClick={selectedUser}>
+    <>
+    { loading ?
+        <ExpenseCardLoading/>
+        :
+        <div className='expenseCardContainer' onMouseEnter={()=>setHovered(true)} onMouseLeave={()=>setHovered(false)} onClick={selectedUser}>
         <div className="expenseCardUserInfo">
             {userDetails?.uploadImage ? <img src={userDetails.uploadImage} className='expenseCardUserLogo' alt="" />:<Avatar className="expenseCardUserLogo"/>}
             <div className="expenseCardUserDetails">
@@ -64,7 +74,7 @@ export default function ExpenseCard({user,handleSelectedUser,handleExpenseDelete
  
             <button className="expenseCardButton"><Edit/></button>
             </Link>
-            <button onClick={handleDelete} className="expenseCardButton"><Delete/></button>
+            <button onClick={(e)=>handleDelete(e)} className="expenseCardButton"><Delete/></button>
         </div>
         :
         <div className="expenseCardButtons"> 
@@ -73,5 +83,6 @@ export default function ExpenseCard({user,handleSelectedUser,handleExpenseDelete
         </div>)
         }
     </div>
+    }</>
   )
 }

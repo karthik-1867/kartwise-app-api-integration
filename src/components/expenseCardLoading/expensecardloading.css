@@ -1,0 +1,111 @@
+.ExpenseCardLoadingContainer{
+    width: 100%;
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    background: linear-gradient(to left, #464775, white);
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px;
+    margin-bottom: 5px;
+}
+
+
+.ExpenseCardLoadingUserInfo{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.ExpenseCardLoadingOwnerCaptilize{
+    font-weight: 500;
+    text-transform: uppercase;
+    border: 1px solid white;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: gray;
+    border-radius: 10px;
+}
+
+.ExpenseCardLoadingButtons{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+}
+
+.ExpenseCardLoadingButton{
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: #6264A7;
+    color: white;
+}
+
+.ExpenseCardLoadingExpenditure{
+    display: flex;
+    width:100%;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    flex-wrap: wrap
+}
+
+
+
+.ExpenseCardLoadingExpenditurespent,.ExpenseCardLoadingExpenditurereceived{
+    background-color: #8B8CC7;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 14px;
+    width: 34%;
+    color: white;
+}
+
+.two{
+    width: 55%;
+}
+
+.three{
+    width: 40%;
+}
+
+.four{
+    width: 20%;
+}
+
+
+
+.red{
+    background-color: rgb(218, 6, 6);
+    color: white;
+}
+
+.green{
+    background-color: green;
+    color: white;
+}
+
+.ExpenseCardLoadingUserLogo{
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 50%;
+    background-color: gray;
+    object-fit: cover;
+    border: 2px solid #6264A7;
+}
+
+.ExpenseCardLoadingUserDetails{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 70%;
+}
+
+.ExpenseCardLoadingAndSettlementInfo{
+    display: flex;
+    gap: 10px;
+}

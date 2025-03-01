@@ -14,6 +14,8 @@ import PendingInviteRequest from '../../components/pemdingInvite/PendingInviteRe
 import IncomingInviteRequest from '../../components/incomingInvite/IncomingInviteRequest';
 import InvitedUsers from '../../components/invitedUsers/InvitedUsers';
 import { usersFetchStart, usersFetchSuccess, usersUpdateRemovedUser } from '../../redux/allUsersSlice';
+import HomeLoadingComponent from '../../components/homeLoaderComponent/HomeLoadingComponent';
+
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -21,7 +23,7 @@ export default function Home() {
   const favUser = useSelector((state)=>state.user.user);
   const [dialogue,setDialogue] = useState(false);
   const loggedInUser = useSelector((state)=>state.user.user)
-
+  const [loading,setLoading] = useState(false);
   //to be removed
   const [users,setUsers] = useState(Users);
   
@@ -100,6 +102,7 @@ useEffect(()=>{
       setIncomingRequest([]);
       setInviteAcceptedUser([]);
       setInviteRequest([]);
+      setLoading(true)
       const users = await axios.get(`${process.env.REACT_APP_URL}/user/getAllUser`,{withCredentials:true})
       const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${loggedInUser._id}`,{withCredentials:true})
       console.log("global ",users.data)
@@ -109,10 +112,12 @@ useEffect(()=>{
       dispatch(usersFetchStart());
       dispatch(usersFetchSuccess(getCurrentLoggedInUpdate.data.inviteAcceptedUsers))
       setAllUsers(users.data)
+      
       setInviteRequest([...inviteRequest, ... getCurrentLoggedInUpdate.data.PendingInviteRequest])
       setIncomingRequest([...incomingRequest,...getCurrentLoggedInUpdate.data.inviteRequest])
       setInviteAcceptedUser([...inviteAcceptedUser, ...getCurrentLoggedInUpdate.data.inviteAcceptedUsers])
       // setInviteRequest(user.data.PendingInviteRequest)
+      setLoading(false)
     }catch(e){
       console.log("error"+e.message)
     }
@@ -189,22 +194,45 @@ useEffect(()=>{
           <h1>Global users</h1>
           {dialogue && <span className='HomeListPopUp'>Already exist</span>}
           <ul className='HomeList'>
-            {allUser?.map((user)=>(
+            { (allUser.length>0) ?allUser?.map((user)=>(
               <li>
               <User userData={user} key={user.id} addUser={inviteUser} profile='true' className='HomeListValue'/>
               </li>
+            )) :
+            <>
+            {Array.from({ length: 20 }, () => 0).map(()=>(
+              <li>
+                <HomeLoadingComponent className='HomeListValue'/>
+              </li>
             ))
+            }
+            </>
             }
           </ul>
         
          </div>
+         {
+           loading &&
+
+           <div className="HomeAllUsers preview">
+          <h1>Invited User</h1>
+          <ul className='HomeList'>
+          { Array.from({ length: 20 }, () => 0).map(()=>(
+            <li>
+              <HomeLoadingComponent className='HomeListValue'/>
+            </li>
+          ))
+           }
+          </ul>
+          </div>
+
+         }
          {inviteAcceptedUser?.length == 0  ?
-         
-         <div className={inviteAcceptedUser?.length == 0 ? 'HomeAllUserDialogueContainer' : 'HomeAllUserDialogueContainer added'}>
-            <span className='HomeAllUserDialogueContainerText'>
+              <div className={inviteAcceptedUser?.length == 0 ? 'HomeAllUserDialogueContainer' : 'HomeAllUserDialogueContainer added'}>
+              <span className='HomeAllUserDialogueContainerText'>
               {inviteAcceptedUser?.length == 0 || !inviteAcceptedUser ? 'Waiting for your friend approval request' : 'U have added fav user u can start creating groups. if you want to add few more you can continue the choosing users from Global users'}
-            </span>
-         </div>
+              </span>
+              </div>
          : <div className="HomeAllUsers preview">
           <h1>Invited User</h1>
           <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
@@ -249,13 +277,24 @@ useEffect(()=>{
             ))}
             </ul>
             :
-            <div className='HomeAllUserDialogueContainerForPendingRequest'>
+            loading ? (
+             <ul className='InvitependingList'>
+             { Array.from({ length: 20 }, () => 0).map(()=>(
+               <li>
+                 <HomeLoadingComponent className='HomeListValue'/>
+               </li>
+             ))
+              }
+             </ul>
+             ):
+            (<div className='HomeAllUserDialogueContainerForPendingRequest'>
             <span className='HomeAllUserDialogueContainerForPendingRequestText'>
               'start sending invites.' 
             </span>
-            </div>
+            </div>)
          }
-        </div> : <div className="InviteDetails">
+        </div> : 
+        <div className="InviteDetails">
           <h1>Incoming request</h1>
           { incomingRequest.length!=0 ?
             <ul className='InvitependingList'>
@@ -265,13 +304,13 @@ useEffect(()=>{
             </li>
           ))}
           </ul>
-          :
-          <div className='HomeAllUserDialogueContainerForPendingRequest'>
+          : 
+          (<div className='HomeAllUserDialogueContainerForPendingRequest'>
           <span className='HomeAllUserDialogueContainerForPendingRequestText'>
             'No incoming request' 
           </span>
-          </div>
-          }
+          </div>)
+        }
         </div>
 
         }

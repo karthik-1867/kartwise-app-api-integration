@@ -1,0 +1,100 @@
+.expenseInfoLoader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid white;
+    background-color: #6264A7;
+    box-sizing: border-box;
+
+}
+
+.expenseInfoLoaderPaidOwnerAndUserInfo{
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+    font-size: 16px;
+    flex-direction: column;
+    width: 80%;
+
+}
+
+.expenseInfoLoaderPaidOwnerAndUserInfoName{
+   padding: 10px;
+   width: 100%;
+   background-color: gray;
+   border-radius: 10px;
+   border: 1px solid white;
+}
+
+
+
+.expenseInfoLoaderDetailsLogo{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: gray;
+    border: 1px solid white;
+}
+
+.expenseInfoLoaderpendingStatus{
+    background-color: rgb(218, 6, 6);
+    color: white;
+    padding: 5px;
+    width: 20%;
+    border-radius: 10px;
+    font-size: 12px;
+    border: 1px solid white;
+}
+
+.paid{
+    background-color: green;
+}
+
+.expenseInfoLoaderpaidstatus{
+    background-color: gainsboro;
+    border: 1px solid black;
+    width: 30%;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.expenseInfoLoaderpaymentInfo{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.expenseInfoLoaderDetails{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: gainsboro;
+    
+    width: 80%;
+}
+
+.expenseInfoLoaderExpense{
+    color: gainsboro;
+    background-color: #464775;
+    border-radius: 10px;
+    border: 1px solid white;
+    padding: 5px;
+    display: flex;
+    width: 6%;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.expenseInfoLoaderpaidOwnerAndStatusWrapper{
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}

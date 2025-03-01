@@ -16,22 +16,35 @@
     box-sizing: border-box;
     display: flex;
     justify-content: space-evenly;
-    align-items: center;
-    padding: 10px;
+    align-items: flex-start;
     flex: 2;
+    gap: 10px;
     border-radius: 10px;
-    background-color: #464775;
 }
 
-.favList{
-    width: 350px;
+.favList,.favListSide{
+    width: 35%;
     background-color: #8B8CC7;
-    padding: 20px;
+    padding: 10px;
     height: 70vh;
     border-radius: 10px;
     -webkit-box-shadow: 3px 1px 14px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 3px 1px 14px 0px rgba(0,0,0,0.75);
     box-shadow: 3px 1px 6px 0px rgba(0, 0, 0, 0.75);
+}
+
+.favListSide{
+    background-color: #464775; 
+}
+
+
+
+.first{
+    width: 40%;
+}
+
+.second{
+    width: 45%;
 }
 
 
@@ -43,11 +56,13 @@
     margin-bottom: 30px;
 }
 
-.favListUl {
+
+.favListUl,.invitedUsersList {
     height: 60vh; /* Adjust height as needed */
     overflow-y: auto;
     display: flex;
-    width: fit-content;
+    width:100%;
+    box-sizing: border-box;
     align-items: top;
     background-color: #464775;
     border-radius: 10px;
@@ -55,6 +70,13 @@
     overflow-x: hidden;
     padding: 10px;
   }
+
+  .invitedUsersList{
+    width: 100%;
+    box-sizing: border-box;
+    background-color: gray;
+    height: fit-content;
+}
 
 .favListDialogueContainer{
     width: 100%;
@@ -126,7 +148,10 @@ box-shadow: 3px 1px 6px 0px rgba(0, 0, 0, 0.75);
     justify-content: space-around;
     width: 100%;
     flex-wrap: wrap;
-    gap: 30px;
+    gap: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #464775;
 }
 
 .favDetailsTitle{

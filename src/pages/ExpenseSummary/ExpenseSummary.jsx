@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import useExpenseDetailsFetcher from '../../customHook/expenseDetailLogic'
 import { loginStart, loginSuccess } from '../../redux/userSlice'
+import ExpenseCardLoadingLoading from '../../components/expenseCardLoading/ExpenseCardLoading'
+import ExpenditureLoader from '../../components/expenditureLoader/ExpenditureLoader'
 
 export default function ExpenseSummary() {
 
@@ -19,17 +21,22 @@ export default function ExpenseSummary() {
     const expenseGroupSummary = currentUser.createExpenseInfo
     console.log("sidashl",expenseGroupSummary);
     const dispatch = useDispatch();
+    const [loading,setLoading] = useState();
+    const [selectedGroup,setSelectedGroup] = useState([]);
 
-
-    const {expensedata,groupName,status} = useExpenseDetailsFetcher(id);
-    const selectedGroup = expensedata;
+    const {expensedata,groupName,status,expenseId} = useExpenseDetailsFetcher(id);
+    // const selectedGroup = !expensedata ? [] : expensedata;
     console.log("ur check",JSON.stringify(selectedGroup))
  
     console.log("expenseGropsumary",JSON.stringify(expenseGroupSummary))
 
     const handleSelectedUser = async(userDetail) =>{
         setErrorContainer("")
+        console.log("idsa",id,userDetail)
         setId(userDetail)
+        
+        if(id!=userDetail) setLoading(true)
+
     }
 
     const handleError = (message) => {
@@ -39,11 +46,12 @@ export default function ExpenseSummary() {
 
     const handleExpenseDelete = async(id) => {
         try{
-
+            if(id == expenseId) setId()
             console.log("deleting id",id)
             await axios.delete(`${process.env.REACT_APP_URL}/expense/deleteExpenseDetails/${id}`,{withCredentials:true})
             const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
             dispatch(loginStart())
+            console.log("sidashl",JSON.stringify(getCurrentLoggedInUpdate.data))
             dispatch(loginSuccess(getCurrentLoggedInUpdate.data))
         }catch(e){
            console.log(e)
@@ -53,8 +61,16 @@ export default function ExpenseSummary() {
     }
 
     useEffect(()=>{
-
-    },[currentUser])
+        console.log("in useEffect")
+        console.log(expensedata)
+        if(expensedata)
+        {
+            setSelectedGroup([...expensedata]);
+        }else{
+            setSelectedGroup([])
+        } 
+        setLoading(false)
+    },[expenseGroupSummary,expensedata])
 
   
 
@@ -86,12 +102,23 @@ export default function ExpenseSummary() {
                 }
             </ul>}
            </div>
-           {selectedGroup?.length != 0 && <div className="expenseGroupExpenditureSummary">
+           {loading && <div className="expenseGroupExpenditureSummary">
+                       <div className="loadingTest"></div>
+                       {Array.from({ length: 5 }, () => 0).map(()=>(
+                         
+                           <ExpenditureLoader/>
+                         
+                       ))}
+                       </div>
+                       
+           }
+           {!loading && selectedGroup?.length != 0 && <div className="expenseGroupExpenditureSummary">
              <h4>{groupName}</h4>
              {
                 selectedGroup?.map((item)=>(
-
+                    <>
                     <ExpenditureInfo individualRecord={item} key={item.id}/>
+                    </>
                 ))
              }
            </div>}

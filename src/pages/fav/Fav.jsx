@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../fav/fav.css'
 import User from '../../components/user/User'
 import FavUser from '../../components/inviteAcceptedUser/FavUser'
@@ -6,14 +6,25 @@ import ExpenseDetails from '../../components/expenseDetails/ExpenseDetails'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { CurrencyRupee, Group, PersonAdd } from '@mui/icons-material'
+import InvitedUsers from '../../components/invitedUsers/InvitedUsers'
+import ExpenseInfoSt from '../../components/expenseInfoSt/ExpenseInfoSt'
+import ExpenseDetailsLoader from '../../components/expenseDetailsloader/ExpenseDetailsLoader'
+import ExpenseInfoStLoader from '../../components/expenseInfoStLoader/ExpenseInfoStLoader'
 
 export default function Fav() {
 
 
-  const user = useSelector((state)=>state.user.user)
-  const group = useSelector((state)=>state.createExpenseGroup.createExpenseGroup)
-  console.log("react redux")
-  console.log(user);
+   const currentUser = useSelector((state)=>state.user.user)
+   const [user,setUser] = useState([]);
+   const [group,setGroup] = useState([]);
+   const [expenseInfo,setExpenseInfo] = useState([]);
+
+  useEffect(()=>{
+      setUser([...currentUser.inviteAcceptedUsers])
+      setGroup([...currentUser.createExpenseGroup])
+      setExpenseInfo([...currentUser.createExpenseInfo])
+},[currentUser])
+
 
   return (
     <div className='favContainer'>
@@ -74,9 +85,7 @@ export default function Fav() {
         </div>
       </div>
       <div className="favWrapper">
-         <div className="favLists">
-          <div className="favListWrapper">
-          <div className="favList">
+          <div className="favListSide">
             <h1 className='favListTitle'>Bookmarked users view</h1>
             {!user || user?.length == 0 ?
             <div className="favListDialogueContainer">
@@ -85,54 +94,54 @@ export default function Fav() {
                <button className='favListDialogueButton'>Add Fav user</button>
                </Link>
             </div>
-            : <ul className='favListUl'>
+            : <ul className='invitedUsersList'>
                 {user?.map((user)=>(
                   <li>
-                    <FavUser className='favItems' user={user}/>
+                    <InvitedUsers className='HomeListValue' user={user}/>
                   </li>
                 ))}
                </ul>
              }
           </div>
+          <div className="favListWrapper">
+          <div className="favList first">
+          <h1 className='favListTitle'>Quick expense access</h1>
+            {group?.length==0 ? 
+              <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
+              <div className="favListDialogueContainer">
+                 Create expense group
+                 <button className='favListDialogueButton'>Create expense group</button>
+              </div>
+              </Link>
+            :<ul className='favListUl'>
+              {group?.map((item)=>(
+                <li>
+                <ExpenseDetails group={item}/>
+                </li>
+              ))
+              }
+            </ul>}
+          </div>
+          <div className="favList second">
+          <h1 className='favListTitle'>Quick expense access</h1>
+            {group?.length==0 ? 
+              <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
+              <div className="favListDialogueContainer">
+                 Create expense group
+                 <button className='favListDialogueButton'>Create expense group</button>
+              </div>
+              </Link>
+            :<ul className='favListUl'>
+              {expenseInfo?.map((item)=>(
+                <li>
+                <ExpenseInfoSt expenseInfo={item}/>
+                </li>
+              ))
+              }
+            </ul>}
+          </div>
+          </div>
 
-          <div className="favList">
-          <h1 className='favListTitle'>Quick expense access</h1>
-            {group.length==0 ? 
-              <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
-              <div className="favListDialogueContainer">
-                 Create expense group
-                 <button className='favListDialogueButton'>Create expense group</button>
-              </div>
-              </Link>
-            :<ul className='favListUl'>
-              {group?.map((item)=>(
-                <li>
-                <ExpenseDetails groupDetail={item}/>
-                </li>
-              ))
-              }
-            </ul>}
-          </div>
-          <div className="favList">
-          <h1 className='favListTitle'>Quick expense access</h1>
-            {group.length==0 ? 
-              <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
-              <div className="favListDialogueContainer">
-                 Create expense group
-                 <button className='favListDialogueButton'>Create expense group</button>
-              </div>
-              </Link>
-            :<ul className='favListUl'>
-              {group?.map((item)=>(
-                <li>
-                <ExpenseDetails groupDetail={item}/>
-                </li>
-              ))
-              }
-            </ul>}
-          </div>
-          </div>
-         </div>
       </div>
 
     </div>
