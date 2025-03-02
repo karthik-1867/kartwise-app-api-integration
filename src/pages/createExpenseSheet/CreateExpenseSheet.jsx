@@ -135,7 +135,10 @@ export default function CreateExpense() {
 
             <div className="CreateExpenseSheetList addition">
               <div className="CreateExpenseSheetInputWrapper">
-                  <h1 className='CreateExpenseSheetTitle'>Create expenses</h1>
+                  <div className="ExpenseGroupTitleAndSubmit"> 
+                    <h1 className='ExpenseGroupTitle'>Create expense</h1>
+                    <button onClick={handleSubmit} className='ExpenseGroupSubmit'>Submit</button>
+                  </div>
                   {errorContainer!="" && <div className="ErrorContainer expenseSummary">
                    {errorContainer}
                   </div>}
@@ -150,6 +153,7 @@ export default function CreateExpense() {
                     ))
                     }
                   </select>
+                  <h4>Enter expense</h4>
                   <div className="CreateExpenseSheetUserAndExpenseContainer">
                     {/* {selectedPerson.length>0 ? 
                       selectedPerson?.map((item)=>(
@@ -184,7 +188,7 @@ export default function CreateExpense() {
 
               </div>
           
-              <button onClick={handleSubmit} className='CreateExpenseSheetSubmit'>Submit</button>
+             
             </div>
           </div>
          </div>

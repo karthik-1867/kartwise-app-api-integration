@@ -39,12 +39,16 @@
 .expenseSummaryLists{
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 20px;
     width: 45%;
     color: gainsboro;
     padding: 15px;
     border-radius: 10px;
     background-color: #8B8CC7;
+}
+
+.expenseSummaryLists h1{
+    font-size: 18px;
 }
 
 .expenseGroupExpenditureSummary{
@@ -63,7 +67,7 @@
 
 .expenseGroupExpenditureSummary h4{
     color: gainsboro;
-    font-size: 24px;
+    font-size: 18px;
 }
 
 .expenseGroupExpenditureSummaryUserDetailsLogo{

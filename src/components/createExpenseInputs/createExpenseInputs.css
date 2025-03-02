@@ -1,9 +1,10 @@
 .CreateExpenseSheetNameUserItem{
-    background-color: #464775;
+    background-color: #6264A7;
     border-radius: 10px;
     padding: 10px;
     flex-wrap: wrap;
     gap: 10px;
+    border:1px solid white;
     display: flex;
     align-items: center;
     justify-content: space-between; 

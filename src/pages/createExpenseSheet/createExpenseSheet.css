@@ -13,6 +13,7 @@
 
 .select{
     width: 100%;
+    color: white;
 }
 
 .CreateExpenseSheetWrapper{
@@ -54,16 +55,17 @@
 
 .CreateExpenseSheetTitle{
     text-align: center;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 500;
     color: gainsboro;
-    margin-bottom: 30px;
+    
 }
 
 .CreateExpenseSheetListInput{
     padding: 15px;
-    background-color: white;
+    background-color: #464775;
     width: 100%;
+    color: white;
     box-sizing: border-box;
     border: none;
     border-radius: 10px;
@@ -76,6 +78,11 @@
     outline: none;
 }
 
+.CreateExpenseSheetListInput::placeholder{
+    font-size: 10px;
+    color: white;
+}
+
 .dialogueContainer1{
     display: flex;
     align-items: center;
@@ -85,7 +92,7 @@
     background-color: #464775;
     color: white;
     border-radius: 10px;
-    height: 20vh;
+    height: 100%;
     font-weight: 500;
     border: 1px solid white;
 }
@@ -169,7 +176,7 @@ box-shadow: 3px 1px 6px 0px rgba(0, 0, 0, 0.75);
 .CreateExpenseSheetList h4{
     font-weight: 500;
     color: gainsboro;
-    font-size: 20px;
+    font-size: 14px;
     text-align: left;
 }
 
@@ -239,5 +246,12 @@ box-shadow: 4px 8px 11px 0px rgba(0,0,0,0.75);
     border-radius: 10px;
 }
 
-
+.CreateExpenseSheetUserAndExpenseContainer{
+    margin-top: 10px;
+    
+    background-color: #464775;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
 

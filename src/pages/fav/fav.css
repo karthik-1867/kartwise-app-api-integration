@@ -33,6 +33,7 @@
 
 .favListSide{
     background-color: #464775; 
+
 }
 
 
@@ -48,10 +49,10 @@
 
 .favListTitle{
     text-align: center;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 500;
     color: gainsboro;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 

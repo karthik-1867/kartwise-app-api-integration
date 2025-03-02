@@ -10,6 +10,15 @@
     border-radius: 10px;
 }
 
+.ExpenseGroupTitleAndSubmit{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid gainsboro;
+}
+
 .CreateExpenseSheetUserAndExpenseContainer{
     display: flex;
     flex-direction: column;
@@ -29,9 +38,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 95%;
+    width: 100%;
     background-color: #464775;
     color: white;
+    margin-bottom: 10px;
     border-radius: 10px;
     height: 20vh;
     font-weight: 500;
@@ -117,28 +127,36 @@
 
 .ExpenseGroupTitle{
     text-align: center;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 500;
     color: gainsboro;
-    margin-bottom: 30px;
 }
 
 .ExpenseGroupListInput{
     padding: 15px;
-    background-color: white;
+    background-color: #464775;
     width: 100%;
+    color: white;
     box-sizing: border-box;
     border: none;
     border-radius: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-
+    margin-bottom: 15px;
 }
+
+.ExpenseGroupListInput:focus{
+    outline: none;
+}
+
+.ExpenseGroupListInput::placeholder{
+    color: white;
+    font-size: 12px;
+}
+
+
 
 .ExpenseGroupListUl,ExpenseGroupListUl1{
     overflow-y: scroll;
     max-height: 70vh;
-    margin-top: 10px;
     width: 95%;
     background-color: #464775;
     display: flex;
@@ -146,6 +164,8 @@
     padding: 10px;
     border-radius: 10px;
 }
+
+
 
 .ad1{
     height: 70vh;
@@ -193,6 +213,11 @@
     margin-bottom: 10px;
 }
 
+.ExpenseGroupName{
+
+}
+
+
 .favDetails{
     flex: 0.7;
     color: #8B8CC7;
@@ -236,8 +261,8 @@ box-shadow: 3px 1px 6px 0px rgba(0, 0, 0, 0.75);
 .ExpenseGroupList h4{
     font-weight: 500;
     color: gainsboro;
-    margin-bottom: 10px;
-    font-size: 20px;
+    margin-bottom: 5px;
+    font-size: 16px;
     text-align: left;
 }
 
@@ -245,13 +270,12 @@ box-shadow: 3px 1px 6px 0px rgba(0, 0, 0, 0.75);
    background-color: white;
    color: #464775;
    padding: 10px;
-   width: 95%;
+   width: 30%;
    border: none;
    border-radius: 10px;
-   margin-top: 10px;
-   margin-bottom: 10px;
+
    font-weight: bold;
-   font-size: 18px;
+   font-size: 14x;
 }
 
 .ExpenseGroupSubmit:hover{

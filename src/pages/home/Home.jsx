@@ -134,17 +134,18 @@ useEffect(()=>{
           <div className="HomeSummaryBoxes">
             <div className="HomeSummaryTitle">
               <CurrencyRupee className='HomeSummaryIcon'/>
-              Expense summary
+              Group Expense summary
             </div>
-            <div className="HomeSummaryBoxDetails">
-              <div className="HomeSummaryAmount">
-                Spent :
-                <span className='HomeAmountSpent'>50054 rs</span>
-              </div>
-              <div className="HomeSummaryAmount">
-                  recived :
-                  <span className='HomeAmountReceived'>50034 rs</span>            
-                </div>
+              <div className="HomeSummaryBoxDetailsGroup">
+                <span className="HomeAmountSpent">
+                  expense : {loggedInUser?.expenditure}rs
+                </span>
+                <span className='HomeAmountReceived'>
+                  recovered : {loggedInUser?.recoveredExpenditure}rs
+                </span>
+                <span className='HomeAmountReceived'>
+                 You paid : {loggedInUser?.paidBack}rs
+                </span>
             </div>
           </div>
           <div className="HomeSummaryBoxes">
@@ -153,13 +154,13 @@ useEffect(()=>{
               Total groups
             </div>
             <div className="HomeSummaryBoxDetailsGroup">
-                <span>
+                <span className='HomeSummaryBoxDetailsGroupSpan'>
                   groups : {loggedInUser?.createExpenseGroup?.length}
                 </span>
-                <span>
+                <span className='HomeSummaryBoxDetailsGroupSpan'>
                   Expense : {loggedInUser?.createExpenseInfo?.length}
                 </span>
-                <span>
+                <span className='HomeSummaryBoxDetailsGroupSpan'>
                 invited users : {loggedInUser?.inviteAcceptedUsers?.length}
                 </span>
             </div>
@@ -170,15 +171,20 @@ useEffect(()=>{
             <div className="InviteRequestWrapper">
               <div className="HomeSummaryTitle">
                 <PersonAdd className='HomeSummaryIcon'/>
-                Invite Request Notification
+                Your expense track
               </div>
+              <span className={loggedInUser?.recived +loggedInUser?.urShare != loggedInUser?.contributed ? 'HomeAmountSpent':'HomeAmountReceived'}>{loggedInUser?.recived +loggedInUser?.urShare != loggedInUser?.contributed ? "status : pending" : "status : AllSettled"}</span>
+              <span className={loggedInUser?.recived +loggedInUser?.urShare != loggedInUser?.contributed ? 'HomeAmountSpent':'HomeAmountReceived'}>{loggedInUser?.recived +loggedInUser?.urShare != loggedInUser?.contributed ? `pending: ${loggedInUser?.contributed - loggedInUser?.urShare - loggedInUser?.recived}rs` : "pending : 0"}</span>
             </div>
             <div className="HomeSummaryBoxDetailsGroup">
-                <span>
-                  pending request : {inviteRequest.length}
+                <span className='HomeAmountSpent'>
+                  you contributed : {loggedInUser?.contributed}
                 </span>
-                <span>
-                  incoming requests : {incomingRequest.length}
+                <span className='HomeAmountReceived'>
+                  received back : {loggedInUser?.recived}
+                </span>
+                <span className='HomeAmountReceived'>
+                  your share : {loggedInUser?.urShare}
                 </span>
             </div>
           </div>

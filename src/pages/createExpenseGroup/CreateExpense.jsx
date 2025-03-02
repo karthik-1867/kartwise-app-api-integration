@@ -111,17 +111,19 @@ export default function CreateExpense() {
 
             <div className="ExpenseGroupList addition">
               <div className="ExpenseGroupListContainer">
-                 
-                <h1 className='ExpenseGroupTitle'>Create expense Group</h1>
+                <div className="ExpenseGroupTitleAndSubmit"> 
+                  <h1 className='ExpenseGroupTitle'>Create expense Group</h1>
+                  <button onClick={submitInputs} className='ExpenseGroupSubmit'>Submit</button>
+                </div>
                 {errorContainer!="" && <div className="ErrorContainer expenseSummary">
                    {errorContainer}
                   </div>}
-                <h4 className='ExpenseGroupName'>Title</h4>
+                
+                   <h4 className='ExpenseGroupName'>Title</h4>
                 <input type="text" placeholder='Enter group name' value={inputs?.title} name='title' onChange={(e)=>inputSet(e)} className='ExpenseGroupListInput'/>
-                <h4>Upload image</h4>
+                <h4 className='ExpenseGroupName'>Upload image</h4>
                 <input type="text" placeholder='Upload image' value={inputs?.uploadImage} name='uploadImage' onChange={(e)=>inputSet(e)} className='ExpenseGroupListInput'/>
-              </div>
-            
+                <h4 className='ExpenseGroupName'>Member</h4>
                 { selectUser?.length == 0 ? 
                     (<div className="dialogueContainer">
                                 Add members from left list
@@ -137,8 +139,7 @@ export default function CreateExpense() {
                       ))}
                     </ul>)
                 }
-
-              <button onClick={submitInputs} className='ExpenseGroupSubmit'>Submit</button>
+              </div>
             </div>
           </div>
          </div>

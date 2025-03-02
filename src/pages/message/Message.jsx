@@ -1,119 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../message/message.css'
 import { Avatar } from '@mui/material'
 import { AttachFile } from '@mui/icons-material'
 import { useSelector } from 'react-redux'
 import ExpenseDetails from '../../components/expenseDetails/ExpenseDetails'
+import Notification from '../../components/notification/Notification'
 
 
 export default function Message() {
-    const group = useSelector((state)=>state.createExpenseGroup.createExpenseGroup)
-  return (
-    <div className='MessageContainer'>
+    const currentUser = useSelector((state)=>state.user.user)
+    const [notifications,setNotifications] = useState([]);
+
+    useEffect(()=>{
+       
+       if(currentUser?.Notifications)
+       {
+        console.log("before",currentUser?.Notifications)
+        const arrayTobeSorted = [...currentUser?.Notifications]
+        const sortedNotification = arrayTobeSorted?.sort((a,b)=>(b.localeCompare(a)))
+       console.log("before af",sortedNotification)
+       setNotifications([...sortedNotification])
+       }
+    },[])
+
+    return (
+    //  <div className="sMessageContainer">
+
       <div className="MessageWrapperAndFilters">
         <div className="MessageWrapperAndHeader">
             <h1>Notification</h1>
             <div className="MessageWrapper">
-
-            <div className="Message recived">
-                <div className="MessageDetails">
-                    <div className="MessageUserName">
-                        <Avatar className='MessageAvatar'/>
-                        karthik
-                    </div>
-                    <span className="MessageTimeStamp">10:30 am</span>
-                </div>
-                <hr/>
-                <span className="MessageContent">Hi how are you. ad wde w dewqd wq dw d wadw dewqsd ewqe qwe qwd eqwed qwe qwe qwd wd eqwed wqweq eqwed</span>
-            </div>
-            <div className="Message recived">
-                <div className="MessageDetails">
-                    <div className="MessageUserName">
-                        <Avatar className='MessageAvatar'/>
-                        karthik
-                    </div>
-                    <span className="MessageTimeStamp">10:30 am</span>
-                </div>
-                <hr/>
-                <span className="MessageContent">Hi how are you. second</span>
-            </div>
-            <div className="Message recived">
-                <div className="MessageDetails">
-                    <div className="MessageUserName">
-                        <Avatar className='MessageAvatar'/>
-                        karthik
-                    </div>
-                    <span className="MessageTimeStamp">10:30 am</span>
-                </div>
-                <hr/>
-                <span className="MessageContent">Hi how are you. ad wde w dewqd wq dw d wadw dewqsd ewqe qwe qwd eqwed qwe qwe qwd wd eqwed wqweq eqwed</span>
-            </div>
-            <div className="Message recived">
-                <div className="MessageDetails">
-                    <div className="MessageUserName">
-                        <Avatar className='MessageAvatar'/>
-                        karthik
-                    </div>
-                    <span className="MessageTimeStamp">10:30 am</span>
-                </div>
-                <hr/>
-                <span className="MessageContent">Hi how are you. ad wde w dewqd wq dw d wadw dewqsd ewqe qwe qwd eqwed qwe qwe qwd wd eqwed wqweq eqwed</span>
-            </div>
-            <div className="Message recived">
-                <div className="MessageDetails">
-                    <div className="MessageUserName">
-                        <Avatar className='MessageAvatar'/>
-                        karthik
-                    </div>
-                    <span className="MessageTimeStamp">10:30 am</span>
-                </div>
-                <hr/>
-                <span className="MessageContent">Hi how are you. ad wde w dewqd wq dw d wadw dewqsd ewqe qwe qwd eqwed qwe qwe qwd wd eqwed wqweq eqwed</span>
-            </div>
-            <div className="Message recived">
-                <div className="MessageDetails">
-                    <div className="MessageUserName">
-                        <Avatar className='MessageAvatar'/>
-                        karthik
-                    </div>
-                    <span className="MessageTimeStamp">10:30 am</span>
-                </div>
-                <hr/>
-                <span className="MessageContent">Hi how are you. ad wde w dewqd wq dw d wadw dewqsd ewqe qwe qwd eqwed qwe qwe qwd wd eqwed wqweq eqwed</span>
-            </div>
-            <div className="Message recived">
-                <div className="MessageDetails">
-                    <div className="MessageUserName">
-                        <Avatar className='MessageAvatar'/>
-                        karthik
-                    </div>
-                    <span className="MessageTimeStamp">10:30 am</span>
-                </div>
-                <hr/>
-                <span className="MessageContent">Hi how are you. ad wde w dewqd wq dw d wadw dewqsd ewqe qwe qwd eqwed qwe qwe qwd wd eqwed wqweq eqwed</span>
-            </div>
-            <div className="Message recived">
-                <div className="MessageDetails">
-                    <div className="MessageUserName">
-                        <Avatar className='MessageAvatar'/>
-                        karthik
-                    </div>
-                    <span className="MessageTimeStamp">10:30 am</span>
-                </div>
-                <hr/>
-                <span className="MessageContent">Hi how are you. ad wde w dewqd wq dw d wadw dewqsd ewqe qwe qwd eqwed qwe qwe qwd wd eqwed wqweq eqwed</span>
-            </div>
-            <div className="Message recived">
-                <div className="MessageDetails">
-                    <div className="MessageUserName">
-                        <Avatar className='MessageAvatar'/>
-                        karthik
-                    </div>
-                    <span className="MessageTimeStamp">10:30 am</span>
-                </div>
-                <hr/>
-                <span className="MessageContent">Hi how are you. ad wde w dewqd wq dw d wadw dewqsd ewqe qwe qwd eqwed qwe qwe qwd wd eqwed wqweq eqwed</span>
-            </div>
+                 {notifications.map((item)=>(
+                     <Notification notifications={item}/>
+                 ))
+                }
             </div>
         </div>  
       <div className="MessageFilter">
@@ -127,18 +47,7 @@ export default function Message() {
         
       </div>
       </div>
-      <div className="InviteList">
-        <h1>Invite List</h1>
-        <ul className='favListUl'>
-            {group?.map((item)=>(
-            <li>
-            <ExpenseDetails groupDetail={item}/>
-            </li>
-            ))
-            }
-        </ul>
+    //  </div>
 
-      </div>
-    </div>
   )
 }

@@ -34,6 +34,7 @@
 
 .EditExpenseChooseGroup h1,.EditExpenseChooseGroup2 h1{
     color: gainsboro;
+    font-size: 18px;
 }
 
 .EditExpenseGroupOwner{
@@ -64,6 +65,7 @@
     align-self: center;
     border-radius: 50%;
     object-fit: cover;
+    border : 2px solid white;
 }
 
 .EditExpenseGroupName{

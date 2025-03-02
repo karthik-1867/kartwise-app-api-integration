@@ -33,17 +33,18 @@ export default function Fav() {
           <div className="HomeSummaryBoxes">
             <div className="HomeSummaryTitle">
               <CurrencyRupee className='HomeSummaryIcon'/>
-              Expense summary
+              Group Expense summary
             </div>
-            <div className="HomeSummaryBoxDetails">
-              <div className="HomeSummaryAmount">
-                Spent :
-                <span className='HomeAmountSpent'>50054 rs</span>
-              </div>
-              <div className="HomeSummaryAmount">
-                  recived :
-                  <span className='HomeAmountReceived'>50034 rs</span>            
-                </div>
+              <div className="HomeSummaryBoxDetailsGroup">
+                <span className="HomeAmountSpent">
+                  expense : {currentUser?.expenditure}rs
+                </span>
+                <span className='HomeAmountReceived'>
+                  recovered : {currentUser?.recoveredExpenditure}rs
+                </span>
+                <span className='HomeAmountReceived'>
+                 You paid : {currentUser?.paidBack}rs
+                </span>
             </div>
           </div>
           <div className="HomeSummaryBoxes">
@@ -52,14 +53,14 @@ export default function Fav() {
               Total groups
             </div>
             <div className="HomeSummaryBoxDetailsGroup">
-                <span>
-                  groups : 4
+                <span className='HomeSummaryBoxDetailsGroupSpan'>
+                  groups : {currentUser?.createExpenseGroup?.length}
                 </span>
-                <span>
-                  Expense : 4
+                <span className='HomeSummaryBoxDetailsGroupSpan'>
+                  Expense : {currentUser?.createExpenseInfo?.length}
                 </span>
-                <span>
-                fav users : 109
+                <span className='HomeSummaryBoxDetailsGroupSpan'>
+                invited users : {currentUser?.inviteAcceptedUsers?.length}
                 </span>
             </div>
           </div>
@@ -69,16 +70,20 @@ export default function Fav() {
             <div className="InviteRequestWrapper">
               <div className="HomeSummaryTitle">
                 <PersonAdd className='HomeSummaryIcon'/>
-                Invite Request Notification
+                Your expense track
               </div>
-             <button className='ExpandRequestButton'>More Info</button>
+              <span className={currentUser?.recived +currentUser?.urShare != currentUser?.contributed ? 'HomeAmountSpent':'HomeAmountReceived'}>{currentUser?.recived +currentUser?.urShare != currentUser?.contributed ? "status : pending" : "status : AllSettled"}</span>
+              <span className={currentUser?.recived +currentUser?.urShare != currentUser?.contributed ? 'HomeAmountSpent':'HomeAmountReceived'}>{currentUser?.recived +currentUser?.urShare != currentUser?.contributed ? `pending: ${currentUser?.contributed - currentUser?.urShare - currentUser?.recived}rs` : "pending : 0"}</span>
             </div>
             <div className="HomeSummaryBoxDetailsGroup">
-                <span>
-                  pending request : 4
+                <span className='HomeAmountSpent'>
+                  you contributed : {currentUser?.contributed}
                 </span>
-                <span>
-                  incoming requests : 4
+                <span className='HomeAmountReceived'>
+                  received back : {currentUser?.recived}
+                </span>
+                <span className='HomeAmountReceived'>
+                  your share : {currentUser?.urShare}
                 </span>
             </div>
           </div>
@@ -86,7 +91,7 @@ export default function Fav() {
       </div>
       <div className="favWrapper">
           <div className="favListSide">
-            <h1 className='favListTitle'>Bookmarked users view</h1>
+            <h1 className='favListTitle'>Invited users</h1>
             {!user || user?.length == 0 ?
             <div className="favListDialogueContainer">
                start adding fav user
@@ -105,7 +110,7 @@ export default function Fav() {
           </div>
           <div className="favListWrapper">
           <div className="favList first">
-          <h1 className='favListTitle'>Quick expense access</h1>
+          <h1 className='favListTitle'>Group</h1>
             {group?.length==0 ? 
               <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
               <div className="favListDialogueContainer">
@@ -123,7 +128,7 @@ export default function Fav() {
             </ul>}
           </div>
           <div className="favList second">
-          <h1 className='favListTitle'>Quick expense access</h1>
+          <h1 className='favListTitle'>expense</h1>
             {group?.length==0 ? 
               <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
               <div className="favListDialogueContainer">
