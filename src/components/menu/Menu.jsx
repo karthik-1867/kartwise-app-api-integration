@@ -5,6 +5,7 @@ import BookIcon from '@mui/icons-material/Book';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import MessageIcon from '@mui/icons-material/Message';
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import { Avatar } from '@mui/material';
 import { Link } from 'react-router-dom';
 
@@ -55,8 +56,14 @@ export default function Menu() {
           </Link>
           <Link to="/message" style={{textDecoration:'none',color:'inherit'}}>
           <div className="MenuItems">              
-            <Notifications/>
-            <span>Notification</span>
+            <PlaylistAddCheckIcon/>
+            <span>Acknowledge</span>
+          </div>
+          </Link>
+          <Link to="/message" style={{textDecoration:'none',color:'inherit'}}>
+          <div className="MenuItems">              
+            <AnnouncementIcon />
+            <span>Debts</span>
           </div>
           </Link>
           <Link to="/" style={{textDecoration:'none',color:'inherit'}}>
