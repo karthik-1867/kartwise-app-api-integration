@@ -10,6 +10,7 @@ import useExpenseDetailsFetcher from '../../customHook/expenseDetailLogic'
 import { loginStart, loginSuccess } from '../../redux/userSlice'
 import ExpenseCardLoadingLoading from '../../components/expenseCardLoading/ExpenseCardLoading'
 import ExpenditureLoader from '../../components/expenditureLoader/ExpenditureLoader'
+import { io } from "socket.io-client";
 
 export default function ExpenseSummary() {
 
@@ -18,7 +19,8 @@ export default function ExpenseSummary() {
     const [id,setId] = useState();
     const [errorContainer,setErrorContainer] = useState("");
     const currentUser = useSelector((state)=>state.user.user)
-    const expenseGroupSummary = currentUser.createExpenseInfo
+    // const expenseGroupSummary = currentUser.createExpenseInfo
+    const [expenseGroupSummary,setExpenseSummary] = useState([]);
     console.log("sidashl",expenseGroupSummary);
     const dispatch = useDispatch();
     const [loading,setLoading] = useState();
@@ -70,7 +72,40 @@ export default function ExpenseSummary() {
             setSelectedGroup([])
         } 
         setLoading(false)
-    },[expenseGroupSummary,expensedata])
+    },[expensedata])
+
+    useEffect(()=>{
+          const socket = io("https://kartwise-backend-with-websocket-test.onrender.com", {
+            withCredentials: true,
+          });
+        
+          socket.on("connect", () => {
+            console.log("Socket connected", socket.id);
+          });
+    
+    
+            const fetchUser =async()=>{
+              console.log(process.env.REACT_APP_URL);
+              try{
+                const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
+                dispatch(loginStart())
+                dispatch(loginSuccess(getCurrentLoggedInUpdate.data))
+
+                setExpenseSummary([...getCurrentLoggedInUpdate.data.createExpenseInfo])
+              }catch(e){
+                console.log("error"+e.message)
+              }
+            }
+         
+          socket.on("expenseUpdated", () => {
+            console.log("Expense update received");
+            fetchUser(); 
+          });
+        
+            return () => {
+              socket.disconnect();
+            };
+    },[])
 
   
 
