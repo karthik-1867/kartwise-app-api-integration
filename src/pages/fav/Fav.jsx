@@ -3,7 +3,7 @@ import '../fav/fav.css'
 import User from '../../components/user/User'
 import FavUser from '../../components/inviteAcceptedUser/FavUser'
 import ExpenseDetails from '../../components/expenseDetails/ExpenseDetails'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { CurrencyRupee, Group, PersonAdd } from '@mui/icons-material'
 import InvitedUsers from '../../components/invitedUsers/InvitedUsers'
@@ -11,6 +11,8 @@ import ExpenseInfoSt from '../../components/expenseInfoSt/ExpenseInfoSt'
 import ExpenseDetailsLoader from '../../components/expenseDetailsloader/ExpenseDetailsLoader'
 import ExpenseInfoStLoader from '../../components/expenseInfoStLoader/ExpenseInfoStLoader'
 import { io } from "socket.io-client";
+import { loginStart, loginSuccess } from '../../redux/userSlice'
+import axios from 'axios';
 
 export default function Fav() {
 
@@ -18,6 +20,7 @@ export default function Fav() {
    const [user,setUser] = useState([]);
    const [group,setGroup] = useState([]);
    const [expenseInfo,setExpenseInfo] = useState([]);
+    const dispatch = useDispatch();
 
   useEffect(()=>{
       const socket = io("https://kartwise-backend-with-websocket-test.onrender.com", {
