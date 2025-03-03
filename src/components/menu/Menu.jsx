@@ -67,6 +67,12 @@ export default function Menu() {
             <span>Debts</span>
           </div>
           </Link>
+          <Link to="/message" style={{textDecoration:'none',color:'inherit'}}>
+          <div className="MenuItems">              
+            <Notifications />
+            <span>Notifications</span>
+          </div>
+          </Link>
           <Link to="/" style={{textDecoration:'none',color:'inherit'}}>
           <div className="MenuItems">
             <Logout/>
