@@ -38,7 +38,7 @@ export default function Fav() {
             setUser([])
             const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
             dispatch(loginStart())
-            dispatch(loginSuccess(getCurrentLoggedInUpdate.data)).
+            dispatch(loginSuccess(getCurrentLoggedInUpdate.data))
             
             setUser([...getCurrentLoggedInUpdate.data.inviteAcceptedUsers])
             setGroup([...getCurrentLoggedInUpdate.data.createExpenseGroup])
