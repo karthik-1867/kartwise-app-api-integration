@@ -24,7 +24,7 @@ export default function ExpenseSummary() {
     console.log("sidashl",expenseGroupSummary);
     const dispatch = useDispatch();
     const [loading,setLoading] = useState();
-    const [mainloading,setMainLoading] = useState(false);
+    const [mainloading,setMainLoading] = useState(true);
     const [selectedGroup,setSelectedGroup] = useState([]);
 
     const {expensedata,groupName,status,expenseId} = useExpenseDetailsFetcher(id);
