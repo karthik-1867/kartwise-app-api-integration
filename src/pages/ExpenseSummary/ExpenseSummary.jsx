@@ -87,6 +87,7 @@ export default function ExpenseSummary() {
             const fetchUser =async()=>{
               console.log(process.env.REACT_APP_URL);
               try{
+                setExpenseSummary([]);
                 const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
                 dispatch(loginStart())
                 dispatch(loginSuccess(getCurrentLoggedInUpdate.data))
