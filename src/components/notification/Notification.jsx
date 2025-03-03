@@ -27,7 +27,7 @@ export default function Notification({notifications}) {
 
   return (
       <>
-      {loading ?
+      {loading ? 
        <NotificationLoading/>
       :
       <div className="Message recived">

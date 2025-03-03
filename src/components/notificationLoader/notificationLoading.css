@@ -1,0 +1,221 @@
+.NotificationLoadingContainer{
+    display: flex;
+
+    width: 100%;
+    margin: 10px;
+    height: 90vh;
+    position: sticky;
+    border-radius: 10px;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    background-color: #6264A7;
+}
+
+.NotificationLoadingWrapperAndHeader{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+
+
+.InviteList{
+    flex: 1;
+    background-color: #3B3C5C;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 10px;
+}
+
+.NotificationLoadingWrapperAndFilters{
+    display: flex;
+    width: 100%;
+    background-color: #6264A7;
+    
+    height: 90vh;
+    padding: 10px;
+    gap: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+    border-radius: 10px;
+    margin: 10px !important;
+    border: 1px solid white;
+}
+
+.NotificationLoadingWrapper{
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    
+    box-sizing: border-box;
+    gap: 10px;
+    flex: 1;
+    border-radius: 10px;
+    background-color: #8B8CC7 ;
+    padding: 10px;
+    overflow-y: scroll;
+}
+
+.InviteList h1,.NotificationLoadingWrapperAndHeader h1,.NotificationLoadingFilter h1{
+   color: gainsboro;
+}
+
+.NotificationLoadingFilter{
+    flex: 0.3;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+
+}
+
+.NotificationLoadingHighPriorty,.NotificationLoadingLowPriority{
+   padding: 10px;
+   background-color: #8B8CC7;
+   color: white;
+   border-radius: 10px;
+   border: 1px solid white;
+   font-weight: 800;
+}
+
+.NotificationLoadingFilter h1{
+    background-color: #3B3C5C;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.NotificationLoading{
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    padding: 10px;
+    border-radius: 10px;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #3B3C5C;
+    
+    border: 1px solid white;
+}
+
+.recived{
+    align-self: flex-start;
+    color: gainsboro;
+}
+
+.sender{
+    align-self: flex-end;
+    color: #6264A7;
+    background-color: gainsboro;
+}
+
+.recived .NotificationLoadingUserName, .sender .NotificationLoadingUserName{
+    font-size: 24px;
+    font-weight: 500;
+    width: 80%;
+}
+
+.NotificationLoadingAvatar{
+    width: 32px;
+    height: 32px;
+}
+
+.NotificationLoadingDetails{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.NotificationLoadingUserName{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.NotificationLoading hr{
+    width: 95;
+    border: 1px solid gray;
+}
+
+
+.sender hr{
+    width: 95;
+    border: 1px solid #6264A7 
+}
+
+.inputs{
+    padding: 10px;
+    align-items: center;
+    display: flex;
+   justify-content:space-between ;
+    width: 70%;
+    border-radius: 10px;
+    background-color: white;
+    color: #6264A7;
+}
+
+.inputsButton{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+
+
+
+.inputs input{
+    width: 300px;
+    border: none;
+}
+
+.inputs input:focus{
+    outline: none;
+}
+
+.inputs input::-webkit-input-placeholder{
+    color: #6264A7;
+}
+
+.sendNotificationLoading{
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    background-color: #6264A7;
+}
+
+.NotificationLoadingDetail{
+    padding: 5px;
+    width: 10%;
+    font-size: 14px;
+    background-color: #8B8CC7;
+    border-radius: 10px;
+    border: 1px solid white;
+}
+
+.NotificationLoadingContent{
+    padding: 10px;
+    background-color: gray;
+    width: 70%;
+    border-radius: 10px;
+}
+
+.NotificationLoadingImage{
+    background-color: gray;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+
+.NotificationLoadingTimeStamp{
+    width: 10%;
+    background-color: gray;
+    border-radius: 10px;
+    padding: 10px;
+}
