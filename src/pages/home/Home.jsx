@@ -248,7 +248,7 @@ useEffect(()=>{
           </div>
 
          }
-         {!loading && inviteAcceptedUser?.length == 0  ?
+         {!loading && (inviteAcceptedUser?.length == 0  ?
               <div className={inviteAcceptedUser?.length == 0 ? 'HomeAllUserDialogueContainer' : 'HomeAllUserDialogueContainer added'}>
               <span className='HomeAllUserDialogueContainerText'>
               {inviteAcceptedUser?.length == 0 || !inviteAcceptedUser ? 'Waiting for your friend approval request' : 'U have added fav user u can start creating groups. if you want to add few more you can continue the choosing users from Global users'}
@@ -268,7 +268,7 @@ useEffect(()=>{
             }
           </ul>
           
-         </div>}
+         </div>)}
       </div>
       <div className="InviteWrapper">
         <div className="ChooseInviteView">
