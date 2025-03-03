@@ -40,9 +40,9 @@ export default function Fav() {
             dispatch(loginStart())
             dispatch(loginSuccess(getCurrentLoggedInUpdate.data)).
             
-            setUser([...getCurrentLoggedInUpdate.inviteAcceptedUsers])
-            setGroup([...getCurrentLoggedInUpdate.createExpenseGroup])
-            setExpenseInfo([...getCurrentLoggedInUpdate.createExpenseInfo])
+            setUser([...getCurrentLoggedInUpdate.data.inviteAcceptedUsers])
+            setGroup([...getCurrentLoggedInUpdate.data.createExpenseGroup])
+            setExpenseInfo([...getCurrentLoggedInUpdate.data.createExpenseInfo])
           }catch(e){
             console.log("error"+e.message)
           }
