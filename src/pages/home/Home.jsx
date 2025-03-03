@@ -15,7 +15,7 @@ import IncomingInviteRequest from '../../components/incomingInvite/IncomingInvit
 import InvitedUsers from '../../components/invitedUsers/InvitedUsers';
 import { usersFetchStart, usersFetchSuccess, usersUpdateRemovedUser } from '../../redux/allUsersSlice';
 import HomeLoadingComponent from '../../components/homeLoaderComponent/HomeLoadingComponent';
-
+import { io } from "socket.io-client";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -95,6 +95,14 @@ const rejectInvitedUser = async(user) => {
 
 
 useEffect(()=>{
+  const socket = io("https://kartwise-backend-with-websocket-test.onrender.com", {
+    withCredentials: true,
+  });
+
+  socket.on("connect", () => {
+    console.log("Socket connected", socket.id);
+  });
+
   const fetchUser =async()=>{
     console.log(process.env.REACT_APP_URL);
     try{
@@ -123,7 +131,14 @@ useEffect(()=>{
     }
   }
 
-  fetchUser();
+  socket.on("expenseUpdated", () => {
+    console.log("Expense update received");
+    fetchUser(); 
+  });
+
+    return () => {
+      socket.disconnect();
+    };
 },[])
 
 
