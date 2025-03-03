@@ -10,9 +10,9 @@ import InvitedUsers from '../../components/invitedUsers/InvitedUsers'
 import ExpenseInfoSt from '../../components/expenseInfoSt/ExpenseInfoSt'
 import ExpenseDetailsLoader from '../../components/expenseDetailsloader/ExpenseDetailsLoader'
 import ExpenseInfoStLoader from '../../components/expenseInfoStLoader/ExpenseInfoStLoader'
+import { io } from "socket.io-client";
 
 export default function Fav() {
-
 
    const currentUser = useSelector((state)=>state.user.user)
    const [user,setUser] = useState([]);
@@ -20,10 +20,40 @@ export default function Fav() {
    const [expenseInfo,setExpenseInfo] = useState([]);
 
   useEffect(()=>{
-      setUser([...currentUser.inviteAcceptedUsers])
-      setGroup([...currentUser.createExpenseGroup])
-      setExpenseInfo([...currentUser.createExpenseInfo])
-},[currentUser])
+      const socket = io("https://kartwise-backend-with-websocket-test.onrender.com", {
+        withCredentials: true,
+      });
+    
+      socket.on("connect", () => {
+        console.log("Socket connected", socket.id);
+      });
+
+
+        const fetchUser =async()=>{
+          console.log(process.env.REACT_APP_URL);
+          try{
+            setUser([])
+            const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
+            dispatch(loginStart())
+            dispatch(loginSuccess(getCurrentLoggedInUpdate.data)).
+            
+            setUser([...getCurrentLoggedInUpdate.inviteAcceptedUsers])
+            setGroup([...getCurrentLoggedInUpdate.createExpenseGroup])
+            setExpenseInfo([...getCurrentLoggedInUpdate.createExpenseInfo])
+          }catch(e){
+            console.log("error"+e.message)
+          }
+        }
+     
+      socket.on("expenseUpdated", () => {
+        console.log("Expense update received");
+        fetchUser(); 
+      });
+    
+        return () => {
+          socket.disconnect();
+        };
+},[])
 
 
   return (
