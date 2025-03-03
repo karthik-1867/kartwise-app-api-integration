@@ -24,6 +24,7 @@ export default function ExpenseSummary() {
     console.log("sidashl",expenseGroupSummary);
     const dispatch = useDispatch();
     const [loading,setLoading] = useState();
+    const [mainloading,setMainLoading] = useState(false);
     const [selectedGroup,setSelectedGroup] = useState([]);
 
     const {expensedata,groupName,status,expenseId} = useExpenseDetailsFetcher(id);
@@ -87,12 +88,14 @@ export default function ExpenseSummary() {
             const fetchUser =async()=>{
               console.log(process.env.REACT_APP_URL);
               try{
+                setMainLoading(true)
                 setExpenseSummary([]);
                 const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
                 dispatch(loginStart())
                 dispatch(loginSuccess(getCurrentLoggedInUpdate.data))
 
                 setExpenseSummary([...getCurrentLoggedInUpdate.data.createExpenseInfo])
+                setMainLoading(false)
               }catch(e){
                 console.log("error"+e.message)
               }
@@ -120,14 +123,23 @@ export default function ExpenseSummary() {
                {errorContainer}
          </div>}
             {expenseGroupSummary?.length == 0 || !expenseGroupSummary ? 
-            <div className="expenseSummaryDialogue">
+            (mainloading ? 
+                    <ul className="expenseSummaryList">
+                       {Array.from({ length: 5 }, () => 0).map(()=>(
+                            <li>
+                                <ExpenseCardLoadingLoading/>
+                            </li>
+                        ))}
+                   </ul>
+                :
+             <div className="expenseSummaryDialogue">
                 Add fav user and start creating expense groups
                 <Link to="/" style={{textDecoration:'none',color:'inherit'}}>
                 <button className="expenseSummaryDialogueButton">
                     Add fav user
                 </button>
                 </Link>
-            </div>
+            </div>)
             :
             <ul className="expenseSummaryList">
                 {expenseGroupSummary?.map((item)=>(
