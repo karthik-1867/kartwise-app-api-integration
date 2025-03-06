@@ -1,0 +1,40 @@
+.requestButton{
+    padding: 10px;
+    color: #464775;
+    background-color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.AcceptOrReject{
+    display: flex;
+    gap: 10px;
+}
+
+.ackDialogueContainer{
+    width: 100%;
+    height: 100%;
+    background-color: grey;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ackDialogue{
+    padding: 10px;
+    background-color: green;
+    color: white;
+    border-radius: 10px;
+    border: 1px solid white;
+}
+
+.requestButton:hover{
+    background-color: #464775;
+    color: white;
+    border: 1px solid white;
+}
+
+

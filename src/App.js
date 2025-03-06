@@ -14,6 +14,8 @@ import EditExpenseGroup from "./pages/EditExpenseGroup/EditExpenseGroup";
 import UpdateExpense from "./pages/updateExpense/UpdateExpense";
 import ProtectRoute from "./ProtectRoute";
 import Cookies from "js-cookie";
+import Debts from "./pages/debts/Debts";
+import AcknowledgeMessage from "./pages/acknowledge/AcknowledgeMessage";
 
 function App() {
   const authToken = Cookies.get('access_token'); 
@@ -35,6 +37,8 @@ function App() {
                  <Route path="" element={<ProtectRoute element={<ExpenseSummary/>}/>} />
                  <Route path=":id" element={<ProtectRoute element={<UpdateExpense/>}/>} />
               </Route>
+              <Route path="/debts" element={<Debts />} />
+              <Route path="/acknowledge" element={<AcknowledgeMessage />} />
               <Route path="/message" element={<Message />} />
             </Route>
           </Routes>

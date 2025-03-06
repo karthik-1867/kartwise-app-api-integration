@@ -76,7 +76,7 @@ export default function ExpenseSummary() {
     },[expensedata])
 
     useEffect(()=>{
-          const socket = io("https://kartwise-backend-with-websocket-test.onrender.com", {
+          const socket = io(`${process.env.REACT_APP_URL}`, {
             withCredentials: true,
           });
         

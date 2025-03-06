@@ -24,9 +24,10 @@ export default function Home() {
   const [dialogue,setDialogue] = useState(false);
   const loggedInUser = useSelector((state)=>state.user.user)
   const [loading,setLoading] = useState(false);
+  const [sentaidBack,setSentaidBack] = useState();
   //to be removed
   const [users,setUsers] = useState(Users);
-  
+
   const [allUser,setAllUsers] = useState([]);
   const [inviteRequest,setInviteRequest] = useState([]);
   const [inviteAcceptedUser,setInviteAcceptedUser] = useState([]);
@@ -34,8 +35,8 @@ export default function Home() {
   const [errorContainer,setErrorContainer] = useState("");
   console.log("allUser",JSON.stringify(allUser))
 
-  
-  
+
+
   const [addFavUser,setAddFavUser] = useState([])
   // console.log(users)
 
@@ -95,7 +96,7 @@ const rejectInvitedUser = async(user) => {
 
 
 useEffect(()=>{
-  const socket = io("https://kartwise-backend-with-websocket-test.onrender.com", {
+  const socket = io(`${process.env.REACT_APP_URL}`, {
     withCredentials: true,
   });
 
@@ -114,13 +115,13 @@ useEffect(()=>{
       const users = await axios.get(`${process.env.REACT_APP_URL}/user/getAllUser`,{withCredentials:true})
       const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${loggedInUser._id}`,{withCredentials:true})
       console.log("global ",users.data)
-      dispatch(loginStart)
+      dispatch(loginStart())
       dispatch(loginSuccess(getCurrentLoggedInUpdate.data))
 
       dispatch(usersFetchStart());
       dispatch(usersFetchSuccess(getCurrentLoggedInUpdate.data.inviteAcceptedUsers))
       setAllUsers(users.data)
-      
+
       setInviteRequest([...inviteRequest, ... getCurrentLoggedInUpdate.data.PendingInviteRequest])
       setIncomingRequest([...incomingRequest,...getCurrentLoggedInUpdate.data.inviteRequest])
       setInviteAcceptedUser([...inviteAcceptedUser, ...getCurrentLoggedInUpdate.data.inviteAcceptedUsers])
@@ -133,7 +134,7 @@ useEffect(()=>{
 
   socket.on("expenseUpdated", () => {
     console.log("Expense update received");
-    fetchUser(); 
+    fetchUser();
   });
 
     return () => {
@@ -210,7 +211,7 @@ useEffect(()=>{
         {errorContainer}
       </div>}
       <div className="NormalContainer">
-      <div className="HomeWrapper">      
+      <div className="HomeWrapper">
          <div className="HomeAllUsers">
           <h1>Global users</h1>
           {dialogue && <span className='HomeListPopUp'>Already exist</span>}
@@ -230,7 +231,7 @@ useEffect(()=>{
             </>
             }
           </ul>
-        
+
          </div>
          {
            loading &&
@@ -248,27 +249,35 @@ useEffect(()=>{
           </div>
 
          }
-         {!loading && (inviteAcceptedUser?.length == 0  ?
-              <div className={inviteAcceptedUser?.length == 0 ? 'HomeAllUserDialogueContainer' : 'HomeAllUserDialogueContainer added'}>
+         {inviteAcceptedUser?.length == 0  ?
+
+             <>
+             {!loading && <div className={inviteAcceptedUser?.length == 0 ? 'HomeAllUserDialogueContainer' : 'HomeAllUserDialogueContainer added'}>
               <span className='HomeAllUserDialogueContainerText'>
               {inviteAcceptedUser?.length == 0 || !inviteAcceptedUser ? 'Waiting for your friend approval request' : 'U have added fav user u can start creating groups. if you want to add few more you can continue the choosing users from Global users'}
               </span>
-              </div>
-         : <div className="HomeAllUsers preview">
-          <h1>Invited User</h1>
-          <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
-          <button  className='HomeButton'>Create group</button>
-          </Link>
-          <ul className='HomeList'>
-            {inviteAcceptedUser?.map((user)=>(
-            <li>
-            <InvitedUsers user={user} className='HomeListValue'  key={user} rejectInvitedUser={rejectInvitedUser}/>
-            </li>
-            ))
+              </div>}
+             </>
+         :
+
+          <div className="HomeAllUsers preview">
+            <h1>Invited User</h1>
+            <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
+            <button  className='HomeButton'>Create group</button>
+            </Link>
+              <ul className='HomeList'>
+              {inviteAcceptedUser?.map((user)=>(
+                <li>
+              <InvitedUsers user={user} className='HomeListValue'  key={user} rejectInvitedUser={rejectInvitedUser}/>
+              </li>
+              ))
             }
-          </ul>
-          
-         </div>)}
+            </ul>
+
+          </div>
+
+
+         }
       </div>
       <div className="InviteWrapper">
         <div className="ChooseInviteView">
@@ -287,14 +296,14 @@ useEffect(()=>{
         {requestType == "pending" ?
           <div className="InviteDetails">
           <h1>Pending request</h1>
-          
+
           {
           inviteRequest.length!=0 ?
           <ul className='InvitependingList'>
-          {inviteRequest?.map((user)=>( 
+          {inviteRequest?.map((user)=>(
           <li>
             <PendingInviteRequest userData={user} key={user} removePendingUser={removePendingUser} className='HomeListValue'/>
-            </li> 
+            </li>
             ))}
             </ul>
             :
@@ -308,13 +317,13 @@ useEffect(()=>{
               }
              </ul>
              ):
-            (<div className='HomeAllUserDialogueContainerForPendingRequest'>
+            (!loading && <div className='HomeAllUserDialogueContainerForPendingRequest'>
             <span className='HomeAllUserDialogueContainerForPendingRequestText'>
-              'start sending invites.' 
+              start sending invites.
             </span>
             </div>)
          }
-        </div> : 
+        </div> :
         <div className="InviteDetails">
           <h1>Incoming request</h1>
           { incomingRequest.length!=0 ?
@@ -325,10 +334,10 @@ useEffect(()=>{
             </li>
           ))}
           </ul>
-          : 
+          :
           (<div className='HomeAllUserDialogueContainerForPendingRequest'>
           <span className='HomeAllUserDialogueContainerForPendingRequestText'>
-            'No incoming request' 
+            'No incoming request'
           </span>
           </div>)
         }

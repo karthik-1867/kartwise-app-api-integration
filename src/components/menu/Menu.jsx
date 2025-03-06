@@ -25,7 +25,7 @@ export default function Menu() {
             <Link to="/fav" style={{textDecoration:'none',color:'inherit'}}>
             <div className="MenuItems">
               <BookIcon/>
-              <span>Dashboard</span> 
+              <span>Dashboard</span>
             </div>
             </Link>
             <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
@@ -55,20 +55,20 @@ export default function Menu() {
             <span>Edit Expense</span>
           </div>
           </Link>
-          <Link to="/message" style={{textDecoration:'none',color:'inherit'}}>
-          <div className="MenuItems">              
+          <Link to="/acknowledge" style={{textDecoration:'none',color:'inherit'}}>
+          <div className="MenuItems">
             <PlaylistAddCheckIcon/>
             <span>Acknowledge</span>
           </div>
           </Link>
-          <Link to="/message" style={{textDecoration:'none',color:'inherit'}}>
-          <div className="MenuItems">              
+          <Link to="/debts" style={{textDecoration:'none',color:'inherit'}}>
+          <div className="MenuItems">
             <AnnouncementIcon />
             <span>Debts</span>
           </div>
           </Link>
           <Link to="/message" style={{textDecoration:'none',color:'inherit'}}>
-          <div className="MenuItems">              
+          <div className="MenuItems">
             <Notifications />
             <span>Notifications</span>
           </div>
@@ -90,11 +90,11 @@ export default function Menu() {
             <Avatar/>
             <span>Manali</span>
           </div>
-          <div className="MenuItems">              
+          <div className="MenuItems">
             <Avatar/>
             <span>Coimature</span>
           </div>
-          
+
          </div>
       </div>
     </div>
