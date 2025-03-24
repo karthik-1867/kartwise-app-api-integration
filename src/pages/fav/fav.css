@@ -32,7 +32,7 @@
 }
 
 .favListSide{
-    background-color: #464775; 
+    background-color: #464775;
 
 }
 
@@ -74,7 +74,8 @@
     width: 100%;
     box-sizing: border-box;
     background-color: gray;
-    height: fit-content;
+    height: 94%;
+    overflow-y: scroll;
 }
 
 .favListDialogueContainer{
@@ -112,13 +113,13 @@
     flex: 2;
     padding: 10px;
     padding-right: 20px;
-   
+
 }
 
 .favDetails{
     flex: 1;
      /* Makes the inside transparent */
-    
+
     padding: 20px;
     display: flex;
     font-weight: 500;

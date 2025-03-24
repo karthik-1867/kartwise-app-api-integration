@@ -32,7 +32,7 @@ export default function AckCard({ackid}) {
                 </span>
                 <div className="ExpenseOwnerAndSettlementInfo">
                     <span className='expenseCardExpenditurespent'>owner : {ack?.owner}</span>
-                    {ack?.paidBack && <span className='expenseCardExpenditurespent'>payment sent : {ack.paidBack}</span>}
+                    {ack && <span className='expenseCardExpenditurespent'>payment sent : {ack.paidBack}</span>}
                     {ack?.acknowledgeStatus && <span className='expenseCardExpenditurespent'>acknowlegde Status : {ack.acknowledgeStatus}</span>}
                 </div>
         </div>

@@ -11,51 +11,45 @@ import ExpenseInfoSt from '../../components/expenseInfoSt/ExpenseInfoSt'
 import ExpenseDetailsLoader from '../../components/expenseDetailsloader/ExpenseDetailsLoader'
 import ExpenseInfoStLoader from '../../components/expenseInfoStLoader/ExpenseInfoStLoader'
 import { io } from "socket.io-client";
+import axios from 'axios'
 import { loginStart, loginSuccess } from '../../redux/userSlice'
-import axios from 'axios';
-
+import HomeLoadingComponent from '../../components/homeLoaderComponent/HomeLoadingComponent'
 export default function Fav() {
 
    const currentUser = useSelector((state)=>state.user.user)
    const [user,setUser] = useState([]);
    const [group,setGroup] = useState([]);
    const [expenseInfo,setExpenseInfo] = useState([]);
-    const dispatch = useDispatch();
+   const [loading,setLoading] = useState(false);
+   const dispatch = useDispatch()
 
   useEffect(()=>{
       const socket = io(`${process.env.REACT_APP_URL}`, {
         withCredentials: true,
       });
-    
+
       socket.on("connect", () => {
         console.log("Socket connected", socket.id);
       });
 
+    const settingFields = async() => {
+      setLoading(true)
+      const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
 
-        const fetchUser =async()=>{
-          console.log(process.env.REACT_APP_URL);
-          try{
-            setUser([])
-            const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
-            dispatch(loginStart())
-            dispatch(loginSuccess(getCurrentLoggedInUpdate.data))
-            
-            setUser([...getCurrentLoggedInUpdate.data.inviteAcceptedUsers])
-            setGroup([...getCurrentLoggedInUpdate.data.createExpenseGroup])
-            setExpenseInfo([...getCurrentLoggedInUpdate.data.createExpenseInfo])
-          }catch(e){
-            console.log("error"+e.message)
-          }
-        }
-     
-      socket.on("expenseUpdated", () => {
-        console.log("Expense update received");
-        fetchUser(); 
-      });
-    
-        return () => {
-          socket.disconnect();
-        };
+      dispatch(loginStart())
+      dispatch(loginSuccess(getCurrentLoggedInUpdate.data))
+
+      setUser([...getCurrentLoggedInUpdate.data.inviteAcceptedUsers])
+      setGroup([...getCurrentLoggedInUpdate.data.createExpenseGroup])
+      setExpenseInfo([...getCurrentLoggedInUpdate.data.createExpenseInfo])
+      setLoading(false)
+  }
+
+
+  socket.on("expenseUpdated", () => {
+    console.log("Expense update received");
+    settingFields();
+  });
 },[])
 
 
@@ -126,16 +120,25 @@ export default function Fav() {
           <div className="favListSide">
             <h1 className='favListTitle'>Invited users</h1>
             {!user || user?.length == 0 ?
+            (loading ?
+              <ul className='invitedUsersList'>
+              {Array.from({ length: 20 }, () => 0).map(()=>(
+                      <li>
+                        <HomeLoadingComponent className='HomeListValue'/>
+                      </li>
+               ))}
+             </ul>
+              :
             <div className="favListDialogueContainer">
                start adding fav user
                <Link to="/" style={{textDecoration:'none',color:'inherit'}}>
                <button className='favListDialogueButton'>Add Fav user</button>
                </Link>
-            </div>
+            </div>)
             : <ul className='invitedUsersList'>
                 {user?.map((user)=>(
-                  <li>
-                    <InvitedUsers className='HomeListValue' user={user}/>
+                  <li style={{marginBottom:"5px"}}>
+                    <InvitedUsers  user={user}/>
                   </li>
                 ))}
                </ul>
@@ -144,13 +147,24 @@ export default function Fav() {
           <div className="favListWrapper">
           <div className="favList first">
           <h1 className='favListTitle'>Group</h1>
-            {group?.length==0 ? 
+            {group?.length==0 ?
+              (
+                loading ?
+                <ul className='favListUl'>
+                {Array.from({ length: 20 }, () => 0).map(()=>(
+                        <li>
+                          <ExpenseDetailsLoader/>
+                        </li>
+                 ))}
+               </ul>
+                :
+
               <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
               <div className="favListDialogueContainer">
                  Create expense group
                  <button className='favListDialogueButton'>Create expense group</button>
               </div>
-              </Link>
+              </Link>)
             :<ul className='favListUl'>
               {group?.map((item)=>(
                 <li>
@@ -162,13 +176,23 @@ export default function Fav() {
           </div>
           <div className="favList second">
           <h1 className='favListTitle'>expense</h1>
-            {group?.length==0 ? 
+            {group?.length==0 ?
+              (
+                loading ?
+                <ul className='favListUl'>
+                {Array.from({ length: 20 }, () => 0).map(()=>(
+                        <li>
+                          <ExpenseInfoStLoader/>
+                        </li>
+                 ))}
+               </ul>
+                :
               <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
               <div className="favListDialogueContainer">
                  Create expense group
                  <button className='favListDialogueButton'>Create expense group</button>
               </div>
-              </Link>
+              </Link>)
             :<ul className='favListUl'>
               {expenseInfo?.map((item)=>(
                 <li>

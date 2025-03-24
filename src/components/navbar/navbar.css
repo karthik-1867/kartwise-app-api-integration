@@ -19,8 +19,30 @@
     font-size: 40px;
     font-weight: 900;
     color: transparent;
-    letter-spacing: 3px;
-    -webkit-text-stroke: 0.6px white;
+    display: flex;
+
+}
+
+.LogoFirst{
+    background-color: green;
+   color: white;
+   -webkit-text-stroke: 0.4px #6264A7;
+   border-bottom-left-radius: 10px;
+   border: 1px solid white;
+}
+
+.NavLogoSecond{
+   border-top-right-radius: 10px;
+   backdrop-filter: blur(100px);
+   color: red;
+   -webkit-text-stroke: 0.3px white;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+   background: rgba(255, 255, 255, 0.1);
+   background-color: #464775;
+   border: 0.3px solid white;
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 
 .NavbarLoginLogo{

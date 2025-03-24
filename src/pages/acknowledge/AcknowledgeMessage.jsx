@@ -4,14 +4,15 @@ import AckMessageCard from '../../components/ackMessageCard/AckMessageCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginStart, loginSuccess } from '../../redux/userSlice'
 import axios from 'axios'
+import { io } from "socket.io-client";
 
 export default function AcknowledgeMessage() {
       const [errorContainer,setErrorContainer] = useState()
       const [ackMessage,setAckMessage] = useState([])
       const currentUser = useSelector((state)=>state.user.user)
       const dispatch = useDispatch();
-    
-      
+
+
       const acceptRequest = async(accept) => {
 
           console.log(accept)
@@ -19,20 +20,20 @@ export default function AcknowledgeMessage() {
             const {ownerid,expense,paidBack,groupid,_id} = accept
           await axios.post(`${process.env.REACT_APP_URL}/expense/updateExpenseDetails/${groupid}`,{users:[{id:ownerid,expense:expense,paidBack:paidBack}]},{withCredentials:true})
           const result = await axios.post(`${process.env.REACT_APP_URL}/acknowledge/updateAcceptOrRejectMessage/${_id}`,{acknowledgeStatus:"accept"},{withCredentials:true})
-          
+
           GetMessage()
           console.log("resuk",result)
-          
+
           }catch(e){
             console.log(e)
           }
-         
+
           // try{
         //     setLoading(true)
         //     const UpdateInput = inputs.users.map((i)=>{return {id:i.id,paidBack:i.paidBack,expense:i.expense}});
         //     await axios.post(`${process.env.REACT_APP_URL}/expense/updateExpenseDetails/${id}`,{users:[...UpdateInput]},{withCredentials:true})
         //     navigate(-1);
-      
+
         //   }catch(e){
         //     const error = e.response.data.message
         //     setErrorContainer(error);
@@ -44,21 +45,21 @@ export default function AcknowledgeMessage() {
        console.log(reject)
        try{
         const {ownerid,expense,paidBack,groupid,_id} = reject
-    
+
         const result = await axios.post(`${process.env.REACT_APP_URL}/acknowledge/updateAcceptOrRejectMessage/${_id}`,{acknowledgeStatus:"reject"},{withCredentials:true})
-        
+
       GetMessage()
       console.log("resuk",result)
-      
+
       }catch(e){
         console.log(e)
       }
-       
+
       }
-      
+
 
       const GetMessage = async() =>{
-        
+
         console.log("callled getMessage")
         const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
 
@@ -70,7 +71,23 @@ export default function AcknowledgeMessage() {
 
       useEffect(()=>{
 
+        const socket = io(`${process.env.REACT_APP_URL}`, {
+          withCredentials: true,
+        });
+
+        socket.on("connect", () => {
+          console.log("Socket connected", socket.id);
+        });
+
+        socket.on("expenseUpdated", () => {
+          console.log("Expense update received");
           GetMessage()
+        });
+
+          return () => {
+            socket.disconnect();
+          };
+
       },[])
 
 
@@ -95,7 +112,7 @@ export default function AcknowledgeMessage() {
             }
             </ul>)
 
-         } 
+         }
     </div>
    </div>
   )

@@ -13,7 +13,8 @@ export default function Navbar() {
     <div className='NavbarContainer'>
       <div className="NavbarWrapper">
          <div className="NavbarLogo">
-            KartWise
+            <span className='LogoFirst'>Track</span>
+            <span className='NavLogoSecond'>Wise</span>
          </div>
          <div className="NavbarSearch">
             <SearchOutlined className='NavbarSearchIcon'/>

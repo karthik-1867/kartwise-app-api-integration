@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 
 export default function DebtCard({dept,selectedUser}) {
    
-    const [sentPaidBack,setSentaidBack] = useState();
+    const [sentPaidBack,setSentaidBack] = useState(0);
     const [ackStatus,setAckStatus] = useState();
     const handleSelectedExpense = () => {
         selectedUser(dept);
@@ -56,8 +56,8 @@ export default function DebtCard({dept,selectedUser}) {
                 </span>
                 <div className="ExpenseOwnerAndSettlementInfo">
                     <span className='expenseCardExpenditurespent'>owner : {dept?.owner}</span>
-                    {sentPaidBack!=0 && <span className='expenseCardExpenditurespent'>payment sent : {sentPaidBack}</span>}
-                    {ackStatus && <span className='expenseCardExpenditurespent'>acknowlegde Status : {ackStatus}</span>}
+                    {sentPaidBack !== undefined && sentPaidBack!==0 && <span className='expenseCardExpenditurespent'>payment sent : {sentPaidBack}</span>}
+                
                 </div>
             <div className="expenseCardExpenditure">
                 <span className='expenseCardExpenditurespent red'> expense : {dept?.expense}rs</span>

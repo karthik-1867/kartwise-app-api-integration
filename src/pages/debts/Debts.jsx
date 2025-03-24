@@ -8,6 +8,7 @@ import ExpenditureLoader from '../../components/expenditureLoader/ExpenditureLoa
 import ExpenseCardLoading from '../../components/expenseCardLoading/ExpenseCardLoading'
 import { loginStart, loginSuccess } from '../../redux/userSlice'
 import AckCard from '../../components/ackCard/AckCard'
+import { io } from "socket.io-client";
 
 export default function Debts() {
 
@@ -62,7 +63,7 @@ export default function Debts() {
         setErrorContainer("")
             setLoading(true)
             const currentLoggedin = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentLoggedInUser?._id}`,{withCredentials:true})
-           
+
             const acknowledgeid = currentLoggedin.data.AcknowledgeMessageStatus
             console.log("gfhgj",acknowledgeid)
             const acknowledgeMessage = []
@@ -78,7 +79,7 @@ export default function Debts() {
         if(acknowledgeMessage?.length>0){
             const totalPaidBack = acknowledgeMessage.filter((i)=>(i.acknowledgeStatus=='pending')).reduce((i,c)=>(i+c.paidBack),0)
             console.log("totalPaid",(+(totalPaidBack)+ +(paidBack)))
-            
+
             if(+totalPaidBack + +alreadyPaid == expense) return setErrorContainer(`full payment request setteled waiting for owner approval`)
             if((+alreadyPaid  + +totalPaidBack + +paidBack) > expense) return setErrorContainer(`paying more then expense by ${(+alreadyPaid +totalPaidBack + +paidBack) - expense} please pay only ${expense - (+totalPaidBack + +alreadyPaid)}`)
         }else{
@@ -100,12 +101,26 @@ export default function Debts() {
     }catch(e){
        console.log(e)
     }
- 
+
   }
 
   useEffect(()=>{
-      
-      fetchDeptList();
+      const socket = io(`${process.env.REACT_APP_URL}`, {
+        withCredentials: true,
+      });
+
+      socket.on("connect", () => {
+        console.log("Socket connected", socket.id);
+      });
+
+      socket.on("expenseUpdated", () => {
+        console.log("Expense update received");
+        fetchDeptList();
+      });
+
+        return () => {
+          socket.disconnect();
+        };
   },[])
 
 
@@ -113,28 +128,30 @@ export default function Debts() {
     setLoading(true)
     const getExpenseList = [...currentLoggedInUser.createExpenseInfo];
     console.log("lenght",getExpenseList)
-    let deptGroup = []
+
     let count = 0
     const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentLoggedInUser._id}`,{withCredentials:true})
 
     dispatch(loginStart())
     dispatch(loginSuccess(getCurrentLoggedInUpdate.data))
 
-    for (let current_input of getExpenseList){
+    const deptGroup = await axios.get(`${process.env.REACT_APP_URL}/expense/pendingAmount`,{withCredentials:true})
 
-        const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/expense/getExpenseDetails/${current_input}`,{withCredentials:true})
-        const users = [...getCurrentLoggedInUpdate.data.users]
-        const urExpense = users.filter((i)=>i.id==currentLoggedInUser._id)[0]
-    
-        console.log("filtered expense",urExpense,current_input)
-        
-        if(urExpense?.status !== 'paid')
-        { 
-            deptGroup.push({...urExpense,owner:getCurrentLoggedInUpdate.data.owner,groupName:getCurrentLoggedInUpdate.data.groupName,groupid:getCurrentLoggedInUpdate.data._id})
-        }
-    }
-    console.log("final count",deptGroup)
-    setDeptList([...deptGroup])
+    // for (let current_input of getExpenseList){
+
+    //     const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/expense/getExpenseDetails/${current_input}`,{withCredentials:true})
+    //     const users = [...getCurrentLoggedInUpdate.data.users]
+    //     const urExpense = users.filter((i)=>i.id==currentLoggedInUser._id)[0]
+
+    //     console.log("filtered expense",urExpense,current_input)
+
+    //     if(urExpense?.status !== 'paid')
+    //     {
+    //         deptGroup.push({...urExpense,owner:getCurrentLoggedInUpdate.data.owner,groupName:getCurrentLoggedInUpdate.data.groupName,groupid:getCurrentLoggedInUpdate.data._id})
+    //     }
+    // }
+    console.log("final count",deptGroup.data)
+    setDeptList([...deptGroup.data])
     setLoading(false)
   }
 
@@ -143,11 +160,11 @@ export default function Debts() {
        <div className="DebtsMessageContainer">
           <h1>Debts</h1>
           <ul className='DebtsLists'>
-            {loading ? 
+            {loading ?
              Array.from({ length: 19 }, () => 0).map(()=>(
-                                      
+
                 <ExpenseCardLoading/>
-                
+
             ))
             :
             <>
@@ -155,13 +172,13 @@ export default function Debts() {
             <li>
                 <DebtCard dept={dept} selectedUser={selectedUser}/>
             </li>
-            )) : 
-            
+            )) :
+
             <div className='DeptDialogueContainer'>
 
             <span className='DeptDialogue'>No dept</span>
             </div>
-            
+
             }
           </>
             }
@@ -194,11 +211,11 @@ export default function Debts() {
        {ack.length>0 && <div className="DebtsMessageContainer">
           <h1>Acknowledge Status</h1>
           <ul className='DebtsLists'>
-            {loading ? 
+            {loading ?
              Array.from({ length: 19 }, () => 0).map(()=>(
-                                      
+
                 <ExpenseCardLoading/>
-                
+
             ))
             :
             ack.map((item)=>(
