@@ -19,23 +19,24 @@ export default function ExpenseSummary({search}) {
     const [errorContainer,setErrorContainer] = useState("");
     const currentUser = useSelector((state)=>state.user.user)
     const [expenseGroupSummary,setExpenseGroupSummary] = useState([... currentUser.createExpenseInfo])
-    
+
     console.log("sidashl",expenseGroupSummary);
     const dispatch = useDispatch();
     const [loading,setLoading] = useState();
+    const [mainloading,setMainLoading] = useState(true);
     const [selectedGroup,setSelectedGroup] = useState([]);
 
     const {expensedata,groupName,status,expenseId} = useExpenseDetailsFetcher(id);
     // const selectedGroup = !expensedata ? [] : expensedata;
     console.log("ur check",JSON.stringify(selectedGroup))
- 
+
     console.log("expenseGropsumary",JSON.stringify(expenseGroupSummary))
 
     const handleSelectedUser = async(userDetail) =>{
         setErrorContainer("")
         console.log("idsa",id,userDetail)
         setId(userDetail)
-        
+
         if(id!=userDetail) setLoading(true)
 
     }
@@ -58,7 +59,7 @@ export default function ExpenseSummary({search}) {
            console.log(e)
         }
 
-        
+
     }
 
     useEffect(()=>{
@@ -69,37 +70,50 @@ export default function ExpenseSummary({search}) {
             setSelectedGroup([...expensedata]);
         }else{
             setSelectedGroup([])
-        } 
+        }
         setLoading(false)
     },[expenseGroupSummary,expensedata])
 
 
     useEffect(()=>{
-        const socket = io(`${process.env.REACT_APP_URL}`, {
-          withCredentials: true,
-        });
-      
-        socket.on("connect", () => {
-          console.log("Socket connected", socket.id);
-        });
-  
-  
-          const fetchUser =async()=>{
-          }
-       
-        socket.on("expenseUpdated", () => {
-          console.log("Expense update received");
-          fetchUser(); 
-        });
-      
-          return () => {
-            socket.disconnect();
-          };
-  },[])
+          const socket = io(`${process.env.REACT_APP_URL}`, {
+            withCredentials: true,
+          });
+
+          socket.on("connect", () => {
+            console.log("Socket connected", socket.id);
+          });
+
+
+            const fetchUser =async()=>{
+              console.log(process.env.REACT_APP_URL);
+              try{
+                if(expenseGroupSummary.length==0) setMainLoading(true)
+                const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
+                dispatch(loginStart())
+                dispatch(loginSuccess(getCurrentLoggedInUpdate.data))
+
+
+                setExpenseGroupSummary([...currentUser.createExpenseInfo])
+                setMainLoading(false)
+              }catch(e){
+                console.log("error"+e.message)
+              }
+            }
+
+          socket.on("expenseUpdated", () => {
+            console.log("Expense update received");
+            fetchUser();
+          });
+
+            return () => {
+              socket.disconnect();
+            };
+    },[])
 
 
     useEffect(()=>{
-       console.log("seadteh",search)       
+       console.log("seadteh",search)
        const searchRes = async()=>{
         if(search)
         {
@@ -107,26 +121,26 @@ export default function ExpenseSummary({search}) {
          console.log("searcged data",currentUserData)
         //  const filterUserData = currentUserData.data.filter((i)=>allUser.some((u)=>i._id==u._id))
         const ids = currentUserData.data.map((i)=>i._id).filter((i)=>currentUser.createExpenseInfo.some((u)=>u==i))
-        setExpenseGroupSummary([...ids])         
+        setExpenseGroupSummary([...ids])
 
         }else{
             setExpenseGroupSummary([...currentUser.createExpenseInfo])
         }
        }
-    
+
        const debounceTimeout = setTimeout(() => {
         searchRes()
       }, 500);
-    
+
       return () => {
         clearTimeout(debounceTimeout);
-    
+
       };
-    
-       
+
+
     },[search])
 
-  
+
 
   return (
     <div className='expenseSummaryContainer'>
@@ -137,7 +151,7 @@ export default function ExpenseSummary({search}) {
             {errorContainer!="" && <div className="ErrorContainer expenseSummary">
                {errorContainer}
          </div>}
-            {expenseGroupSummary?.length == 0 || !expenseGroupSummary ? 
+            {expenseGroupSummary?.length == 0 || !expenseGroupSummary ?
             <div className="expenseSummaryDialogue">
                 Add fav user and start creating expense groups
                 <Link to="/" style={{textDecoration:'none',color:'inherit'}}>
@@ -159,12 +173,12 @@ export default function ExpenseSummary({search}) {
            {loading && <div className="expenseGroupExpenditureSummary">
                        <div className="loadingTest"></div>
                        {Array.from({ length: 5 }, () => 0).map(()=>(
-                         
+
                            <ExpenditureLoader/>
-                         
+
                        ))}
                        </div>
-                       
+
            }
            {!loading && selectedGroup?.length != 0 && <div className="expenseGroupExpenditureSummary">
              <h4>{groupName}</h4>
