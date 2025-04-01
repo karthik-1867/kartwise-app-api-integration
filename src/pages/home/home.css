@@ -358,7 +358,7 @@ cursor: pointer;
 }
 
 .HomeAllUserDialogueContainer,.HomeAllUserDialogueContainerForPendingRequest{
-    width: 43%;
+    width: 40%;
     padding: 10px;
     background-color: gray;
     border-radius: 10px;
@@ -465,3 +465,5 @@ box-shadow: 4px 13px 17px 0px rgba(0,0,0,0.75);
     width: 100%;
     padding: 10px;
 }
+
+

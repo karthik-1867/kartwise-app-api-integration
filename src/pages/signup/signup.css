@@ -1,0 +1,136 @@
+.signUpContainer{
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(to left, #464775, #8B8CC7);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+.signUpFormContainer{
+    width: 60%;
+    height: 600px;
+    background-color: beige;
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.signUpFormContainerLeft{
+    
+    flex: 1;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: #464775;
+    background-image: url(https://okcredit-blog-images-prod.storage.googleapis.com/2020/09/Money-transfer.jpg);
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    border: 1px solid white;
+    
+}
+
+.signUpFormContainerRight{
+    flex: 1;
+   padding: 10px;
+    background-color: white;
+    color: #464775;
+
+}
+
+.signUpFormWrapper{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    justify-content: center;
+
+}
+.signUpFormInput{
+    padding: 15px;
+    border: 1px solid white;
+    background-color: #464775;
+    border-radius: 10px;
+    width: 100%;
+    color: white;
+    box-sizing: border-box;
+}
+
+label{
+    color: #464775;
+    align-self: flex-start;
+    font-weight: 500;
+}
+
+.inputHolder{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.signUpFormInput:focus{
+    outline: none;
+    color: white;
+}
+
+.signUpFormInput::placeholder{
+    color: white;
+}
+
+.submit,.submitSignin{
+    padding: 15px;
+    width: 100%;
+    align-self: center;
+    border-radius: 10px;
+    background-color: #6264a7;
+    color: white;
+    border: none;
+    font-weight: 600;
+    font-size: 16px;
+    border: 1px solid white;
+}
+
+.submitSignin{
+    background-color: green;
+}
+
+.kartwiseLogo{
+    color: white;
+    font-size:6rem;
+    font-weight: 900;
+    color: #464775;
+    font-size: clamp(4rem, 5vw, 6px);
+    letter-spacing: 3px;
+    -webkit-text-stroke: 1px white;
+}
+
+.signUpFormContainerLeft span,.signUpFormContainerRight span{
+    font-weight: 500;
+    color: white;
+    text-align: center;
+}
+
+.signUpFormContainerRight span{
+    align-self: center;
+    color: #464775
+}
+
+.ErrorContainer{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid white;
+    background-color: red;
+    border-radius: 10px;
+    color: white;
+}
+

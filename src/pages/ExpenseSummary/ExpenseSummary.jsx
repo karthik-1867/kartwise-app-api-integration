@@ -10,21 +10,19 @@ import useExpenseDetailsFetcher from '../../customHook/expenseDetailLogic'
 import { loginStart, loginSuccess } from '../../redux/userSlice'
 import ExpenseCardLoadingLoading from '../../components/expenseCardLoading/ExpenseCardLoading'
 import ExpenditureLoader from '../../components/expenditureLoader/ExpenditureLoader'
-import { io } from "socket.io-client";
 
-export default function ExpenseSummary() {
+export default function ExpenseSummary({search}) {
 
     // const expenseGroupSummary = useSelector((state)=>state.expenseGroupInfo.expenseGroupInfo)
     // const [selectedGroup,setSelectedGroup] = useState([]);
     const [id,setId] = useState();
     const [errorContainer,setErrorContainer] = useState("");
     const currentUser = useSelector((state)=>state.user.user)
-    // const expenseGroupSummary = currentUser.createExpenseInfo
-    const [expenseGroupSummary,setExpenseSummary] = useState([]);
+    const [expenseGroupSummary,setExpenseGroupSummary] = useState([... currentUser.createExpenseInfo])
+    
     console.log("sidashl",expenseGroupSummary);
     const dispatch = useDispatch();
     const [loading,setLoading] = useState();
-    const [mainloading,setMainLoading] = useState(true);
     const [selectedGroup,setSelectedGroup] = useState([]);
 
     const {expensedata,groupName,status,expenseId} = useExpenseDetailsFetcher(id);
@@ -73,43 +71,60 @@ export default function ExpenseSummary() {
             setSelectedGroup([])
         } 
         setLoading(false)
-    },[expensedata])
+    },[expenseGroupSummary,expensedata])
+
 
     useEffect(()=>{
-          const socket = io(`${process.env.REACT_APP_URL}`, {
-            withCredentials: true,
-          });
-        
-          socket.on("connect", () => {
-            console.log("Socket connected", socket.id);
-          });
-    
-    
-            const fetchUser =async()=>{
-              console.log(process.env.REACT_APP_URL);
-              try{
-                if(expenseGroupSummary.length==0) setMainLoading(true)
-                setExpenseSummary([]);
-                const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
-                dispatch(loginStart())
-                dispatch(loginSuccess(getCurrentLoggedInUpdate.data))
+        const socket = io(`${process.env.REACT_APP_URL}`, {
+          withCredentials: true,
+        });
+      
+        socket.on("connect", () => {
+          console.log("Socket connected", socket.id);
+        });
+  
+  
+          const fetchUser =async()=>{
+          }
+       
+        socket.on("expenseUpdated", () => {
+          console.log("Expense update received");
+          fetchUser(); 
+        });
+      
+          return () => {
+            socket.disconnect();
+          };
+  },[])
 
-                setExpenseSummary([...getCurrentLoggedInUpdate.data.createExpenseInfo])
-                setMainLoading(false)
-              }catch(e){
-                console.log("error"+e.message)
-              }
-            }
-         
-          socket.on("expenseUpdated", () => {
-            console.log("Expense update received");
-            fetchUser(); 
-          });
-        
-            return () => {
-              socket.disconnect();
-            };
-    },[])
+
+    useEffect(()=>{
+       console.log("seadteh",search)       
+       const searchRes = async()=>{
+        if(search)
+        {
+         const currentUserData = await axios.post(`${process.env.REACT_APP_URL}/expense/searchExpenseInfo`,{search},{withCredentials:true});
+         console.log("searcged data",currentUserData)
+        //  const filterUserData = currentUserData.data.filter((i)=>allUser.some((u)=>i._id==u._id))
+        const ids = currentUserData.data.map((i)=>i._id).filter((i)=>currentUser.createExpenseInfo.some((u)=>u==i))
+        setExpenseGroupSummary([...ids])         
+
+        }else{
+            setExpenseGroupSummary([...currentUser.createExpenseInfo])
+        }
+       }
+    
+       const debounceTimeout = setTimeout(() => {
+        searchRes()
+      }, 500);
+    
+      return () => {
+        clearTimeout(debounceTimeout);
+    
+      };
+    
+       
+    },[search])
 
   
 
@@ -123,23 +138,14 @@ export default function ExpenseSummary() {
                {errorContainer}
          </div>}
             {expenseGroupSummary?.length == 0 || !expenseGroupSummary ? 
-            (mainloading ? 
-                    <ul className="expenseSummaryList">
-                       {Array.from({ length: 5 }, () => 0).map(()=>(
-                            <li>
-                                <ExpenseCardLoadingLoading/>
-                            </li>
-                        ))}
-                   </ul>
-                :
-             <div className="expenseSummaryDialogue">
+            <div className="expenseSummaryDialogue">
                 Add fav user and start creating expense groups
                 <Link to="/" style={{textDecoration:'none',color:'inherit'}}>
                 <button className="expenseSummaryDialogueButton">
                     Add fav user
                 </button>
                 </Link>
-            </div>)
+            </div>
             :
             <ul className="expenseSummaryList">
                 {expenseGroupSummary?.map((item)=>(

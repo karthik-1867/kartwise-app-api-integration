@@ -17,28 +17,20 @@ import { usersFetchStart, usersFetchSuccess, usersUpdateRemovedUser } from '../.
 import HomeLoadingComponent from '../../components/homeLoaderComponent/HomeLoadingComponent';
 import { io } from "socket.io-client";
 
-export default function Home() {
+export default function Home({search}) {
   const dispatch = useDispatch();
   const [requestType,selectRequestType] = useState("pending");
-  const favUser = useSelector((state)=>state.user.user);
   const [dialogue,setDialogue] = useState(false);
   const loggedInUser = useSelector((state)=>state.user.user)
   const [loading,setLoading] = useState(false);
-  const [sentaidBack,setSentaidBack] = useState();
-  //to be removed
-  const [users,setUsers] = useState(Users);
-
+  
   const [allUser,setAllUsers] = useState([]);
   const [inviteRequest,setInviteRequest] = useState([]);
   const [inviteAcceptedUser,setInviteAcceptedUser] = useState([]);
   const [incomingRequest,setIncomingRequest] = useState([]);
   const [errorContainer,setErrorContainer] = useState("");
   console.log("allUser",JSON.stringify(allUser))
-
-
-
-  const [addFavUser,setAddFavUser] = useState([])
-  // console.log(users)
+  console.log("home search",search)
 
   console.log("inviteRequest user",inviteRequest)
   console.log("incoming request",incomingRequest)
@@ -60,9 +52,9 @@ export default function Home() {
 
 const removePendingUser = async(user) =>{
   const currentUserData = await axios.post(`${process.env.REACT_APP_URL}/user/rejectPendingInvite/${user}`,{},{withCredentials:true})
-  dispatch(loginStart());
+
   const removedendingUser = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${user}`,{withCredentials:true})
-  dispatch(loginSuccess(currentUserData.data));
+ 
   setInviteRequest((i)=>i.filter((id)=>id!=user));
   setAllUsers((i)=>[...i,removedendingUser.data])
 }
@@ -71,8 +63,7 @@ const acceptIncomingRequest = async(user)=>{
   const currentUserData = await axios.post(`${process.env.REACT_APP_URL}/user/acceptInvite/${user}`,{},{withCredentials:true});
   setIncomingRequest((i)=>i.filter((id)=>id!=user));
   setInviteAcceptedUser((i)=>[...i,user]);
-  dispatch(loginStart());
-  dispatch(loginSuccess(currentUserData.data));
+  
   console.log("here is updated user",inviteAcceptedUser)
 
 }
@@ -89,11 +80,38 @@ const rejectInvitedUser = async(user) => {
   setInviteAcceptedUser((i)=>i.filter((id)=>id!=user))
   const rejectInvitedUser = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${user}`,{withCredentials:true})
   setAllUsers((i)=>[...i,rejectInvitedUser.data])
-  dispatch(loginStart())
-  dispatch(loginSuccess(currentUserData.data))
+  // dispatch(loginStart())
+  // dispatch(loginSuccess(currentUserData.data))
 
 }
 
+const fetchUser =async()=>{
+  console.log(process.env.REACT_APP_URL);
+  try{
+    setLoading(true)
+    setInviteRequest([]);
+    setIncomingRequest([]);
+    setInviteAcceptedUser([]);
+    setInviteRequest([]);
+    
+    const users = await axios.get(`${process.env.REACT_APP_URL}/user/getAllUser`,{withCredentials:true})
+    const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${loggedInUser._id}`,{withCredentials:true})
+    console.log("global ",users.data)
+    dispatch(loginStart())
+    dispatch(loginSuccess(getCurrentLoggedInUpdate.data))
+
+    dispatch(usersFetchStart());
+    dispatch(usersFetchSuccess(getCurrentLoggedInUpdate.data.inviteAcceptedUsers))
+    setAllUsers(users.data)
+    setInviteRequest([... getCurrentLoggedInUpdate.data.PendingInviteRequest])
+    setIncomingRequest([...getCurrentLoggedInUpdate.data.inviteRequest])
+    setInviteAcceptedUser([...getCurrentLoggedInUpdate.data.inviteAcceptedUsers])
+    // setInviteRequest(user.data.PendingInviteRequest)
+    setLoading(false)
+  }catch(e){
+    console.log("error"+e.message)
+  }
+}
 
 useEffect(()=>{
   const socket = io(`${process.env.REACT_APP_URL}`, {
@@ -104,43 +122,64 @@ useEffect(()=>{
     console.log("Socket connected", socket.id);
   });
 
-  const fetchUser =async()=>{
-    console.log(process.env.REACT_APP_URL);
-    try{
-      setInviteRequest([]);
-      setIncomingRequest([]);
-      setInviteAcceptedUser([]);
-      setInviteRequest([]);
-      setLoading(true)
-      const users = await axios.get(`${process.env.REACT_APP_URL}/user/getAllUser`,{withCredentials:true})
-      const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${loggedInUser._id}`,{withCredentials:true})
-      console.log("global ",users.data)
-      dispatch(loginStart())
-      dispatch(loginSuccess(getCurrentLoggedInUpdate.data))
 
-      dispatch(usersFetchStart());
-      dispatch(usersFetchSuccess(getCurrentLoggedInUpdate.data.inviteAcceptedUsers))
-      setAllUsers(users.data)
-
-      setInviteRequest([...inviteRequest, ... getCurrentLoggedInUpdate.data.PendingInviteRequest])
-      setIncomingRequest([...incomingRequest,...getCurrentLoggedInUpdate.data.inviteRequest])
-      setInviteAcceptedUser([...inviteAcceptedUser, ...getCurrentLoggedInUpdate.data.inviteAcceptedUsers])
-      // setInviteRequest(user.data.PendingInviteRequest)
-      setLoading(false)
-    }catch(e){
-      console.log("error"+e.message)
-    }
-  }
 
   socket.on("expenseUpdated", () => {
     console.log("Expense update received");
-    fetchUser();
+    fetchUser(); 
   });
 
     return () => {
       socket.disconnect();
     };
 },[])
+
+
+useEffect(()=>{
+   console.log("seadteh",search)
+   
+   
+   const searchRes = async()=>{
+    if(search)
+    {
+     setLoading(true)
+     const currentUserData = await axios.post(`${process.env.REACT_APP_URL}/user/searchUser`,{search},{withCredentials:true});
+     console.log("searcged data",currentUserData)
+     const filterUserData = currentUserData.data.filter((i)=>allUser.some((u)=>i._id==u._id))
+     
+     if(filterUserData.length > 0){
+       setAllUsers(filterUserData)
+     }else{
+       setAllUsers([])
+     }
+     const ids = currentUserData.data.map((i)=>i._id)
+     const filterId = ids.filter((id)=>inviteAcceptedUser.includes(id))
+
+     if(filterId.length>0){
+       setInviteAcceptedUser(filterId)
+     }else{
+      setInviteAcceptedUser([])
+     }
+     setLoading(false)
+    }else{
+      setLoading(true)
+      setAllUsers([])
+      fetchUser()
+    }
+   }
+
+   const debounceTimeout = setTimeout(() => {
+    searchRes()
+  }, 500);
+
+  return () => {
+    clearTimeout(debounceTimeout);
+
+  };
+
+   
+},[search])
+
 
 
   return (
@@ -211,27 +250,33 @@ useEffect(()=>{
         {errorContainer}
       </div>}
       <div className="NormalContainer">
-      <div className="HomeWrapper">
+      <div className="HomeWrapper">      
          <div className="HomeAllUsers">
           <h1>Global users</h1>
           {dialogue && <span className='HomeListPopUp'>Already exist</span>}
           <ul className='HomeList'>
-            { (allUser.length>0) ?allUser?.map((user)=>(
+            { (allUser.length>0) ? allUser?.map((user)=>(
               <li>
               <User userData={user} key={user.id} addUser={inviteUser} profile='true' className='HomeListValue'/>
               </li>
             )) :
             <>
-            {Array.from({ length: 20 }, () => 0).map(()=>(
+            {loading  ? 
+            Array.from({ length: 20 }, () => 0).map(()=>(
               <li>
                 <HomeLoadingComponent className='HomeListValue'/>
               </li>
-            ))
+            )) : 
+            <div className='HomeAllUserDialogueContainer' style={{width:"100%",boxSizing:"border-box"}}>
+            <span className='HomeAllUserDialogueContainerText'>
+              no result         
+             </span>
+            </div>
             }
             </>
             }
           </ul>
-
+        
          </div>
          {
            loading &&
@@ -250,16 +295,16 @@ useEffect(()=>{
 
          }
          {inviteAcceptedUser?.length == 0  ?
-
+             
              <>
              {!loading && <div className={inviteAcceptedUser?.length == 0 ? 'HomeAllUserDialogueContainer' : 'HomeAllUserDialogueContainer added'}>
               <span className='HomeAllUserDialogueContainerText'>
-              {inviteAcceptedUser?.length == 0 || !inviteAcceptedUser ? 'Waiting for your friend approval request' : 'U have added fav user u can start creating groups. if you want to add few more you can continue the choosing users from Global users'}
+              {(inviteAcceptedUser?.length == 0 && !search) || !inviteAcceptedUser  ? 'Waiting for your friend approval request' : 'No result'}
               </span>
               </div>}
              </>
-         :
-
+         : 
+         
           <div className="HomeAllUsers preview">
             <h1>Invited User</h1>
             <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
@@ -273,10 +318,10 @@ useEffect(()=>{
               ))
             }
             </ul>
-
+            
           </div>
-
-
+          
+         
          }
       </div>
       <div className="InviteWrapper">
@@ -296,14 +341,14 @@ useEffect(()=>{
         {requestType == "pending" ?
           <div className="InviteDetails">
           <h1>Pending request</h1>
-
+          
           {
           inviteRequest.length!=0 ?
           <ul className='InvitependingList'>
-          {inviteRequest?.map((user)=>(
+          {inviteRequest?.map((user)=>( 
           <li>
             <PendingInviteRequest userData={user} key={user} removePendingUser={removePendingUser} className='HomeListValue'/>
-            </li>
+            </li> 
             ))}
             </ul>
             :
@@ -319,11 +364,11 @@ useEffect(()=>{
              ):
             (!loading && <div className='HomeAllUserDialogueContainerForPendingRequest'>
             <span className='HomeAllUserDialogueContainerForPendingRequestText'>
-              start sending invites.
+              start sending invites. 
             </span>
             </div>)
          }
-        </div> :
+        </div> : 
         <div className="InviteDetails">
           <h1>Incoming request</h1>
           { incomingRequest.length!=0 ?
@@ -334,10 +379,10 @@ useEffect(()=>{
             </li>
           ))}
           </ul>
-          :
+          : 
           (<div className='HomeAllUserDialogueContainerForPendingRequest'>
           <span className='HomeAllUserDialogueContainerForPendingRequestText'>
-            'No incoming request'
+            'No incoming request' 
           </span>
           </div>)
         }

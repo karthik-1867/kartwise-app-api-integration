@@ -16,6 +16,7 @@ import { loginStart, loginSuccess } from '../../redux/userSlice'
 import HomeLoadingComponent from '../../components/homeLoaderComponent/HomeLoadingComponent'
 export default function Fav() {
 
+
    const currentUser = useSelector((state)=>state.user.user)
    const [user,setUser] = useState([]);
    const [group,setGroup] = useState([]);
@@ -23,14 +24,20 @@ export default function Fav() {
    const [loading,setLoading] = useState(false);
    const dispatch = useDispatch()
 
-  useEffect(()=>{
-      const socket = io(`${process.env.REACT_APP_URL}`, {
-        withCredentials: true,
-      });
 
-      socket.on("connect", () => {
-        console.log("Socket connected", socket.id);
-      });
+   const rejectInvitedUser = async(user) => {
+    const currentUserData = await axios.post(`${process.env.REACT_APP_URL}/user/removeInvitedUser/${user}`,{},{withCredentials:true});
+    setUser((i)=>i.filter((id)=>id!=user))  
+  }
+
+  useEffect(()=>{
+    const socket = io(`${process.env.REACT_APP_URL}`, {
+      withCredentials: true,
+    });
+  
+    socket.on("connect", () => {
+      console.log("Socket connected", socket.id);
+    });
 
     const settingFields = async() => {
       setLoading(true)
@@ -42,13 +49,13 @@ export default function Fav() {
       setUser([...getCurrentLoggedInUpdate.data.inviteAcceptedUsers])
       setGroup([...getCurrentLoggedInUpdate.data.createExpenseGroup])
       setExpenseInfo([...getCurrentLoggedInUpdate.data.createExpenseInfo])
-      setLoading(false)
+      setLoading(false)  
   }
 
-
+      
   socket.on("expenseUpdated", () => {
     console.log("Expense update received");
-    settingFields();
+    settingFields(); 
   });
 },[])
 
@@ -138,7 +145,7 @@ export default function Fav() {
             : <ul className='invitedUsersList'>
                 {user?.map((user)=>(
                   <li style={{marginBottom:"5px"}}>
-                    <InvitedUsers  user={user}/>
+                    <InvitedUsers  user={user} rejectInvitedUser={rejectInvitedUser}/>
                   </li>
                 ))}
                </ul>
@@ -147,7 +154,7 @@ export default function Fav() {
           <div className="favListWrapper">
           <div className="favList first">
           <h1 className='favListTitle'>Group</h1>
-            {group?.length==0 ?
+            {group?.length==0 ? 
               (
                 loading ?
                 <ul className='favListUl'>
@@ -158,7 +165,7 @@ export default function Fav() {
                  ))}
                </ul>
                 :
-
+              
               <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
               <div className="favListDialogueContainer">
                  Create expense group
@@ -176,7 +183,7 @@ export default function Fav() {
           </div>
           <div className="favList second">
           <h1 className='favListTitle'>expense</h1>
-            {group?.length==0 ?
+            {group?.length==0 ? 
               (
                 loading ?
                 <ul className='favListUl'>
@@ -195,7 +202,7 @@ export default function Fav() {
               </Link>)
             :<ul className='favListUl'>
               {expenseInfo?.map((item)=>(
-                <li>
+                 <li>
                 <ExpenseInfoSt expenseInfo={item}/>
                 </li>
               ))

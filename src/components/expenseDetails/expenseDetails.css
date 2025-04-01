@@ -80,3 +80,11 @@
     font-weight: bold;
     border: 0.5px solid white;
 }
+
+.editButton{
+    color: white;
+}
+
+.editButton:hover{
+    color: black;
+}

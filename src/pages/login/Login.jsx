@@ -41,7 +41,7 @@ export default function Login() {
     }catch(e){
       console.log(JSON.stringify(e.response))
       dispatch(loginFailure());
-      return setErrorMessage(e.response.data.message);
+      return setErrorMessage(e.response);
     }
 
 
@@ -80,13 +80,14 @@ export default function Login() {
               <Link to="/signup" style={{textDecoration:'none',color:'inherit'}}>
               <button className='submit'>Sign up</button>
               </Link>
+              {errorMessage && <div className="ErrorContainer">
+                {errorMessage}
+              </div>}
              </div>
 
            </div>
       </div>
-      {errorMessage && <div className="ErrorContainer">
-        {errorMessage}
-      </div>}
+
     </div>
   )
 }

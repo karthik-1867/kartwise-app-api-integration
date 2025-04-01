@@ -16,25 +16,28 @@ import ProtectRoute from "./ProtectRoute";
 import Cookies from "js-cookie";
 import Debts from "./pages/debts/Debts";
 import AcknowledgeMessage from "./pages/acknowledge/AcknowledgeMessage";
+import { useState } from "react";
 
 function App() {
-  const authToken = Cookies.get('access_token'); 
-  console.log("access");
-  console.log(authToken)
+  
+  const [search,setSearch] = useState();
+
+  console.log("search",search)
   return (
     <div className="AppContainer">
       <BrowserRouter>
           <Routes>
             <Route path="/" element={<Login />} /> 
             <Route path="/signup" element={<Signup/>}/>
-            <Route element={<Layout />}>
-              <Route path="/home" element={<ProtectRoute element={<Home/>}/>}/>
+            <Route element={<Layout search={setSearch} />}>
+              <Route path="/home" element={<ProtectRoute element={<Home search={search}/>}/>}/>
+
               <Route path="/fav" element={<ProtectRoute element={<Fav/>}/>} />
-              <Route path="/expenseGroup" element={<ProtectRoute element={<CreateExpense/>}/>} />
+              <Route path="/expenseGroup" element={<ProtectRoute element={<CreateExpense search={search}/>}/>} />
               <Route path="/editGroup" element={<ProtectRoute element={<EditExpenseGroup/>}/>} />
               <Route path="/expenseSheet" element={<ProtectRoute element={<CreateExpenseSheet/>}/>} />
               <Route path="/expenseSummary">
-                 <Route path="" element={<ProtectRoute element={<ExpenseSummary/>}/>} />
+                 <Route path="" element={<ProtectRoute element={<ExpenseSummary search={search}/>}/>} />
                  <Route path=":id" element={<ProtectRoute element={<UpdateExpense/>}/>} />
               </Route>
               <Route path="/debts" element={<Debts />} />
@@ -48,9 +51,9 @@ function App() {
 }
 
 
-const Layout = () => (
+const Layout = ({search}) => (
   <>
-    <Navbar />
+    <Navbar  handlesearch={search}/>
     <div className="Container">
     <Menu />
     <div className="Homecontainer1">

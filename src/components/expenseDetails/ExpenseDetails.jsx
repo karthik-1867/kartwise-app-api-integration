@@ -4,10 +4,13 @@ import { Avatar } from '@mui/material'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
 import ExpenseDetailsLoader from '../expenseDetailsloader/ExpenseDetailsLoader'
+import { Delete, Edit, EditAttributes } from '@mui/icons-material'
 export default function ExpenseDetails({group}) {
 
   const [groupDetail,setGroupDetail] = useState()
   const [loading,setLoading] = useState(false)
+  const [hovered,setHovered] = useState(false)
+  const user = useSelector((state)=>state.user.user);
 
   console.log("hrereh",JSON.stringify(groupDetail))
   useEffect(()=>{
@@ -27,7 +30,7 @@ export default function ExpenseDetails({group}) {
   return (
     <>
     { loading ? <ExpenseDetailsLoader/> :
-      <div className='expenseGroupDetailContainer'>
+      <div className='expenseGroupDetailContainer' onMouseEnter={()=>setHovered(true)} onMouseLeave={()=>setHovered(false)}>
         <div className="expenseGroupDetailContainerDetails">
             {groupDetail?.uploadImage ? <img src={groupDetail?.uploadImage} alt="" className='expenseGroupDetailContainerLogo'/>:<Avatar/>}
             <div className="ExpenseUserAndDetails">
@@ -38,7 +41,10 @@ export default function ExpenseDetails({group}) {
                 </div>
             </div>
         </div>
-        <button className='UserAddToFavButton1'>remove</button>
+        {groupDetail?.groupOwner == user._id  && <div style={{display:"flex",alignItems:"center",gap:"3px"}}>
+            <Edit className='editButton'/>
+            <Delete className='editButton'/>
+        </div>}
     </div>}
     </>
   )

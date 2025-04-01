@@ -10,11 +10,11 @@
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
-    
+
 }
 
 .ErrorContainer{
-    width: 70%;
+    width: 100%;
     box-sizing: border-box;
 }
 

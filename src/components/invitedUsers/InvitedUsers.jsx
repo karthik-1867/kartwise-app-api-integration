@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import '../invitedUsers/invitedusers.css'
 import axios from 'axios';
 import HomeLoadingComponent from '../homeLoaderComponent/HomeLoadingComponent';
+import { Delete } from '@mui/icons-material';
 
 export default function InvitedUsers({user,rejectInvitedUser}) {
 
@@ -18,7 +19,7 @@ export default function InvitedUsers({user,rejectInvitedUser}) {
       setLoading(true);
       const userData = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${user}`,{withCredentials:true})
       setInvitedUserDetail(userData.data);
-      setLoading(false);    
+      setLoading(false);
     }
 
     invitedUser()
@@ -43,8 +44,8 @@ export default function InvitedUsers({user,rejectInvitedUser}) {
          <span className='invitedUserDetailsName'>{invitedUserDetail?.name}</span>
       </div>
       </div>
-      
-      {hover && (<button onClick={removeUserData} className='UserAddToFavButton'>Delete</button> )}
+
+      {hover && (<button onClick={removeUserData} className='UserAddToFavButton'><Delete/></button> )}
     </div>
     }
    </>

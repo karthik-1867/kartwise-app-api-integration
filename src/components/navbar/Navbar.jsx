@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { SearchOutlined } from '@mui/icons-material';
 import { Avatar } from '@mui/material';
 import { useSelector } from 'react-redux';
-export default function Navbar() {
+export default function Navbar({handlesearch}) {
 
   const currentUser = useSelector((state)=>state.user.user);
 
@@ -18,10 +18,10 @@ export default function Navbar() {
          </div>
          <div className="NavbarSearch">
             <SearchOutlined className='NavbarSearchIcon'/>
-            <input type="text" className='NavbarSearchInput' placeholder='Search'/>
+            <input type="text" onChange={(e)=>handlesearch(e.target.value)} className='NavbarSearchInput' placeholder='Search'/>
          </div>
          <div className="NavbarLogin">
-           {currentUser?.profilePicture ? 
+           {currentUser?.profilePicture ?
            <img src={currentUser.profilePicture} alt="" className='NavbarLoginLogo' />
            :
            <Avatar className='NavbarLoginLogo'/>}
