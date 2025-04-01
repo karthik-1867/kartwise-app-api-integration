@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../createExpenseSheet/createExpenseSheet.css'
 import FavUser from '../../components/inviteAcceptedUser/FavUser'
 import ExpenseDetails from '../../components/expenseDetails/ExpenseDetails'
@@ -12,6 +12,7 @@ import axios from 'axios'
 import { loginStart, loginSuccess } from '../../redux/userSlice'
 import { retry } from '@reduxjs/toolkit/query'
 import CreateExpenseInputLoading from '../../components/createExpenseInputLoading/CreateExpenseInputLoading'
+import { FileUpload } from '@mui/icons-material'
 export default function CreateExpense() {
 
   // const group = useSelector((state)=>state.createExpenseGroup.createExpenseGroup)
@@ -22,6 +23,7 @@ export default function CreateExpense() {
 
   const [selectedPerson,setSelectedPerson] = useState([]);
   const [errorContainer,setErrorContainer] = useState("")
+  const [img,setImg] = useState();
   const [inputs,setInputs] = useState({ owner: "",users:[],groupName:"",uploadImage:"",expenseGroupId:""});
   const [loading,setLoading] = useState(false);
   console.log("create inputs",JSON.stringify(inputs))
@@ -53,6 +55,31 @@ export default function CreateExpense() {
      })
   }
 
+  const handleImageUpload = async(file) => {
+    console.log(file)
+    const data = new FormData()
+    data.append("file",file);
+    data.append("upload_preset","first_time_cloudinnary")
+    data.append("cloud_name","dnitpjr1v")
+
+    const res = await fetch("https://api.cloudinary.com/v1_1/dnitpjr1v/image/upload",{
+        method:"POST",
+        body:data
+    })
+
+    const imageUrl = await res.json()
+    console.log("image urlk",imageUrl)
+
+    setInputs((prev)=>{
+        return {...prev, uploadImage:imageUrl.url}
+    })
+
+  }
+
+    useEffect(()=>{
+      img && handleImageUpload(img)
+    },[img])
+
   const handleUserInputs = (user) => {
     console.log("ur yser",user)
     setErrorContainer("");
@@ -70,7 +97,7 @@ export default function CreateExpense() {
     try{
       setSelectedPerson([])
       setLoading(true)
-   
+
       console.log("udwdw",selectedMembers)
       if(groupName=="" || groupName==undefined) return setErrorContainer("title required")
         const owner2 = users.filter((i)=>owner==i.name)
@@ -80,11 +107,11 @@ export default function CreateExpense() {
           const result = selectedMembers.find((i)=>i.name==owner)
           const ownerMember = {id:result._id,name:result.name,expense:0};
           // const ownerMember = selectedMembers.map((i)=>{
-            
+
             // if(i.name==owner) return {id:i._id,name:i.name,expense:0}
           // }).filter((i)=>(i.name==owner))[0]
 
-          users = [...users, ownerMember]  
+          users = [...users, ownerMember]
         }
 
         console.log("ur inputs ewwew",users)
@@ -95,7 +122,7 @@ export default function CreateExpense() {
       const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
        dispatch(loginStart());
        dispatch(loginSuccess(getCurrentLoggedInUpdate.data));
-     
+
       setInputs({owner: "",users:[],groupName:"",uploadImage:""})
       setLoading(false)
     }catch(e){
@@ -114,7 +141,7 @@ export default function CreateExpense() {
           <div className="ExpenseListWrapper">
             <div className="CreateExpenseSheetList addition1">
               <h1 className='CreateExpenseSheetTitle'>Choose group</h1>
-              {group?.length==0? 
+              {group?.length==0?
               <div className="CreateExpenseDialogueContainer">
                 Add fav user to start creating groups
                 <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
@@ -128,14 +155,14 @@ export default function CreateExpense() {
                     <li >
                     <ExpenseGroups  group={item} key={item.id} selectedUser={selectedUser}/>
                     </li>
-                ))  
+                ))
                 }
               </ul>}
             </div>
 
             <div className="CreateExpenseSheetList addition">
               <div className="CreateExpenseSheetInputWrapper">
-                  <div className="ExpenseGroupTitleAndSubmit"> 
+                  <div className="ExpenseGroupTitleAndSubmit">
                     <h1 className='ExpenseGroupTitle'>Create expense</h1>
                     <button onClick={handleSubmit} className='ExpenseGroupSubmit'>Submit</button>
                   </div>
@@ -144,8 +171,13 @@ export default function CreateExpense() {
                   </div>}
                   <h4 className='CreateExpenseSheetName'>Title</h4>
                   <input name='groupName' type="text" placeholder='Enter group name' value={inputs?.groupName} className='CreateExpenseSheetListInput' onChange={(e)=>handlerInputs(e)}/>
-                  <h4>Upload image</h4>
-                  <input name='uploadImage' type="text" placeholder='Upload image'  value={inputs?.uploadImage} className='CreateExpenseSheetListInput' onChange={(e)=>handlerInputs(e)}/>
+                  <h4 className='CreateExpenseSheetName'>Upload image</h4>
+
+                  <div className="evidenceAttachContainer" style={{margin: "10px 0"}}>
+                    <FileUpload/>
+                    <input placeholder='upload image' name='uploadImage' onChange={(e)=>setImg(e.target.files[0])}  type='file' accept='image/*'/>
+                  </div>
+
                   <h4>Paid by</h4>
                   <select name='owner' className='CreateExpenseSheetListInput select' value={inputs.owner} onChange={(e)=>handlerInputs(e)}>
                     { selectedPerson?.map((item)=>(
@@ -155,7 +187,7 @@ export default function CreateExpense() {
                   </select>
                   <h4>Enter expense</h4>
                   <div className="CreateExpenseSheetUserAndExpenseContainer">
-                    {/* {selectedPerson.length>0 ? 
+                    {/* {selectedPerson.length>0 ?
                       selectedPerson?.map((item)=>(
                           <>
                           <CreateExpenseInputs users={item} handleUserInputs={handleUserInputs}/>
@@ -163,11 +195,11 @@ export default function CreateExpense() {
                         )) :
                         <div className="dialogueContainer1">
                             select group
-                            
+
                       </div>
                     } */}
-                    {selectedPerson.length==0 ? 
-                      loading ? 
+                    {selectedPerson.length==0 ?
+                      loading ?
                       Array.from({ length: 5 }, () => 0).map(()=>(
                                     <CreateExpenseInputLoading/>
                       ))
@@ -182,13 +214,13 @@ export default function CreateExpense() {
                           <>
                           <CreateExpenseInputs users={item} handleUserInputs={handleUserInputs}/>
                           </>
-                        )) 
+                        ))
                     }
                   </div>
 
               </div>
-          
-             
+
+
             </div>
           </div>
          </div>

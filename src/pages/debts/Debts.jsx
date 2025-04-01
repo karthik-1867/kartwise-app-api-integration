@@ -17,6 +17,7 @@ export default function Debts() {
   const [ack,setAck] = useState([])
   const [user,setUser] = useState("")
   const [input,setInput] = useState({})
+  const [img,setImg] = useState()
   const [loading,setLoading] = useState(false)
   const [errorContainer,setErrorContainer] = useState("");
   const dispatch = useDispatch()
@@ -53,10 +54,31 @@ export default function Debts() {
        })
   }
 
+  const handleImageUpload = async(file) => {
+    console.log(file)
+    const data = new FormData()
+    data.append("file",file);
+    data.append("upload_preset","first_time_cloudinnary")
+    data.append("cloud_name","dnitpjr1v")
+
+    const res = await fetch("https://api.cloudinary.com/v1_1/dnitpjr1v/image/upload",{
+        method:"POST",
+        body:data
+    })
+
+    const imageUrl = await res.json()
+    console.log("image urlk",imageUrl)
+
+    setInput((prev)=>{
+        return {...prev, evidence:imageUrl.url}
+    })
+
+  }
+
   const submitMessage = async() => {
 
-    const {ownerid,groupid,groupName,name,owner,expense,paidBack,status,alreadyPaid,acknowledgeStatus} = input;
-    console.log(ownerid,groupid,groupName,name,owner,expense,paidBack,status,alreadyPaid)
+    const {ownerid,groupid,groupName,name,owner,expense,paidBack,status,alreadyPaid,acknowledgeStatus,evidence} = input;
+    console.log(ownerid,groupid,groupName,name,owner,expense,paidBack,status,alreadyPaid,evidence)
 
 
     try{
@@ -86,7 +108,7 @@ export default function Debts() {
             if(+paidBack + +alreadyPaid > expense) return setErrorContainer(`paying more then expense by ${(+paidBack + +alreadyPaid) -expense} please pay only ${expense - alreadyPaid}`)
         }
 
-    const postMessage = await axios.post(`${process.env.REACT_APP_URL}/acknowledge/createMessage`,{ownerid,groupid,groupName,name,owner,expense,paidBack,status,acknowledgeStatus},{withCredentials:true})
+    const postMessage = await axios.post(`${process.env.REACT_APP_URL}/acknowledge/createMessage`,{ownerid,groupid,groupName,name,owner,expense,paidBack,status,acknowledgeStatus,evidence},{withCredentials:true})
         console.log(postMessage.data)
         setInput({paidBack:0})
 
@@ -122,6 +144,11 @@ export default function Debts() {
           socket.disconnect();
         };
   },[])
+
+
+    useEffect(()=>{
+      img && handleImageUpload(img)
+    },[img])
 
 
   const fetchDeptList = async() => {
@@ -185,7 +212,7 @@ export default function Debts() {
           </ul>
        </div>
        {user && <div className="DebtAcknowledgeOwner">
-          <h1>Send payment evidence request</h1>
+          <h1>Attach payment evidence</h1>
           <div className="DebtOwnerAndGroup">
             <span className='expenseCardExpenditurespent ligh'>
             expense name : {user.groupName}
@@ -200,7 +227,7 @@ export default function Debts() {
             <span>Evidence</span>
             <div className="evidenceAttachContainer">
               <FileUpload/>
-              <input type="file" placeholder='attach evidence'/>
+              <input placeholder='attach evidence' name="imgUrl" onChange={(e)=>setImg(e.target.files[0])} type='file' accept='image/*'/>
             </div>
           </div>
           <button onClick={submitMessage} className='submitAcknowledge'>Send</button>
