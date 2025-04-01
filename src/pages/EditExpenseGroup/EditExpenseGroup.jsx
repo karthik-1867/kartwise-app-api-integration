@@ -10,7 +10,7 @@ import HomeLoadingComponent from '../../components/homeLoaderComponent/HomeLoadi
 import Members from '../../components/members/Members'
 
 
-export default function EditExpenseGroup() {
+export default function EditExpenseGroup({search}) {
   const currentUser = useSelector((state)=>state.user.user);
   const [group,setGroup] = useState([]);
   const [members,setMembers] = useState([]);
@@ -19,14 +19,41 @@ export default function EditExpenseGroup() {
 
   const selectedUser = async(group) => {
     console.log("ids",group)
-    const getCurrentLoggedInUpdate = await axios.post(`${process.env.REACT_APP_URL}/expense/memberDetails`,{members:[...group.members]},{withCredentials:true}) 
+    const getCurrentLoggedInUpdate = await axios.post(`${process.env.REACT_APP_URL}/expense/memberDetails`,{members:[...group.members]},{withCredentials:true})
     setMembers([...getCurrentLoggedInUpdate.data])
-    setGroupInfo(group)  
+    setGroupInfo(group)
 }
 
   useEffect(()=>{
      setGroup(currentUser.createExpenseGroup)
   },[currentUser])
+
+
+  useEffect(()=>{
+    console.log("seadteh",search)
+    const searchRes = async()=>{
+     if(search)
+     {
+      const currentUserData = await axios.post(`${process.env.REACT_APP_URL}/ExpenseGroup/searchExpenseGroup`,{search},{withCredentials:true});
+      console.log("searcged data group",currentUserData.data)
+      const ids = currentUserData.data.map((i)=>i._id)
+      setGroup([...ids]);
+
+     }else{
+      setGroup([...currentUser.createExpenseGroup])
+     }
+    }
+
+    const debounceTimeout = setTimeout(() => {
+      searchRes()
+    }, 500);
+
+    return () => {
+      clearTimeout(debounceTimeout);
+
+    };
+
+ },[search])
 
   return (
     <div className='EditExpenseGroup'>

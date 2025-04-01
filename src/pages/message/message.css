@@ -113,13 +113,15 @@
 }
 
 .recived .MessageUserName, .sender .MessageUserName{
-    font-size: 24px;
+    font-size: 16px;
     font-weight: 500;
 }
 
 .MessageAvatar{
     width: 32px;
     height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .MessageDetails{
@@ -132,6 +134,7 @@
     display: flex;
     gap: 20px;
     align-items: center;
+    font-size: 14px;
 }
 
 .Message hr{

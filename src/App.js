@@ -32,13 +32,13 @@ function App() {
             <Route element={<Layout search={setSearch} />}>
               <Route path="/home" element={<ProtectRoute element={<Home search={search}/>}/>}/>
 
-              <Route path="/fav" element={<ProtectRoute element={<Fav/>}/>} />
+              <Route path="/fav" element={<ProtectRoute element={<Fav search={search}/>}/>} />
               <Route path="/expenseGroup" element={<ProtectRoute element={<CreateExpense search={search}/>}/>} />
-              <Route path="/editGroup" element={<ProtectRoute element={<EditExpenseGroup/>}/>} />
-              <Route path="/expenseSheet" element={<ProtectRoute element={<CreateExpenseSheet/>}/>} />
+              <Route path="/editGroup" element={<ProtectRoute element={<EditExpenseGroup search={search}/>}/>} />
+              <Route path="/expenseSheet" element={<ProtectRoute element={<CreateExpenseSheet search={search}/>}/>} />
               <Route path="/expenseSummary">
                  <Route path="" element={<ProtectRoute element={<ExpenseSummary search={search}/>}/>} />
-                 <Route path=":id" element={<ProtectRoute element={<UpdateExpense/>}/>} />
+                 <Route path=":id" element={<ProtectRoute element={<UpdateExpense search={search}/>}/>} />
               </Route>
               <Route path="/debts" element={<Debts />} />
               <Route path="/acknowledge" element={<AcknowledgeMessage />} />

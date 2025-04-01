@@ -14,7 +14,7 @@ import { io } from "socket.io-client";
 import axios from 'axios'
 import { loginStart, loginSuccess } from '../../redux/userSlice'
 import HomeLoadingComponent from '../../components/homeLoaderComponent/HomeLoadingComponent'
-export default function Fav() {
+export default function Fav({search}) {
 
 
    const currentUser = useSelector((state)=>state.user.user)
@@ -27,17 +27,8 @@ export default function Fav() {
 
    const rejectInvitedUser = async(user) => {
     const currentUserData = await axios.post(`${process.env.REACT_APP_URL}/user/removeInvitedUser/${user}`,{},{withCredentials:true});
-    setUser((i)=>i.filter((id)=>id!=user))  
+    setUser((i)=>i.filter((id)=>id!=user))
   }
-
-  useEffect(()=>{
-    const socket = io(`${process.env.REACT_APP_URL}`, {
-      withCredentials: true,
-    });
-  
-    socket.on("connect", () => {
-      console.log("Socket connected", socket.id);
-    });
 
     const settingFields = async() => {
       setLoading(true)
@@ -49,15 +40,61 @@ export default function Fav() {
       setUser([...getCurrentLoggedInUpdate.data.inviteAcceptedUsers])
       setGroup([...getCurrentLoggedInUpdate.data.createExpenseGroup])
       setExpenseInfo([...getCurrentLoggedInUpdate.data.createExpenseInfo])
-      setLoading(false)  
+      setLoading(false)
   }
 
-      
+  useEffect(()=>{
+    const socket = io(`${process.env.REACT_APP_URL}`, {
+      withCredentials: true,
+    });
+
+    socket.on("connect", () => {
+      console.log("Socket connected", socket.id);
+    });
+
   socket.on("expenseUpdated", () => {
     console.log("Expense update received");
-    settingFields(); 
+    settingFields();
   });
 },[])
+
+
+  useEffect(()=>{
+    console.log("seadteh",search)
+    const searchRes = async()=>{
+    if(search)
+    {
+      const invitedMembers = await axios.post(`${process.env.REACT_APP_URL}/user/searchUser`,{search},{withCredentials:true});
+      const expenseGroup = await axios.post(`${process.env.REACT_APP_URL}/ExpenseGroup/searchExpenseGroup`,{search},{withCredentials:true});
+      const expenseInfo = await axios.post(`${process.env.REACT_APP_URL}/expense/searchExpenseInfo`,{search},{withCredentials:true});
+      console.log("searcged data group",expenseGroup,expenseInfo)
+      const ids = invitedMembers.data.map((i)=>i._id).filter((i)=>currentUser.inviteAcceptedUsers.includes(i))
+      const expenseids = expenseInfo.data.map((i)=>i._id).filter((i)=>currentUser.createExpenseInfo.includes(i))
+      const groupids = expenseGroup.data.map((i)=>i._id).filter((i)=>currentUser.createExpenseGroup.includes(i))
+      console.log("searcged data group with id",ids,currentUser.inviteAcceptedUsers)
+
+      setUser([... ids])
+      setGroup([...groupids])
+      setExpenseInfo([...expenseids])
+
+
+    }else{
+      settingFields()
+    }
+    }
+
+    const debounceTimeout = setTimeout(() => {
+      searchRes()
+    }, 500);
+
+    return () => {
+      clearTimeout(debounceTimeout);
+
+    };
+
+  },[search])
+
+
 
 
   return (
@@ -137,15 +174,21 @@ export default function Fav() {
              </ul>
               :
             <div className="favListDialogueContainer">
+               {!search ?
+               <>
                start adding fav user
                <Link to="/" style={{textDecoration:'none',color:'inherit'}}>
                <button className='favListDialogueButton'>Add Fav user</button>
                </Link>
-            </div>)
+               </>:
+               "No result"
+              }
+            </div>
+            )
             : <ul className='invitedUsersList'>
                 {user?.map((user)=>(
                   <li style={{marginBottom:"5px"}}>
-                    <InvitedUsers  user={user} rejectInvitedUser={rejectInvitedUser}/>
+                    <InvitedUsers key={user} user={user} rejectInvitedUser={rejectInvitedUser}/>
                   </li>
                 ))}
                </ul>
@@ -154,7 +197,7 @@ export default function Fav() {
           <div className="favListWrapper">
           <div className="favList first">
           <h1 className='favListTitle'>Group</h1>
-            {group?.length==0 ? 
+            {group?.length==0 ?
               (
                 loading ?
                 <ul className='favListUl'>
@@ -165,13 +208,22 @@ export default function Fav() {
                  ))}
                </ul>
                 :
-              
-              <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
+
+
               <div className="favListDialogueContainer">
+                 {
+                 !search ?
+                 <>
                  Create expense group
+                 <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
                  <button className='favListDialogueButton'>Create expense group</button>
-              </div>
-              </Link>)
+                 </Link>
+                 </>:
+                 "No result"
+                 }
+                </div>
+
+              )
             :<ul className='favListUl'>
               {group?.map((item)=>(
                 <li>
@@ -183,7 +235,7 @@ export default function Fav() {
           </div>
           <div className="favList second">
           <h1 className='favListTitle'>expense</h1>
-            {group?.length==0 ? 
+            {group?.length==0 ?
               (
                 loading ?
                 <ul className='favListUl'>
@@ -194,12 +246,22 @@ export default function Fav() {
                  ))}
                </ul>
                 :
-              <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
+
               <div className="favListDialogueContainer">
+                 {
+                 !search ?
+
+                 <>
                  Create expense group
+                 <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
                  <button className='favListDialogueButton'>Create expense group</button>
+                 </Link>
+                 </>
+                 :
+                 "No result"
+                 }
               </div>
-              </Link>)
+              )
             :<ul className='favListUl'>
               {expenseInfo?.map((item)=>(
                  <li>

@@ -8,9 +8,17 @@ import MessageIcon from '@mui/icons-material/Message';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import { Avatar } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Menu() {
+
+  const navigate = useNavigate();
+  const handleSignout = async() => {
+     await axios.post(`${process.env.REACT_APP_URL}/user/signout`,{},{withCredentials:true})
+     navigate("/")
+  }
+
   return (
     <div className='MenuContainer'>
       <div className="MenuWrapper">
@@ -73,12 +81,12 @@ export default function Menu() {
             <span>Notifications</span>
           </div>
           </Link>
-          <Link to="/" style={{textDecoration:'none',color:'inherit'}}>
-          <div className="MenuItems">
+
+          <div className="MenuItems" onClick={handleSignout}>
             <Logout/>
             <span>Logout</span>
           </div>
-          </Link>
+
          </div>
          <div className="MenuExpense">
           <h1 className='title'>Quick access</h1>

@@ -13,11 +13,12 @@ import { loginStart, loginSuccess } from '../../redux/userSlice'
 import { retry } from '@reduxjs/toolkit/query'
 import CreateExpenseInputLoading from '../../components/createExpenseInputLoading/CreateExpenseInputLoading'
 import { FileUpload } from '@mui/icons-material'
-export default function CreateExpense() {
+export default function CreateExpense({search}) {
 
   // const group = useSelector((state)=>state.createExpenseGroup.createExpenseGroup)
   const currentUser = useSelector((state)=>state.user.user)
-  const group = currentUser.createExpenseGroup
+
+  const [group,setGroup] = useState([...currentUser.createExpenseGroup])
   console.log("greop",group)
   const dispatch = useDispatch()
 
@@ -134,6 +135,37 @@ export default function CreateExpense() {
     }
     }
 
+
+
+    useEffect(()=>{
+      console.log("seadteh",search)
+      const searchRes = async()=>{
+       if(search)
+       {
+        const currentUserData = await axios.post(`${process.env.REACT_APP_URL}/ExpenseGroup/searchExpenseGroup`,{search},{withCredentials:true});
+        console.log("searcged data group",currentUserData.data)
+        const ids = currentUserData.data.map((i)=>i._id)
+        setGroup([...ids]);
+
+       }else{
+        setGroup([...currentUser.createExpenseGroup])
+       }
+      }
+
+      const debounceTimeout = setTimeout(() => {
+        searchRes()
+      }, 500);
+
+      return () => {
+        clearTimeout(debounceTimeout);
+
+      };
+
+   },[search])
+
+
+   console.log("gropoi",group)
+
   return (
     <div className='CreateExpenseSheetContainer'>
       <div className="CreateExpenseSheetWrapper">
@@ -153,7 +185,7 @@ export default function CreateExpense() {
                 {
                 group?.map((item)=>(
                     <li >
-                    <ExpenseGroups  group={item} key={item.id} selectedUser={selectedUser}/>
+                    <ExpenseGroups  group={item} key={item} selectedUser={selectedUser}/>
                     </li>
                 ))
                 }

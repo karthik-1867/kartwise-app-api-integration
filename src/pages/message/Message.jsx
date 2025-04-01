@@ -5,6 +5,7 @@ import { AttachFile } from '@mui/icons-material'
 import { useSelector } from 'react-redux'
 import ExpenseDetails from '../../components/expenseDetails/ExpenseDetails'
 import Notification from '../../components/notification/Notification'
+import NotificationLoading from '../../components/notificationLoader/NotificationLoading'
 
 
 export default function Message() {
@@ -12,7 +13,7 @@ export default function Message() {
     const [notifications,setNotifications] = useState([]);
 
     useEffect(()=>{
-       
+
        if(currentUser?.Notifications)
        {
         console.log("before",currentUser?.Notifications)
@@ -31,21 +32,14 @@ export default function Message() {
             <h1>Notification</h1>
             <div className="MessageWrapper">
                  {notifications.map((item)=>(
+                     <>
                      <Notification notifications={item}/>
-                 ))
+                     </>
+                ))
                 }
             </div>
-        </div>  
-      <div className="MessageFilter">
-        <h1>Filters</h1>
-        <div className="MessageHighPriorty">
-            Sort by high priority
         </div>
-        <div className="MessageLowPriority">
-           Sort by low priority
-        </div>
-        
-      </div>
+
       </div>
     //  </div>
 

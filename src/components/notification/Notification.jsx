@@ -27,14 +27,14 @@ export default function Notification({notifications}) {
 
   return (
       <>
-      {loading ? 
+      {loading ?
        <NotificationLoading/>
       :
       <div className="Message recived">
         <div className="MessageDetails">
             <div className="MessageUserName">
-                <Avatar className='MessageAvatar'/>
-                karthik
+                {notificationDetails?.image ? <img className='MessageAvatar' src={notificationDetails.image}/>:<Avatar className='MessageAvatar'/>}
+                {notificationDetails?.senderName}
                 {notificationDetails?.groupName && <span className='MessageDetail'>Group Name : {notificationDetails?.groupName}</span>}
                 {notificationDetails?.ExpenseName && <span className='MessageDetail'>Expense Name : {notificationDetails?.ExpenseName}</span>}
                 {notificationDetails?.ExpenseOwner && <span className='MessageDetail'>Expense owner : {notificationDetails?.ExpenseOwner}</span>}
