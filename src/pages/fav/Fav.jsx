@@ -33,13 +33,16 @@ export default function Fav({search}) {
     const settingFields = async() => {
       setLoading(true)
       const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
-
+      const getExpenseGroups = await axios.post(`${process.env.REACT_APP_URL}/ExpenseGroup/urOwnedGroup`,{id:[...getCurrentLoggedInUpdate.data.createExpenseGroup]},{withCredentials:true})
+      const getExpenseInfo = await axios.post(`${process.env.REACT_APP_URL}/expense/urExpenseInfo`,{id:[...getCurrentLoggedInUpdate.data.createExpenseInfo]},{withCredentials:true})
       dispatch(loginStart())
       dispatch(loginSuccess(getCurrentLoggedInUpdate.data))
 
       setUser([...getCurrentLoggedInUpdate.data.inviteAcceptedUsers])
-      setGroup([...getCurrentLoggedInUpdate.data.createExpenseGroup])
-      setExpenseInfo([...getCurrentLoggedInUpdate.data.createExpenseInfo])
+
+      setGroup([...getExpenseGroups.data])
+
+      setExpenseInfo([...getExpenseInfo.data])
       setLoading(false)
   }
 
@@ -85,7 +88,7 @@ export default function Fav({search}) {
 
     const debounceTimeout = setTimeout(() => {
       searchRes()
-    }, 500);
+    }, 600);
 
     return () => {
       clearTimeout(debounceTimeout);
