@@ -177,7 +177,7 @@ export default function ExpenseSummary({search}) {
                 }
             </ul>}
            </div>
-           {loading && <div className="expenseGroupExpenditureSummary">
+           {(expenseGroupSummary.length != 0 && selectedGroup.length == 0) && <div className="expenseGroupExpenditureSummary">
                        <div className="loadingTest"></div>
                        {Array.from({ length: 5 }, () => 0).map(()=>(
 
@@ -187,7 +187,7 @@ export default function ExpenseSummary({search}) {
                        </div>
 
            }
-           {!loading && selectedGroup?.length != 0 && <div className="expenseGroupExpenditureSummary">
+           { ( selectedGroup?.length != 0) && <div className="expenseGroupExpenditureSummary">
              <h4>{groupName}</h4>
              {
                 selectedGroup?.map((item)=>(
