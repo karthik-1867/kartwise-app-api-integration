@@ -45,18 +45,18 @@ export default function Login() {
     }
 
 
-    navigate('/home');  
+    navigate('/home');
 
   }
 
-  
+
 
   return (
     <div className='loginContainer'>
       <div className="loginFormContainer">
            <div className="loginFormContainerLeft">
              <div className="kartwiseLogo">
-                kartwise
+                TrackWise
              </div>
              <span>Want to track your expense. Absolutely you are at right place!</span>
            </div>
@@ -70,7 +70,7 @@ export default function Login() {
                     <label htmlFor="password">Password</label>
                     <input type="text" placeholder='password' name="password" onChange={(e)=>handleInput(e)} className='loginFormInput' />
                 </div>
-                
+
               <button className='submitSignin' onClick={handleSignIn}>
                 <Link to="#" style={{textDecoration:'none',color:'inherit'}}>
                   Sign in

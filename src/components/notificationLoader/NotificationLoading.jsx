@@ -7,7 +7,7 @@ export default function NotificationLoading() {
         <div className="NotificationLoadingDetails">
             <div className="NotificationLoadingUserName">
                 <img className='NotificationLoadingImage' alt="" />
-                karthik
+                <div className="NotificationLoadingTimeStamp"></div>
                <div className='NotificationLoadingDetail'></div>
                 <div className='NotificationLoadingDetail'></div>
                 <div className='NotificationLoadingDetail'></div>

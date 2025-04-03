@@ -6,7 +6,7 @@
    width: 100%;
    padding: 10px;
 
-   
+
    gap: 10px;
    background-color: #E6E6E6;
 }
@@ -83,7 +83,7 @@
 }
 
 .HomeAmountSpent{
-   
+
     background-color: rgb(230, 17, 17);
     border-radius: 10px;
     padding: 3px;
@@ -99,8 +99,8 @@
     padding: 3px;
     font-size: 12px;
     color: white;
-    text-align: center; 
-    
+    text-align: center;
+
     border: 0.5px solid white;
 }
 
@@ -131,6 +131,7 @@
     justify-content: center;
     gap: 30px;
     align-self: stretch;
+    box-shadow: 1px 2px 6px 0px rgba(0,0,0,0.75);
 }
 
 .HomeBar{
@@ -152,6 +153,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 10px;
+    box-shadow: 1px 2px 6px 0px rgba(0,0,0,0.75);
 }
 
 .InviteRequestWrapper{
@@ -167,7 +169,7 @@
     padding: 5px;
     border-radius: 10px;
     border:none;
-    
+
 }
 
 .HomeWrapper{
@@ -180,10 +182,11 @@
     justify-content: space-evenly;
     flex-wrap: wrap;
     gap: 30px;
-    
+
     overflow-y: scroll;
     border-radius: 10px;
     background-color: #464775;
+    box-shadow: 1px 2px 6px 0px rgba(0,0,0,0.75);
 }
 
 .InviteWrapper{
@@ -198,7 +201,7 @@
     flex-direction: column;
     gap: 10px;
     border-radius: 10px;
-    
+
 }
 
 .ChooseInviteView{
@@ -210,6 +213,7 @@
     flex-direction: column;
     gap: 10px;
     padding: 10px;
+    box-shadow: 1px 2px 6px 0px rgba(0,0,0,0.75);
 }
 
 .ChooseInviteView button{
@@ -250,7 +254,8 @@ cursor: pointer;
     gap: 10px;
     padding: 10px;
     height: 60vh;
-    box-sizing: border-box
+    box-sizing: border-box;
+    box-shadow: 1px 2px 6px 0px rgba(0,0,0,0.75);
 }
 
 
@@ -260,9 +265,10 @@ cursor: pointer;
     width: 100%;
     box-sizing: border-box;
     list-style: none;
-    overflow-y: scroll;    
+    overflow-y: scroll;
     border-radius: 10px;
     background-color: grey;
+    box-shadow: 1px 2px 6px 0px rgba(0,0,0,0.75);
 }
 
 .InvitependingList li{
@@ -302,10 +308,10 @@ cursor: pointer;
 
 .HomeList li {
      /* Adjust height as needed */
-  
-    
+
+
     margin-bottom: 4px;
-    
+
   }
 
 .HomeAllUsers{
@@ -368,13 +374,13 @@ cursor: pointer;
     color: white;
     font-weight: 500;
     box-shadow: 3px 1px 6px 0px rgba(0, 0, 0, 0.75);
-    
+
 }
 
 .HomeAllUserDialogueContainerForPendingRequest{
   width: 100%;
   box-sizing: border-box;
-  
+
 }
 
 .added{

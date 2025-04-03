@@ -33,7 +33,7 @@ export default function Menu() {
             <Link to="/fav" style={{textDecoration:'none',color:'inherit'}}>
             <div className="MenuItems">
               <BookIcon/>
-              <span>Dashboard</span>
+              <span>Quick access</span>
             </div>
             </Link>
             <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>

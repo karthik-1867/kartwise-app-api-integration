@@ -12,10 +12,18 @@ export default function Navbar({handlesearch}) {
   return (
     <div className='NavbarContainer'>
       <div className="NavbarWrapper">
-         <div className="NavbarLogo">
+         {/* <div className="NavbarLogo">
             <span className='LogoFirst'>Track</span>
             <span className='NavLogoSecond'>Wise</span>
-         </div>
+         </div> */}
+          <div className="kartwiseLogo" style={{fontSize:"50px",color:"transparent"}}>
+                <span style={{color:"rgb(230, 17, 17)"}}>
+                Track
+                </span>
+                <span style={{color:"green"}}>
+                Wise
+                </span>
+          </div>
          <div className="NavbarSearch">
             <SearchOutlined className='NavbarSearchIcon'/>
             <input type="text" onChange={(e)=>handlesearch(e.target.value)} className='NavbarSearchInput' placeholder='Search'/>

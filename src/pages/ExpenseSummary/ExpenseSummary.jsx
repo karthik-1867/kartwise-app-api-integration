@@ -36,6 +36,7 @@ export default function ExpenseSummary({search}) {
         setErrorContainer("")
         console.log("idsa",id,userDetail)
         setId(userDetail)
+        setSelectedGroup([])
 
         if(id!=userDetail) setLoading(true)
 
@@ -89,12 +90,18 @@ export default function ExpenseSummary({search}) {
               console.log(process.env.REACT_APP_URL);
               try{
                 if(expenseGroupSummary.length==0) setMainLoading(true)
+                  setLoading(true)
+                if(currentUser.createExpenseInfo.length>0){
+                  const userData = await axios.get(`${process.env.REACT_APP_URL}/expense/getExpenseDetails/${currentUser.createExpenseInfo[0]}`,{withCredentials:true})
+                  setId(userData.data._id)
+                }
                 const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${currentUser._id}`,{withCredentials:true})
                 dispatch(loginStart())
                 dispatch(loginSuccess(getCurrentLoggedInUpdate.data))
 
 
                 setExpenseGroupSummary([...currentUser.createExpenseInfo])
+                setLoading(false)
                 setMainLoading(false)
               }catch(e){
                 console.log("error"+e.message)

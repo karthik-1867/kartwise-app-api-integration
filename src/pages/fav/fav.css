@@ -33,6 +33,7 @@
 
 .favListSide{
     background-color: #464775;
+    box-shadow: 1px 2px 6px 0px rgba(0,0,0,0.75);
 
 }
 
@@ -152,6 +153,7 @@ box-shadow: 3px 1px 6px 0px rgba(0, 0, 0, 0.75);
     border-radius: 10px;
     padding: 10px;
     background-color: #464775;
+    box-shadow: 1px 2px 6px 0px rgba(0,0,0,0.75);
 }
 
 .favDetailsTitle{

@@ -143,8 +143,10 @@ export default function Fav({search}) {
                 <PersonAdd className='HomeSummaryIcon'/>
                 Your expense track
               </div>
+              <div style={{display:"flex",gap:"5px",justifyContent:"space-evenly",flexWrap:"wrap"}}>
               <span className={currentUser?.recived +currentUser?.urShare != currentUser?.contributed ? 'HomeAmountSpent':'HomeAmountReceived'}>{currentUser?.recived +currentUser?.urShare != currentUser?.contributed ? "status : pending" : "status : AllSettled"}</span>
               <span className={currentUser?.recived +currentUser?.urShare != currentUser?.contributed ? 'HomeAmountSpent':'HomeAmountReceived'}>{currentUser?.recived +currentUser?.urShare != currentUser?.contributed ? `pending: ${currentUser?.contributed - currentUser?.urShare - currentUser?.recived}rs` : "pending : 0"}</span>
+              </div>
             </div>
             <div className="HomeSummaryBoxDetailsGroup">
                 <span className='HomeAmountSpent'>

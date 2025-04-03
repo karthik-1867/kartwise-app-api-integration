@@ -26,6 +26,15 @@ export default function EditExpenseGroup({search}) {
 
   useEffect(()=>{
      setGroup(currentUser.createExpenseGroup)
+     const selectFirstGroup = async() => {
+       const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/ExpenseGroup/getExpenseGroup/${currentUser.createExpenseGroup[0]}`,{withCredentials:true})
+       const groupOwner = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${getCurrentLoggedInUpdate.data.groupOwner}`,{withCredentials:true})
+       selectedUser({...getCurrentLoggedInUpdate.data,groupOwner:groupOwner.data.name})
+    }
+
+     if(currentUser.createExpenseGroup.length>0){
+      selectFirstGroup();
+     }
   },[currentUser])
 
 

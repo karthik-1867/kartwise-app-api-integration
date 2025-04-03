@@ -22,8 +22,9 @@ export default function Home({search}) {
   const [requestType,selectRequestType] = useState("pending");
   const [dialogue,setDialogue] = useState(false);
   const loggedInUser = useSelector((state)=>state.user.user)
+  const [pending,setPending] = useState();
   const [loading,setLoading] = useState(false);
-  
+
   const [allUser,setAllUsers] = useState([]);
   const [inviteRequest,setInviteRequest] = useState([]);
   const [inviteAcceptedUser,setInviteAcceptedUser] = useState([]);
@@ -54,7 +55,7 @@ const removePendingUser = async(user) =>{
   const currentUserData = await axios.post(`${process.env.REACT_APP_URL}/user/rejectPendingInvite/${user}`,{},{withCredentials:true})
 
   const removedendingUser = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${user}`,{withCredentials:true})
- 
+
   setInviteRequest((i)=>i.filter((id)=>id!=user));
   setAllUsers((i)=>[...i,removedendingUser.data])
 }
@@ -63,7 +64,7 @@ const acceptIncomingRequest = async(user)=>{
   const currentUserData = await axios.post(`${process.env.REACT_APP_URL}/user/acceptInvite/${user}`,{},{withCredentials:true});
   setIncomingRequest((i)=>i.filter((id)=>id!=user));
   setInviteAcceptedUser((i)=>[...i,user]);
-  
+
   console.log("here is updated user",inviteAcceptedUser)
 
 }
@@ -93,7 +94,13 @@ const fetchUser =async()=>{
     setIncomingRequest([]);
     setInviteAcceptedUser([]);
     setInviteRequest([]);
-    
+
+    const deptGroup = await axios.get(`${process.env.REACT_APP_URL}/expense/pendingAmount`,{withCredentials:true})
+    console.log("jsdjas",deptGroup.data);
+    const pendingAmnt = deptGroup.data.map((i)=>i.expense-i.paidBack).reduce((i,c)=>(i+c),0);
+    console.log("pendsad",pendingAmnt)
+    setPending(pendingAmnt)
+
     const users = await axios.get(`${process.env.REACT_APP_URL}/user/getAllUser`,{withCredentials:true})
     const getCurrentLoggedInUpdate = await axios.get(`${process.env.REACT_APP_URL}/user/getUser/${loggedInUser._id}`,{withCredentials:true})
     console.log("global ",users.data)
@@ -126,7 +133,7 @@ useEffect(()=>{
 
   socket.on("expenseUpdated", () => {
     console.log("Expense update received");
-    fetchUser(); 
+    fetchUser();
   });
 
     return () => {
@@ -137,8 +144,8 @@ useEffect(()=>{
 
 useEffect(()=>{
    console.log("seadteh",search)
-   
-   
+
+
    const searchRes = async()=>{
     if(search)
     {
@@ -146,7 +153,7 @@ useEffect(()=>{
      const currentUserData = await axios.post(`${process.env.REACT_APP_URL}/user/searchUser`,{search},{withCredentials:true});
      console.log("searcged data",currentUserData)
      const filterUserData = currentUserData.data.filter((i)=>allUser.some((u)=>i._id==u._id))
-     
+
      if(filterUserData.length > 0){
        setAllUsers(filterUserData)
      }else{
@@ -177,7 +184,7 @@ useEffect(()=>{
 
   };
 
-   
+
 },[search])
 
 
@@ -187,9 +194,14 @@ useEffect(()=>{
       <div className="HomeBar">
         <div className="HomeSummary">
           <div className="HomeSummaryBoxes">
-            <div className="HomeSummaryTitle">
-              <CurrencyRupee className='HomeSummaryIcon'/>
-              Group Expense summary
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",width:"100%"}}>
+              <div className="HomeSummaryTitle">
+                <CurrencyRupee className='HomeSummaryIcon'/>
+                Group Expense summary
+              </div>
+              <span className={pending>0 ? "HomeAmountSpent" : "HomeAmountReceived"} style={{fontWeight:"bold"}}>
+                 payment pending : {pending}rs
+              </span>
             </div>
               <div className="HomeSummaryBoxDetailsGroup">
                 <span className="HomeAmountSpent">
@@ -228,8 +240,10 @@ useEffect(()=>{
                 <PersonAdd className='HomeSummaryIcon'/>
                 Your expense track
               </div>
-              <span className={loggedInUser?.recived +loggedInUser?.urShare != loggedInUser?.contributed ? 'HomeAmountSpent':'HomeAmountReceived'}>{loggedInUser?.recived +loggedInUser?.urShare != loggedInUser?.contributed ? "status : pending" : "status : AllSettled"}</span>
-              <span className={loggedInUser?.recived +loggedInUser?.urShare != loggedInUser?.contributed ? 'HomeAmountSpent':'HomeAmountReceived'}>{loggedInUser?.recived +loggedInUser?.urShare != loggedInUser?.contributed ? `pending: ${loggedInUser?.contributed - loggedInUser?.urShare - loggedInUser?.recived}rs` : "pending : 0"}</span>
+              <div style={{display:"flex",gap:"5px",justifyContent:"space-evenly",flexWrap:"wrap",fontWeight:"bold"}}>
+                <span className={loggedInUser?.recived +loggedInUser?.urShare != loggedInUser?.contributed ? 'HomeAmountSpent':'HomeAmountReceived'}>{loggedInUser?.recived +loggedInUser?.urShare != loggedInUser?.contributed ? "status : pending" : "status : AllSettled"}</span>
+                <span className={loggedInUser?.recived +loggedInUser?.urShare != loggedInUser?.contributed ? 'HomeAmountSpent':'HomeAmountReceived'}>{loggedInUser?.recived +loggedInUser?.urShare != loggedInUser?.contributed ? `pending: ${loggedInUser?.contributed - loggedInUser?.urShare - loggedInUser?.recived}rs` : "pending : 0"}</span>
+              </div>
             </div>
             <div className="HomeSummaryBoxDetailsGroup">
                 <span className='HomeAmountSpent'>
@@ -250,7 +264,7 @@ useEffect(()=>{
         {errorContainer}
       </div>}
       <div className="NormalContainer">
-      <div className="HomeWrapper">      
+      <div className="HomeWrapper">
          <div className="HomeAllUsers">
           <h1>Global users</h1>
           {dialogue && <span className='HomeListPopUp'>Already exist</span>}
@@ -261,22 +275,22 @@ useEffect(()=>{
               </li>
             )) :
             <>
-            {loading  ? 
+            {loading  ?
             Array.from({ length: 20 }, () => 0).map(()=>(
               <li>
                 <HomeLoadingComponent className='HomeListValue'/>
               </li>
-            )) : 
+            )) :
             <div className='HomeAllUserDialogueContainer' style={{width:"100%",boxSizing:"border-box"}}>
             <span className='HomeAllUserDialogueContainerText'>
-              no result         
+              no result
              </span>
             </div>
             }
             </>
             }
           </ul>
-        
+
          </div>
          {
            loading &&
@@ -295,7 +309,7 @@ useEffect(()=>{
 
          }
          {inviteAcceptedUser?.length == 0  ?
-             
+
              <>
              {!loading && <div className={inviteAcceptedUser?.length == 0 ? 'HomeAllUserDialogueContainer' : 'HomeAllUserDialogueContainer added'}>
               <span className='HomeAllUserDialogueContainerText'>
@@ -303,8 +317,8 @@ useEffect(()=>{
               </span>
               </div>}
              </>
-         : 
-         
+         :
+
           <div className="HomeAllUsers preview">
             <h1>Invited User</h1>
             <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
@@ -318,10 +332,10 @@ useEffect(()=>{
               ))
             }
             </ul>
-            
+
           </div>
-          
-         
+
+
          }
       </div>
       <div className="InviteWrapper">
@@ -341,14 +355,14 @@ useEffect(()=>{
         {requestType == "pending" ?
           <div className="InviteDetails">
           <h1>Pending request</h1>
-          
+
           {
           inviteRequest.length!=0 ?
           <ul className='InvitependingList'>
-          {inviteRequest?.map((user)=>( 
+          {inviteRequest?.map((user)=>(
           <li>
             <PendingInviteRequest userData={user} key={user} removePendingUser={removePendingUser} className='HomeListValue'/>
-            </li> 
+            </li>
             ))}
             </ul>
             :
@@ -364,11 +378,11 @@ useEffect(()=>{
              ):
             (!loading && <div className='HomeAllUserDialogueContainerForPendingRequest'>
             <span className='HomeAllUserDialogueContainerForPendingRequestText'>
-              start sending invites. 
+              start sending invites.
             </span>
             </div>)
          }
-        </div> : 
+        </div> :
         <div className="InviteDetails">
           <h1>Incoming request</h1>
           { incomingRequest.length!=0 ?
@@ -379,10 +393,10 @@ useEffect(()=>{
             </li>
           ))}
           </ul>
-          : 
+          :
           (<div className='HomeAllUserDialogueContainerForPendingRequest'>
           <span className='HomeAllUserDialogueContainerForPendingRequestText'>
-            'No incoming request' 
+            'No incoming request'
           </span>
           </div>)
         }
