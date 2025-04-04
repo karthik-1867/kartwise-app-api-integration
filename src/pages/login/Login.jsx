@@ -41,7 +41,7 @@ export default function Login() {
     }catch(e){
       console.log(JSON.stringify(e.response))
       dispatch(loginFailure());
-      return setErrorMessage(e.response);
+      return setErrorMessage(e.response.data.message);
     }
 
 
