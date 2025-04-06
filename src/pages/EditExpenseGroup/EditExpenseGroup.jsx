@@ -8,6 +8,7 @@ import axios from 'axios'
 import User from '../../components/user/User'
 import HomeLoadingComponent from '../../components/homeLoaderComponent/HomeLoadingComponent'
 import Members from '../../components/members/Members'
+import { Link } from 'react-router-dom'
 
 
 export default function EditExpenseGroup({search}) {
@@ -68,7 +69,7 @@ export default function EditExpenseGroup({search}) {
     <div className='EditExpenseGroup'>
        <div className="EditExpenseChooseGroup">
          <h1>Choose Expense Group</h1>
-         <ul  className='EditExpenseGroupList'>
+         {group.length > 0 ? <ul  className='EditExpenseGroupList'>
             {group.map((item)=>(
                 <li >
                     <EditExpenseItem group={item} selectedUser={selectedUser}/>
@@ -76,6 +77,19 @@ export default function EditExpenseGroup({search}) {
             ))
             }
          </ul>
+         :
+          <div className="favListDialogueContainer" style={{height:"100%"}}>
+            {!search ?
+            <>
+            start Inviting user
+            <Link to="/home" style={{textDecoration:'none',color:'inherit'}}>
+            <button className='favListDialogueButton'>Invite user</button>
+            </Link>
+            </>:
+            "No result"
+            }
+        </div>
+        }
        </div>
        {members.length>0 && <div className="EditExpenseChooseGroup2">
          <div className="EditWarpper">

@@ -22,8 +22,10 @@ export default function Signup() {
          }
         }catch(e){
           setErrorMessage(e?.response?.data?.message);
-        } 
-        
+        }
+
+      }else{
+        setErrorMessage()
       }
         setInputs((prev)=>{
           return {...prev,[e.target.name]:e.target.value}
@@ -64,14 +66,14 @@ export default function Signup() {
 
   const validatePassword = (password) => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
-    
+
     console.log("check",password,passwordRegex.test(password))
     if (!passwordRegex.test(password)) {
       const err = new Error();
-      err.response = { data: { message: "invalid password" } };
+      err.response = { data: { message: "Password should contain atleast one caps,one special char,one number, should be btw 8-16 char" } };
       throw err
     }
-    
+
     return "ok";
 };
 
@@ -82,7 +84,7 @@ export default function Signup() {
       if (!emailRegex.test(mail)) {
         const err = new Error();
         err.response = { data: { message: "invalid email" } };
-  
+
         throw err
       }
     //   setErrorMessage(""); // Clear error if valid
@@ -90,7 +92,7 @@ export default function Signup() {
     //   setErrorMessage(err.message); // Store error message in state
     // }
 
-     
+
   }
 
   const handleSubmit = async() => {
@@ -104,7 +106,7 @@ export default function Signup() {
       if(!inputs.password){
         return setErrorMessage("enter password")
       }
-      await axios.post(`${process.env.REACT_APP_URL}/user/signup`,{...inputs},{withCredentials:true}) 
+      await axios.post(`${process.env.REACT_APP_URL}/user/signup`,{...inputs},{withCredentials:true})
       navigate("/")
     }catch(e){
       console.log(e?.response?.data?.message)
@@ -150,10 +152,10 @@ export default function Signup() {
                       <input placeholder='upload image' name="imgUrl" onChange={(e)=>setImg(e.target.files[0])} type='file' accept='image/*'/>
                     </div>
                 </div>
-               
+
 
                    <button className='submitSignin' onClick={handleSubmit}>Submit</button>
-               
+
                {errorMessage && <div className="ErrorContainer">
                 {errorMessage}
               </div>}

@@ -152,8 +152,8 @@ export default function CreateExpense({search}) {
               {!inviteAcceptedUsers || inviteAcceptedUsers?.length == 0 ?
               <div className="ExpenseContainerDialogue">
                 start adding fav user to create expense group and expense
-                <Link to="/" style={{textDecoration:'none',color:'inherit'}}>
-                <button className='ExpenseContainerDialogueButton'>Add Fav user</button>
+                <Link to="/home" style={{textDecoration:'none',color:'inherit'}}>
+                <button className='ExpenseContainerDialogueButton'>Invite user</button>
                 </Link>
               </div>
               :

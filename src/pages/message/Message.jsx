@@ -30,7 +30,7 @@ export default function Message() {
       <div className="MessageWrapperAndFilters">
         <div className="MessageWrapperAndHeader">
             <h1>Notification</h1>
-            <div className="MessageWrapper">
+            {notifications.length > 0 ? <div className="MessageWrapper">
                  {notifications.map((item)=>(
                      <>
                      <Notification notifications={item}/>
@@ -38,6 +38,16 @@ export default function Message() {
                 ))
                 }
             </div>
+            :
+            <div className="favListDialogueContainer" style={{height:"100%"}}>
+            {
+              <span style={{background:"gray",borderRadius:"10px",color:"white",padding:"10px"}}>
+
+                No Notification
+              </span>
+            }
+         </div>
+            }
         </div>
 
       </div>

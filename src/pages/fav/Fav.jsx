@@ -181,9 +181,9 @@ export default function Fav({search}) {
             <div className="favListDialogueContainer">
                {!search ?
                <>
-               start adding fav user
-               <Link to="/" style={{textDecoration:'none',color:'inherit'}}>
-               <button className='favListDialogueButton'>Add Fav user</button>
+               start Inviting user
+               <Link to="/home" style={{textDecoration:'none',color:'inherit'}}>
+               <button className='favListDialogueButton'>Invite user</button>
                </Link>
                </>:
                "No result"
@@ -257,9 +257,9 @@ export default function Fav({search}) {
                  !search ?
 
                  <>
-                 Create expense group
-                 <Link to="/expenseGroup" style={{textDecoration:'none',color:'inherit'}}>
-                 <button className='favListDialogueButton'>Create expense group</button>
+                 Create expense
+                 <Link to="/expenseSheet" style={{textDecoration:'none',color:'inherit'}}>
+                 <button className='favListDialogueButton'>Create expense</button>
                  </Link>
                  </>
                  :
