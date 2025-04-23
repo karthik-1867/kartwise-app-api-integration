@@ -70,7 +70,7 @@ export default function Debts() {
     console.log("image urlk",imageUrl)
 
     setInput((prev)=>{
-        return {...prev, evidence:imageUrl.url}
+        return {...prev, evidence:imageUrl.secure_url}
     })
 
   }
