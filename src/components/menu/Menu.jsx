@@ -50,22 +50,7 @@ export default function Menu() {
             </Link>
          </div>
          
-         <div className="MenuExpense">
-          <h1 className='title'>Quick access</h1>
-          <div className="MenuItems">
-              <Avatar/>
-              <span>Ooty</span>
-          </div>
-          <div className="MenuItems">
-            <Avatar/>
-            <span>Manali</span>
-          </div>
-          <div className="MenuItems">
-            <Avatar/>
-            <span>Coimature</span>
-          </div>
-
-         </div>
+         
       </div>
     </div>
   )
